@@ -39,7 +39,10 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.listBox1 = new System.Windows.Forms.ListBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.combWizJob1 = new WizEdit.CombWizJob();
+            this.combWizRace1 = new WizEdit.CombWizRace();
+            this.combWizAlg1 = new WizEdit.CombWizAlg();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -122,25 +125,79 @@
             // 
             // listBox1
             // 
-            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.listBox1.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 16;
+            this.listBox1.Location = new System.Drawing.Point(8, 36);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.ScrollAlwaysVisible = true;
+            this.listBox1.Size = new System.Drawing.Size(210, 436);
+            this.listBox1.TabIndex = 2;
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            // 
+            // listBox2
+            // 
+            this.listBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 12;
-            this.listBox1.Location = new System.Drawing.Point(12, 27);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(476, 448);
-            this.listBox1.TabIndex = 2;
+            this.listBox2.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.listBox2.FormattingEnabled = true;
+            this.listBox2.ItemHeight = 16;
+            this.listBox2.Location = new System.Drawing.Point(224, 116);
+            this.listBox2.Name = "listBox2";
+            this.listBox2.Size = new System.Drawing.Size(250, 356);
+            this.listBox2.TabIndex = 3;
             // 
-            // button1
+            // combWizJob1
             // 
-            this.button1.Location = new System.Drawing.Point(305, 164);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.combWizJob1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combWizJob1.FormattingEnabled = true;
+            this.combWizJob1.Items.AddRange(new object[] {
+            "FIG",
+            "MAG",
+            "PRI",
+            "THI",
+            "BIS",
+            "SAM",
+            "LOR",
+            "NIN"});
+            this.combWizJob1.Job = WizEdit.JOB.FIG;
+            this.combWizJob1.Location = new System.Drawing.Point(375, 36);
+            this.combWizJob1.Name = "combWizJob1";
+            this.combWizJob1.Size = new System.Drawing.Size(63, 20);
+            this.combWizJob1.TabIndex = 5;
+            // 
+            // combWizRace1
+            // 
+            this.combWizRace1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combWizRace1.FormattingEnabled = true;
+            this.combWizRace1.Items.AddRange(new object[] {
+            "HUMAN",
+            "ELF",
+            "DWARF",
+            "GNOME",
+            "HOBIT"});
+            this.combWizRace1.Location = new System.Drawing.Point(295, 36);
+            this.combWizRace1.Name = "combWizRace1";
+            this.combWizRace1.Race = WizEdit.RACE.HUMAN;
+            this.combWizRace1.Size = new System.Drawing.Size(74, 20);
+            this.combWizRace1.TabIndex = 4;
+            // 
+            // combWizAlg1
+            // 
+            this.combWizAlg1.Alg = WizEdit.ALG.NEUT;
+            this.combWizAlg1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combWizAlg1.FormattingEnabled = true;
+            this.combWizAlg1.Items.AddRange(new object[] {
+            "Good",
+            "Neutral",
+            "Evel"});
+            this.combWizAlg1.Location = new System.Drawing.Point(224, 36);
+            this.combWizAlg1.Name = "combWizAlg1";
+            this.combWizAlg1.Size = new System.Drawing.Size(65, 20);
+            this.combWizAlg1.TabIndex = 6;
             // 
             // Form1
             // 
@@ -148,8 +205,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(496, 507);
+            this.Controls.Add(this.combWizAlg1);
+            this.Controls.Add(this.combWizJob1);
+            this.Controls.Add(this.combWizRace1);
+            this.Controls.Add(this.listBox2);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -179,7 +239,10 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ListBox listBox2;
+        private CombWizRace combWizRace1;
+        private CombWizJob combWizJob1;
+        private CombWizAlg combWizAlg1;
     }
 }
 

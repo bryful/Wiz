@@ -19,6 +19,7 @@ namespace WizEdit
 {
     public partial class Form1 : Form
     {
+        private WizNesState m_state = new WizNesState();
         //-------------------------------------------------------------
         /// <summary>
         /// コンストラクタ
@@ -110,8 +111,8 @@ namespace WizEdit
             {
                 foreach (string s in cmd)
                 {
-                    listBox1.Items.Add(s);
-                }
+                    if (LoadFile(s) == true) break;
+                }                
             }
         }
         /// <summary>
@@ -129,44 +130,53 @@ namespace WizEdit
         {
             AppInfoDialog.ShowAppInfoDialog();
         }
-        private void button1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Stateファイルを読み込む
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public bool LoadFile(string p)
         {
-
-            JsonPref j = new JsonPref();
-
-            int[] aaa = new int[] { 78, 9, 12 };
-            double[] bbb = new double[] { 0.7, 0.01, 0.12 };
-            string[] ccc = new string[] { "eee", "sfskjbF", "13" };
-            j.SetIntArray("aa", aaa);
-            j.SetDoubleArray("bb", bbb);
-            j.SetStringArray("cc", ccc);
-
-            MessageBox.Show(j.ToJson());
-
+            bool ret = false;
+            ret = m_state.LoadFile(p);
+            if (ret == true) DispNames();
+            return ret;
+        }
+        public void DispNames()
+        {
+            listBox1.Items.Clear();
+            if (m_state.SCN == WIZ_SCN.NO) return;
+            listBox1.SuspendLayout();
+            for ( int i=0; i<m_state. CharCount;i++)
+            {
+                listBox1.Items.Add(m_state.GetName(i));
+            }
+            listBox1.ResumeLayout();
+        }
+        public void DispCharData(int idx)
+        {
+            listBox2.Items.Clear();
+            if ((idx < 0) || (idx >= 20)) return;
+            byte[] data = m_state.GetCharData(idx);
+            int sz = m_state.CharSize;
+            if (sz <= 0) return;
+            listBox2.SuspendLayout();
+            for ( int i=0; i<sz; i++)
+            {
+                string ss = m_state.CodeToString(data[i]);
+                string s = String.Format("{0:X4} {1:X2} {2}", i, data[i], ss);
+                listBox2.Items.Add(s);
+            }
+            combWizRace1.Race = m_state.GetRace(idx);
+            combWizJob1.Job = m_state.GetJob(idx);
+            combWizAlg1.Alg = m_state.GetAlg(idx);
+            listBox2.ResumeLayout();
         }
 
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DispCharData(listBox1.SelectedIndex);
 
-        /*
-private void button1_Click(object sender, EventArgs e)
-{
-	dynamic a = new DynamicJson();
-	a.fff = new string[] { "a", "B" };
-	a.fff = "12";
-	//a.fff = new { aaa=12, ccc="www" };
-
-	MessageBox.Show(a.fff.GetType().ToString());
-
-	JsonPref s = new JsonPref();
-	s.AddInt("aaa", 99);
-	string ss = s.ToJson();
-	MessageBox.Show(ss);
-	s.Parse(ss);
-	string sss = s.ToJson();
-	MessageBox.Show(sss);
-
-	int i = s.GetInt("aaa");
-	MessageBox.Show(String.Format("{0}", i));
-}
-*/
+        }
     }
 }
