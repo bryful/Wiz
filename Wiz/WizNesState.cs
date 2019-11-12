@@ -15,7 +15,7 @@ namespace WizEdit
         S2,
         S3
     }
-    public enum RACE
+    public enum WIZRACE
     {
         HUMAN=0,
         ELF,
@@ -23,7 +23,7 @@ namespace WizEdit
         GNOME,
         HOBIT
     }
-    public enum JOB
+    public enum WIZCLASS
     {
         // 0:FIG, 1:MAG, 2:PRI, 3:THI, 4:BIS, 5:SAM, 6:LOR, 7:NIN
         FIG=0,
@@ -34,12 +34,12 @@ namespace WizEdit
         LOR,
         NIN
     }
-    public enum ALG
+    public enum WIZALG
     {
         // 0:善, 1:中立, 2:悪
         GOOD =0,
         NEUT,
-        EVEL
+        EVIL
     }
 
 
@@ -96,7 +96,7 @@ namespace WizEdit
        {
             "Good",
             "Neutral",
-            "Evel"
+            "Evil"
        };
         #endregion
         /// <summary>
@@ -161,21 +161,21 @@ namespace WizEdit
 
         }
         // ************************************************************************
-        public RACE GetRace(int idx)
+        public WIZRACE GetRace(int idx)
         {
-            RACE ret = RACE.HUMAN;
+            WIZRACE ret = WIZRACE.HUMAN;
 
             int adr = CharIndex(idx);
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
                     adr += 0x0A;
-                    ret = (RACE)(m_stateBuf[adr] & 0x07);
+                    ret = (WIZRACE)(m_stateBuf[adr] & 0x07);
                     break;
                 case WIZ_SCN.S2:
                 case WIZ_SCN.S3:
                     adr += 0x0A;
-                    ret = (RACE)(m_stateBuf[adr] >> 5 & 0x07);
+                    ret = (WIZRACE)(m_stateBuf[adr] >> 5 & 0x07);
                     break;
                 default:
                     return ret;
@@ -184,21 +184,21 @@ namespace WizEdit
             return ret;
         }
         // ************************************************************************
-        public JOB GetJob(int idx)
+        public WIZCLASS GetJob(int idx)
         {
-            JOB ret = JOB.FIG;
+            WIZCLASS ret = WIZCLASS.FIG;
 
             int adr = CharIndex(idx);
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
                     adr += 0x0B;
-                    ret = (JOB)(m_stateBuf[adr] & 0x07);
+                    ret = (WIZCLASS)(m_stateBuf[adr] & 0x07);
                     break;
                 case WIZ_SCN.S2:
                 case WIZ_SCN.S3:
                     adr += 0x0A;
-                    ret = (JOB)(m_stateBuf[adr] >> 2 & 0x07);
+                    ret = (WIZCLASS)(m_stateBuf[adr] >> 2 & 0x07);
                     break;
                 default:
                     return ret;
@@ -207,21 +207,21 @@ namespace WizEdit
             return ret;
         }
         // ************************************************************************
-        public ALG GetAlg(int idx)
+        public WIZALG GetAlg(int idx)
         {
-            ALG ret = ALG.GOOD;
+            WIZALG ret = WIZALG.GOOD;
 
             int adr = CharIndex(idx);
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
                     adr += 0x0C;
-                    ret = (ALG)(m_stateBuf[adr] & 0x03);
+                    ret = (WIZALG)(m_stateBuf[adr] & 0x03);
                     break;
                 case WIZ_SCN.S2:
                 case WIZ_SCN.S3:
                     adr += 0x0A;
-                    ret = (ALG)(m_stateBuf[adr] & 0x03);
+                    ret = (WIZALG)(m_stateBuf[adr] & 0x03);
                     break;
                 default:
                     return ret;

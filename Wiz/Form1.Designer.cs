@@ -40,10 +40,15 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.listBox2 = new System.Windows.Forms.ListBox();
-            this.combWizJob1 = new WizEdit.CombWizJob();
-            this.combWizRace1 = new WizEdit.CombWizRace();
+            this.wizConrol1 = new WizEdit.WizConrol();
             this.combWizAlg1 = new WizEdit.CombWizAlg();
+            this.combWizJob1 = new WizEdit.CombWizClass();
+            this.combWizRace1 = new WizEdit.CombWizRace();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.menuStrip1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -54,7 +59,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(496, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(910, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -117,42 +122,69 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 485);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 509);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(496, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(910, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // listBox1
             // 
-            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.listBox1.BackColor = System.Drawing.Color.Black;
             this.listBox1.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.listBox1.ForeColor = System.Drawing.Color.White;
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 16;
-            this.listBox1.Location = new System.Drawing.Point(8, 36);
+            this.listBox1.Location = new System.Drawing.Point(68, 95);
             this.listBox1.Name = "listBox1";
-            this.listBox1.ScrollAlwaysVisible = true;
-            this.listBox1.Size = new System.Drawing.Size(210, 436);
+            this.listBox1.Size = new System.Drawing.Size(183, 356);
             this.listBox1.TabIndex = 2;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // listBox2
             // 
-            this.listBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBox2.BackColor = System.Drawing.Color.Black;
+            this.listBox2.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.listBox2.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.listBox2.ForeColor = System.Drawing.Color.White;
             this.listBox2.FormattingEnabled = true;
             this.listBox2.ItemHeight = 16;
-            this.listBox2.Location = new System.Drawing.Point(224, 116);
+            this.listBox2.Location = new System.Drawing.Point(273, 127);
             this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(250, 356);
+            this.listBox2.Size = new System.Drawing.Size(156, 324);
             this.listBox2.TabIndex = 3;
+            // 
+            // wizConrol1
+            // 
+            this.wizConrol1.BackColor = System.Drawing.Color.Black;
+            this.wizConrol1.ForeColor = System.Drawing.Color.White;
+            this.wizConrol1.Location = new System.Drawing.Point(45, 58);
+            this.wizConrol1.Name = "wizConrol1";
+            this.wizConrol1.Size = new System.Drawing.Size(831, 428);
+            this.wizConrol1.TabIndex = 7;
+            this.wizConrol1.Text = "wizConrol1";
+            // 
+            // combWizAlg1
+            // 
+            this.combWizAlg1.Alg = WizEdit.WIZALG.GOOD;
+            this.combWizAlg1.BackColor = System.Drawing.Color.Black;
+            this.combWizAlg1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combWizAlg1.ForeColor = System.Drawing.Color.White;
+            this.combWizAlg1.FormattingEnabled = true;
+            this.combWizAlg1.Items.AddRange(new object[] {
+            "Good",
+            "Neutral",
+            "Evel"});
+            this.combWizAlg1.Location = new System.Drawing.Point(283, 95);
+            this.combWizAlg1.Name = "combWizAlg1";
+            this.combWizAlg1.Size = new System.Drawing.Size(65, 20);
+            this.combWizAlg1.TabIndex = 6;
             // 
             // combWizJob1
             // 
+            this.combWizJob1.BackColor = System.Drawing.Color.Black;
             this.combWizJob1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combWizJob1.ForeColor = System.Drawing.Color.White;
             this.combWizJob1.FormattingEnabled = true;
             this.combWizJob1.Items.AddRange(new object[] {
             "FIG",
@@ -163,15 +195,17 @@
             "SAM",
             "LOR",
             "NIN"});
-            this.combWizJob1.Job = WizEdit.JOB.FIG;
-            this.combWizJob1.Location = new System.Drawing.Point(375, 36);
+            this.combWizJob1.Job = WizEdit.WIZCLASS.FIG;
+            this.combWizJob1.Location = new System.Drawing.Point(354, 95);
             this.combWizJob1.Name = "combWizJob1";
             this.combWizJob1.Size = new System.Drawing.Size(63, 20);
             this.combWizJob1.TabIndex = 5;
             // 
             // combWizRace1
             // 
+            this.combWizRace1.BackColor = System.Drawing.Color.Black;
             this.combWizRace1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combWizRace1.ForeColor = System.Drawing.Color.White;
             this.combWizRace1.FormattingEnabled = true;
             this.combWizRace1.Items.AddRange(new object[] {
             "HUMAN",
@@ -179,32 +213,51 @@
             "DWARF",
             "GNOME",
             "HOBIT"});
-            this.combWizRace1.Location = new System.Drawing.Point(295, 36);
+            this.combWizRace1.Location = new System.Drawing.Point(423, 95);
             this.combWizRace1.Name = "combWizRace1";
-            this.combWizRace1.Race = WizEdit.RACE.HUMAN;
+            this.combWizRace1.Race = WizEdit.WIZRACE.HUMAN;
             this.combWizRace1.Size = new System.Drawing.Size(74, 20);
             this.combWizRace1.TabIndex = 4;
             // 
-            // combWizAlg1
+            // tabControl1
             // 
-            this.combWizAlg1.Alg = WizEdit.ALG.NEUT;
-            this.combWizAlg1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.combWizAlg1.FormattingEnabled = true;
-            this.combWizAlg1.Items.AddRange(new object[] {
-            "Good",
-            "Neutral",
-            "Evel"});
-            this.combWizAlg1.Location = new System.Drawing.Point(224, 36);
-            this.combWizAlg1.Name = "combWizAlg1";
-            this.combWizAlg1.Size = new System.Drawing.Size(65, 20);
-            this.combWizAlg1.TabIndex = 6;
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(462, 144);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(376, 293);
+            this.tabControl1.TabIndex = 8;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.BackColor = System.Drawing.Color.Black;
+            this.tabPage1.ForeColor = System.Drawing.Color.White;
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(368, 267);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(368, 267);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(496, 507);
+            this.BackColor = System.Drawing.Color.Black;
+            this.ClientSize = new System.Drawing.Size(910, 531);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.combWizAlg1);
             this.Controls.Add(this.combWizJob1);
             this.Controls.Add(this.combWizRace1);
@@ -212,6 +265,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.wizConrol1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Form1";
@@ -221,6 +275,7 @@
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -241,8 +296,12 @@
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.ListBox listBox2;
         private CombWizRace combWizRace1;
-        private CombWizJob combWizJob1;
+        private CombWizClass combWizJob1;
         private CombWizAlg combWizAlg1;
+        private WizConrol wizConrol1;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
     }
 }
 

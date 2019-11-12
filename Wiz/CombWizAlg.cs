@@ -13,7 +13,7 @@ namespace WizEdit
 {
     public class CombWizAlg : ComboBox
     {
-        private ALG m_Alg = ALG.GOOD;
+        private WIZALG m_Alg = WIZALG.GOOD;
         public CombWizAlg()
         {
             this.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -24,7 +24,7 @@ namespace WizEdit
         {
             int s = SelectedIndex;
             if (s < 0) s = 0;
-            m_Alg = (ALG)s;
+            m_Alg = (WIZALG)s;
         }
 
         protected override void InitLayout()
@@ -32,11 +32,11 @@ namespace WizEdit
             base.InitLayout();
             this.Items.Clear();
             this.Items.AddRange(WizNesState.AlgStr);
-            m_Alg = ALG.GOOD;
+            m_Alg = WIZALG.GOOD;
             this.SelectedIndex = 0;
             //this.Enabled = false;
         }
-        public ALG Alg
+        public WIZALG Alg
         {
             get { return m_Alg; }
             set

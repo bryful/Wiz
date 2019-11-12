@@ -130,6 +130,34 @@ namespace WizEdit
         {
             AppInfoDialog.ShowAppInfoDialog();
         }
+        // ************************************************************************
+        /*
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            SolidBrush sb = new SolidBrush(Color.Black);
+            Pen p = new Pen(Color.White);
+            try
+            {
+                Graphics g = e.Graphics;
+
+                g.FillRectangle(sb, this.Bounds);
+                int mgn = 5;
+                Rectangle rct = new Rectangle(
+                    mgn, mgn,
+                    this.ClientSize.Width - mgn * 2,
+                    this.ClientSize.Width - mgn * 2
+                    );
+                g.DrawRectangle(p, rct);
+
+            }
+            finally
+            {
+                sb.Dispose();
+                p.Dispose();
+            }
+        }
+        */
         /// <summary>
         /// Stateファイルを読み込む
         /// </summary>

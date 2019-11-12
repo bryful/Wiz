@@ -13,7 +13,7 @@ namespace WizEdit
 {
     public class CombWizRace : ComboBox
     {
-        private RACE m_Race = RACE.HUMAN;
+        private WIZRACE m_Race = WIZRACE.HUMAN;
         public CombWizRace()
         {
             this.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -24,7 +24,7 @@ namespace WizEdit
         {
             int s = SelectedIndex;
             if (s < 0) s = 0;
-            m_Race = (RACE)s;
+            m_Race = (WIZRACE)s;
         }
 
         protected override void InitLayout()
@@ -32,11 +32,11 @@ namespace WizEdit
             base.InitLayout();
             this.Items.Clear();
             this.Items.AddRange(WizNesState.RaceStr);
-            m_Race = RACE.HUMAN;
+            m_Race = WIZRACE.HUMAN;
             this.SelectedIndex = 0;
             //this.Enabled = false;
         }
-        public RACE Race
+        public WIZRACE Race
         {
             get { return m_Race; }
             set

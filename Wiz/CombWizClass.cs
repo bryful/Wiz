@@ -11,10 +11,10 @@ using System.IO;
 
 namespace WizEdit
 {
-    public class CombWizJob : ComboBox
+    public class CombWizClass : ComboBox
     {
-        private JOB m_Job = JOB.FIG;
-        public CombWizJob()
+        private WIZCLASS m_Job = WIZCLASS.FIG;
+        public CombWizClass()
         {
             this.DropDownStyle = ComboBoxStyle.DropDownList;
             this.SelectedIndexChanged += CombWizRace_SelectedIndexChanged;
@@ -24,7 +24,7 @@ namespace WizEdit
         {
             int s = SelectedIndex;
             if (s < 0) s = 0;
-            m_Job = (JOB)s;
+            m_Job = (WIZCLASS)s;
         }
 
         protected override void InitLayout()
@@ -32,11 +32,11 @@ namespace WizEdit
             base.InitLayout();
             this.Items.Clear();
             this.Items.AddRange(WizNesState.JobStr);
-            m_Job = JOB.FIG;
+            m_Job = WIZCLASS.FIG;
             this.SelectedIndex = 0;
             //this.Enabled = false;
         }
-        public JOB Job
+        public WIZCLASS Job
         {
             get { return m_Job; }
             set
