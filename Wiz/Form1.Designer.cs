@@ -38,18 +38,13 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.listBox2 = new System.Windows.Forms.ListBox();
-            this.wizConrol1 = new WizEdit.WizConrol();
-            this.combWizAlg1 = new WizEdit.CombWizAlg();
-            this.combWizJob1 = new WizEdit.CombWizClass();
-            this.combWizRace1 = new WizEdit.CombWizRace();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.button1 = new System.Windows.Forms.Button();
+            this.wizCaption1 = new WizEdit.WizCaption();
+            this.wizConrol1 = new WizEdit.WizConrol();
+            this.wizNesState1 = new WizEdit.WizNesState();
+            this.wizCharList1 = new WizEdit.WizCharList();
             this.menuStrip1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -60,7 +55,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(910, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(851, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -123,24 +118,11 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 509);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 512);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(910, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(851, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // listBox1
-            // 
-            this.listBox1.BackColor = System.Drawing.Color.Black;
-            this.listBox1.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.listBox1.ForeColor = System.Drawing.Color.White;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 16;
-            this.listBox1.Location = new System.Drawing.Point(68, 95);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(183, 356);
-            this.listBox1.TabIndex = 2;
-            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // listBox2
             // 
@@ -150,106 +132,10 @@
             this.listBox2.ForeColor = System.Drawing.Color.White;
             this.listBox2.FormattingEnabled = true;
             this.listBox2.ItemHeight = 16;
-            this.listBox2.Location = new System.Drawing.Point(273, 127);
+            this.listBox2.Location = new System.Drawing.Point(449, 129);
             this.listBox2.Name = "listBox2";
             this.listBox2.Size = new System.Drawing.Size(156, 324);
             this.listBox2.TabIndex = 3;
-            // 
-            // wizConrol1
-            // 
-            this.wizConrol1.BackColor = System.Drawing.Color.Black;
-            this.wizConrol1.ForeColor = System.Drawing.Color.White;
-            this.wizConrol1.Location = new System.Drawing.Point(45, 58);
-            this.wizConrol1.Name = "wizConrol1";
-            this.wizConrol1.Size = new System.Drawing.Size(831, 428);
-            this.wizConrol1.TabIndex = 7;
-            this.wizConrol1.Text = "wizConrol1";
-            // 
-            // combWizAlg1
-            // 
-            this.combWizAlg1.Alg = WizEdit.WIZALG.GOOD;
-            this.combWizAlg1.BackColor = System.Drawing.Color.Black;
-            this.combWizAlg1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.combWizAlg1.ForeColor = System.Drawing.Color.White;
-            this.combWizAlg1.FormattingEnabled = true;
-            this.combWizAlg1.Items.AddRange(new object[] {
-            "Good",
-            "Neutral",
-            "Evel"});
-            this.combWizAlg1.Location = new System.Drawing.Point(283, 95);
-            this.combWizAlg1.Name = "combWizAlg1";
-            this.combWizAlg1.Size = new System.Drawing.Size(65, 20);
-            this.combWizAlg1.TabIndex = 6;
-            // 
-            // combWizJob1
-            // 
-            this.combWizJob1.BackColor = System.Drawing.Color.Black;
-            this.combWizJob1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.combWizJob1.ForeColor = System.Drawing.Color.White;
-            this.combWizJob1.FormattingEnabled = true;
-            this.combWizJob1.Items.AddRange(new object[] {
-            "FIG",
-            "MAG",
-            "PRI",
-            "THI",
-            "BIS",
-            "SAM",
-            "LOR",
-            "NIN"});
-            this.combWizJob1.Job = WizEdit.WIZCLASS.FIG;
-            this.combWizJob1.Location = new System.Drawing.Point(354, 95);
-            this.combWizJob1.Name = "combWizJob1";
-            this.combWizJob1.Size = new System.Drawing.Size(63, 20);
-            this.combWizJob1.TabIndex = 5;
-            // 
-            // combWizRace1
-            // 
-            this.combWizRace1.BackColor = System.Drawing.Color.Black;
-            this.combWizRace1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.combWizRace1.ForeColor = System.Drawing.Color.White;
-            this.combWizRace1.FormattingEnabled = true;
-            this.combWizRace1.Items.AddRange(new object[] {
-            "HUMAN",
-            "ELF",
-            "DWARF",
-            "GNOME",
-            "HOBIT"});
-            this.combWizRace1.Location = new System.Drawing.Point(423, 95);
-            this.combWizRace1.Name = "combWizRace1";
-            this.combWizRace1.Race = WizEdit.WIZRACE.HUMAN;
-            this.combWizRace1.Size = new System.Drawing.Size(74, 20);
-            this.combWizRace1.TabIndex = 4;
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(462, 144);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(376, 293);
-            this.tabControl1.TabIndex = 8;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.BackColor = System.Drawing.Color.Black;
-            this.tabPage1.ForeColor = System.Drawing.Color.White;
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(368, 267);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(368, 267);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
@@ -264,23 +150,75 @@
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
             // 
+            // wizCaption1
+            // 
+            this.wizCaption1.BackColor = System.Drawing.Color.Black;
+            this.wizCaption1.BottomMargin = 5;
+            this.wizCaption1.Corner = 5;
+            this.wizCaption1.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.wizCaption1.ForeColor = System.Drawing.Color.White;
+            this.wizCaption1.LineWidth = 3;
+            this.wizCaption1.Location = new System.Drawing.Point(307, 27);
+            this.wizCaption1.Name = "wizCaption1";
+            this.wizCaption1.SiseMargin = 5;
+            this.wizCaption1.Size = new System.Drawing.Size(227, 42);
+            this.wizCaption1.TabIndex = 10;
+            this.wizCaption1.Text = "Wizardry FC StateFile Editor";
+            this.wizCaption1.TopMargin = 5;
+            // 
+            // wizConrol1
+            // 
+            this.wizConrol1.BackColor = System.Drawing.Color.Black;
+            this.wizConrol1.BottomMargin = 5;
+            this.wizConrol1.Corner = 5;
+            this.wizConrol1.ForeColor = System.Drawing.Color.White;
+            this.wizConrol1.LineWidth = 3;
+            this.wizConrol1.Location = new System.Drawing.Point(12, 41);
+            this.wizConrol1.Name = "wizConrol1";
+            this.wizConrol1.SiseMargin = 5;
+            this.wizConrol1.Size = new System.Drawing.Size(831, 468);
+            this.wizConrol1.TabIndex = 7;
+            this.wizConrol1.Text = "Wizardry NES State Editor";
+            this.wizConrol1.TopMargin = 5;
+            // 
+            // wizNesState1
+            // 
+            this.wizNesState1.CurrentChar = -1;
+            this.wizNesState1.WizCharList = this.wizCharList1;
+            // 
+            // wizCharList1
+            // 
+            this.wizCharList1.BackColor = System.Drawing.Color.Black;
+            this.wizCharList1.BottomMargin = 5;
+            this.wizCharList1.Corner = 5;
+            this.wizCharList1.ForeColor = System.Drawing.Color.White;
+            this.wizCharList1.LineWidth = 3;
+            this.wizCharList1.Location = new System.Drawing.Point(52, 72);
+            this.wizCharList1.MaximumSize = new System.Drawing.Size(150, 400);
+            this.wizCharList1.MinimumSize = new System.Drawing.Size(150, 400);
+            this.wizCharList1.Name = "wizCharList1";
+            this.wizCharList1.SiseMargin = 5;
+            this.wizCharList1.Size = new System.Drawing.Size(150, 400);
+            this.wizCharList1.TabIndex = 11;
+            this.wizCharList1.Text = "wizCharList1";
+            this.wizCharList1.TopMargin = 5;
+            this.wizCharList1.WizNesState = this.wizNesState1;
+            // 
             // Form1
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(910, 531);
+            this.ClientSize = new System.Drawing.Size(851, 534);
+            this.Controls.Add(this.wizCharList1);
+            this.Controls.Add(this.wizCaption1);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.combWizAlg1);
-            this.Controls.Add(this.combWizJob1);
-            this.Controls.Add(this.combWizRace1);
             this.Controls.Add(this.listBox2);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.wizConrol1);
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Form1";
@@ -290,7 +228,6 @@
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -308,16 +245,12 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.ListBox listBox2;
-        private CombWizRace combWizRace1;
-        private CombWizClass combWizJob1;
-        private CombWizAlg combWizAlg1;
         private WizConrol wizConrol1;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button button1;
+        private WizCaption wizCaption1;
+        private WizNesState wizNesState1;
+        private WizCharList wizCharList1;
     }
 }
 

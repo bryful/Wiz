@@ -27,7 +27,26 @@ namespace WizEdit
         public Form1()
         {
             InitializeComponent();
+
+            //m_state.FinishedLoadFile += M_state_FinishedLoadFile;
+            //m_state.ChangeCurrentChar += M_state_ChangeCurrentChar;
         }
+
+
+        // ***************************************************************
+        private void M_state_FinishedLoadFile(object sender, EventArgs e)
+        {
+            this.SuspendLayout();
+            listBox2.Items.Clear();
+            this.ResumeLayout();
+        }
+        // ***************************************************************
+        private void M_state_ChangeCurrentChar(object sender, CurrentCharEventArgs e)
+        {
+            //combWizAlg1.Alg =
+        }
+        // ***************************************************************
+
         /// <summary>
         /// コントロールの初期化はこっちでやる
         /// </summary>
@@ -47,8 +66,7 @@ namespace WizEdit
             JsonPref pref = new JsonPref();
             if (pref.Load())
             {
-                bool ok = false;
-                Size sz = pref.GetSize("Size", out ok);
+                Size sz = pref.GetSize("Size", out bool ok);
                 if (ok) this.Size = sz;
                 Point p = pref.GetPoint("Point", out ok);
                 if (ok) this.Location = p;
@@ -165,21 +183,7 @@ namespace WizEdit
         /// <returns></returns>
         public bool LoadFile(string p)
         {
-            bool ret = false;
-            ret = m_state.LoadFile(p);
-            if (ret == true) DispNames();
-            return ret;
-        }
-        public void DispNames()
-        {
-            listBox1.Items.Clear();
-            if (m_state.SCN == WIZ_SCN.NO) return;
-            listBox1.SuspendLayout();
-            for ( int i=0; i<m_state. CharCount;i++)
-            {
-                listBox1.Items.Add(m_state.GetName(i));
-            }
-            listBox1.ResumeLayout();
+            return m_state.LoadFile(p);
         }
         public void DispCharData(int idx)
         {
@@ -195,16 +199,34 @@ namespace WizEdit
                 string s = String.Format("{0:X4} {1:X2} {2}", i, data[i], ss);
                 listBox2.Items.Add(s);
             }
-            combWizRace1.Race = m_state.GetRace(idx);
-            combWizJob1.Job = m_state.GetJob(idx);
-            combWizAlg1.Alg = m_state.GetAlg(idx);
+            //combWizRace1.Race = m_state.RaceFromIndex(idx);
+            //combWizJob1.Job = m_state.ClassFromIndex(idx);
+            //combWizAlg1.Alg = m_state.AlgFromIndex(idx);
             listBox2.ResumeLayout();
         }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        /*
+        protected override void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
         {
-            DispCharData(listBox1.SelectedIndex);
-
+            if (m_state != null)
+            {
+                if (this.Focused == true)
+                {
+                    if (e.KeyCode == Keys.Up) { wizCharList1.CursolUp(); }
+                    else if (e.KeyCode == Keys.Down) { wizCharList1.CursolDown(); }
+                }
+            }
+            base.OnPreviewKeyDown(e);
+        }
+        */
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            if (m_state != null)
+            {
+                this.Text = e.KeyCode.ToString();
+                if (e.KeyCode == Keys.Up) { wizCharList1.CursolUp(); }
+                else if (e.KeyCode == Keys.Down) { wizCharList1.CursolDown(); }
+            }
+            base.OnKeyDown(e);
         }
     }
 }

@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 using System.IO;
 
 namespace WizEdit
 {
+    #region Const
     public enum WIZ_SCN
     {
         NO = 0,
@@ -42,37 +47,115 @@ namespace WizEdit
         EVIL
     }
 
+    #endregion
 
-    public class WizNesState
+
+    public class CurrentCharEventArgs : EventArgs
     {
+        public int CurrentChar;
+    }
+    public class WizNesState :Component
+    {
+        #region Event
+        //CurrentCharが変更された時
+        public delegate void ChangeCurrentCharHandler(object sender, CurrentCharEventArgs e);
+        public event ChangeCurrentCharHandler ChangeCurrentChar;
+        protected virtual void OnChangeCurrentChar(CurrentCharEventArgs e)
+        {
+            ChangeCurrentChar?.Invoke(this, e);
+        }
+        //ファイルがロードされた時
+        public event EventHandler FinishedLoadFile;
+        protected virtual void OnFinishedLoadFile(EventArgs e)
+        {
+            FinishedLoadFile?.Invoke(this, e);
+        }
+        #endregion
+
         #region prop
+        /// <summary>
+        /// 読み込んだステートファイルそのもの
+        /// </summary>
         private byte[] m_stateBuf = new byte[0];
         private int m_sramIndex = -1;
-        public int SramIndex { get { return m_sramIndex; } }
+        /// <summary>
+        /// SRAM領域のアドレス
+        /// </summary>
+        public int SramAdr { get { return m_sramIndex; } }
+        /// <summary>
+        /// SRAMのサイズ
+        /// </summary>
         public int SRAM_SIZE { get { return 0x1FFF; } }
 
         private WIZ_SCN m_scn = WIZ_SCN.NO;
+        /// <summary>
+        /// 読み込んだステートファイルのシナリオ
+        /// </summary>
         public WIZ_SCN SCN { get { return m_scn; } }
 
         public int CharNameLength {get{ return 8; } }
         public int  CharCountMax { get { return 20; } }
         private int m_CharCount = 0;
+        /// <summary>
+        /// 訓練所に登録されているキャラクタ数
+        /// </summary>
         public int CharCount { get { return m_CharCount; } }
 
-        private int m_CharTarget = -1;
-        public int CharTarget
+        private int m_CurrentChar = -1;
+        public int CurrentChar
         {
-            get { return m_CharTarget; }
+            get { return m_CurrentChar; }
             set
             {
-                if (m_CharCount <= 0) return;
-                if ( m_CharTarget != value)
+                if ((value >= 0) && (value < m_CharCount))
                 {
-                    m_CharTarget = value;
+                    m_CurrentChar = value;
+                    //イベント発生
+                    CurrentCharEventArgs e = new CurrentCharEventArgs();
+                    e.CurrentChar = m_CurrentChar;
+                    OnChangeCurrentChar(e);
                 }
             }
         }
 
+        #endregion
+
+        private WizCharList m_WizCharList = null;
+        public WizCharList WizCharList
+        {
+            get { return m_WizCharList; }
+            set
+            {
+                m_WizCharList = value;
+                if (m_WizCharList != null)
+                {
+                    m_WizCharList.WizNesState = this;
+                    this.ChangeCurrentChar += WizNesState_ChangeCurrentChar;
+                    this.FinishedLoadFile += WizNesState_FinishedLoadFile;
+                }
+            }
+        }
+
+        private void WizNesState_FinishedLoadFile(object sender, EventArgs e)
+        {
+            if (m_WizCharList != null)
+            {
+                m_WizCharList.Invalidate();
+            }
+        }
+
+        private void WizNesState_ChangeCurrentChar(object sender, CurrentCharEventArgs e)
+        {
+            if (m_WizCharList!=null)
+            {
+                m_WizCharList.Invalidate();
+            }
+        }
+
+
+
+
+        #region Const Text
         static public readonly string[] RaceStr = new string[]
         {
             "HUMAN",
@@ -99,8 +182,9 @@ namespace WizEdit
             "Evil"
        };
         #endregion
+        // ***********************************************************************
         /// <summary>
-        /// 
+        /// コンストラクタ
         /// </summary>
         public WizNesState()
         {
@@ -109,7 +193,7 @@ namespace WizEdit
         /// キャラクターの先頭アドレス
         /// </summary>
         // ************************************************************************
-        public int CharStartIndex
+        public int CharStartAdr
         {
             get
             {
@@ -146,14 +230,14 @@ namespace WizEdit
             }
         }
         // ************************************************************************
-        public int CharIndex(int index)
+        public int CharAdr(int index)
         {
-            return SramIndex + CharStartIndex + CharSize * index;
+            return SramAdr + CharStartAdr + CharSize * index;
         }
         // ************************************************************************
-        public string GetName(int index)
+        public string CharNameFromIndex(int index)
         {
-            int idx = CharIndex(index);
+            int idx = CharAdr(index);
             if (idx <= 0) return "";
             idx += 2;
             byte[] nm = GetCode(idx, CharNameLength);
@@ -161,11 +245,35 @@ namespace WizEdit
 
         }
         // ************************************************************************
-        public WIZRACE GetRace(int idx)
+        public string [] CharNames
+        {
+            get
+            {
+                string[] ret = new string[m_CharCount];
+                if (m_CharCount>0)
+                {
+                    for ( int i=0; i<m_CharCount;i++)
+                    {
+                        ret[i] = CharNameFromIndex(i);
+                    }
+                }
+                return ret;
+            }
+        }
+        // ************************************************************************
+        public string CharName
+        {
+            get { return CharNameFromIndex(m_CurrentChar); }
+        }
+        // ************************************************************************
+        public WIZRACE RaceFromIndex(int idx)
         {
             WIZRACE ret = WIZRACE.HUMAN;
-
-            int adr = CharIndex(idx);
+            if ((idx<0)||(idx>=m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
@@ -184,11 +292,20 @@ namespace WizEdit
             return ret;
         }
         // ************************************************************************
-        public WIZCLASS GetJob(int idx)
+        public WIZRACE Race
+        {
+            get { return RaceFromIndex(m_CurrentChar);}
+        }
+
+        // ************************************************************************
+        public WIZCLASS ClassFromIndex(int idx)
         {
             WIZCLASS ret = WIZCLASS.FIG;
-
-            int adr = CharIndex(idx);
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
@@ -200,18 +317,24 @@ namespace WizEdit
                     adr += 0x0A;
                     ret = (WIZCLASS)(m_stateBuf[adr] >> 2 & 0x07);
                     break;
-                default:
-                    return ret;
             }
 
             return ret;
         }
         // ************************************************************************
-        public WIZALG GetAlg(int idx)
+        public WIZCLASS CLASS
+        {
+            get { return ClassFromIndex(m_CurrentChar); }
+        }
+        // ************************************************************************
+        public WIZALG AlgFromIndex(int idx)
         {
             WIZALG ret = WIZALG.GOOD;
-
-            int adr = CharIndex(idx);
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
@@ -228,7 +351,12 @@ namespace WizEdit
             }
 
             return ret;
-        }        
+        }
+        // ************************************************************************
+        public WIZALG Alg
+        {
+            get { return AlgFromIndex(m_CurrentChar); }
+        }
         // ************************************************************************
         public byte[] GetCharData(int idx)
         {
@@ -236,7 +364,7 @@ namespace WizEdit
             byte[] ret = new byte[sz];
             if (sz <= 0) return ret;
 
-            return GetCode(CharIndex(idx), sz);
+            return GetCode(CharAdr(idx), sz);
 
         }
         // ************************************************************************
@@ -245,7 +373,7 @@ namespace WizEdit
             int ret = 0;
             for ( int i=0; i< CharCountMax;i++)
             {
-                if (m_stateBuf[CharIndex(i)]==0)
+                if (m_stateBuf[CharAdr(i)]==0)
                 {
                     break;
                 }
@@ -358,7 +486,7 @@ namespace WizEdit
             m_scn = WIZ_SCN.NO;
             m_sramIndex = -1;
             m_CharCount = 0;
-            m_CharTarget = -1;
+            m_CurrentChar = -1;
 
             //サイズチェック
             if (m_stateBuf.Length < 14872) return ret;
@@ -392,7 +520,7 @@ namespace WizEdit
                 m_CharCount = GetCharCount();
                 if(m_CharCount>0)
                 {
-                    m_CharTarget = 0;
+                    m_CurrentChar = 0;
                 }
             }
 
@@ -427,6 +555,12 @@ namespace WizEdit
             if (ret == false)
             {
                 m_stateBuf = new byte[0];
+            }
+            //イベント
+            OnFinishedLoadFile(EventArgs.Empty);
+            if(m_WizCharList!=null)
+            {
+                m_WizCharList.Invalidate();
             }
 
             return ret;
