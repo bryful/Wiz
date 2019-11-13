@@ -19,7 +19,7 @@ namespace WizEdit
 {
     public partial class Form1 : Form
     {
-        private WizNesState m_state = new WizNesState();
+        //private WizNesState m_state = new WizNesState();
         //-------------------------------------------------------------
         /// <summary>
         /// コンストラクタ
@@ -183,19 +183,19 @@ namespace WizEdit
         /// <returns></returns>
         public bool LoadFile(string p)
         {
-            return m_state.LoadFile(p);
+            return wizNesState1.LoadFile(p);
         }
         public void DispCharData(int idx)
         {
             listBox2.Items.Clear();
             if ((idx < 0) || (idx >= 20)) return;
-            byte[] data = m_state.GetCharData(idx);
-            int sz = m_state.CharSize;
+            byte[] data = wizNesState1.GetCharData(idx);
+            int sz = wizNesState1.CharSize;
             if (sz <= 0) return;
             listBox2.SuspendLayout();
             for ( int i=0; i<sz; i++)
             {
-                string ss = m_state.CodeToString(data[i]);
+                string ss = wizNesState1.CodeToString(data[i]);
                 string s = String.Format("{0:X4} {1:X2} {2}", i, data[i], ss);
                 listBox2.Items.Add(s);
             }
@@ -220,7 +220,7 @@ namespace WizEdit
         */
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            if (m_state != null)
+            if (wizNesState1 != null)
             {
                 this.Text = e.KeyCode.ToString();
                 if (e.KeyCode == Keys.Up) { wizCharList1.CursolUp(); }
