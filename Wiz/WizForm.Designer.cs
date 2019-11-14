@@ -1,6 +1,6 @@
 ﻿namespace WizEdit
 {
-    partial class WizMainForm
+    partial class WizForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,14 +30,17 @@
         {
             this.SuspendLayout();
             // 
-            // WizMainForm
+            // WizForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(849, 475);
-            this.Name = "WizMainForm";
-            this.Text = "WizMainForm";
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ClientSize = new System.Drawing.Size(556, 340);
+            this.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.ForeColor = System.Drawing.Color.White;
+            this.Name = "WizForm";
+            this.Text = "WizForm";
             this.ResumeLayout(false);
 
         }

@@ -17,8 +17,9 @@ using Codeplex.Data;
 /// </summary>
 namespace WizEdit
 {
-    public partial class Form1 : Form
+    public partial class Form1 : WizForm
     {
+ 
         //-------------------------------------------------------------
         /// <summary>
         /// コンストラクタ
@@ -31,13 +32,11 @@ namespace WizEdit
 
 
             this.KeyPreview = true;
-            //m_state.FinishedLoadFile += M_state_FinishedLoadFile;
-            //m_state.ChangeCurrentChar += M_state_ChangeCurrentChar;
-
+            /*
             wizSelectControl1.SetIsDisp(false);
             wizSelectControl1.MouseDoubleClick += WizSelectControl1_MouseDoubleClick;
             wizSelectControl1.SetFont(wizCharList1.Font);
-
+            */
         }
 
 
@@ -167,27 +166,28 @@ namespace WizEdit
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             this.Text = keyData.ToString() + " / Pro";
-
-            if (wizSelectControl1.IsDisp == true)
+            /*
+            if (m_Selection!=null)
             {
-                if ((keyData == Keys.Escape))
+                if (m_Selection.IsDisp == true)
                 {
-                    HideSelectControl();
-                } else if ((keyData==Keys.Return)|| (keyData == Keys.Return))
-                {
-                    HideSelectControl();
+                    if ((keyData == Keys.Escape))
+                    {
+                        //HideSelectControl();
+                    }
+                    else if ((keyData == Keys.Return) || (keyData == Keys.Return))
+                    {
+                        //HideSelectControl();
+                    }
                 }
             }
-            else
+            */
+            if (wizNesState1 != null)
             {
-
-
-                if (wizNesState1 != null)
-                {
-                    if ((keyData == Keys.Up) || (keyData == Keys.A)) { wizCharList1.CursolUp(); }
-                    else if ((keyData == Keys.Down) || (keyData == Keys.Z)) { wizCharList1.CursolDown(); }
-                }
+                if ((keyData == Keys.Up) || (keyData == Keys.A)) { wizCharList1.CursolUp(); }
+                else if ((keyData == Keys.Down) || (keyData == Keys.Z)) { wizCharList1.CursolDown(); }
             }
+            
             return base.ProcessCmdKey(ref msg, keyData);
         }
         private void WizSelectControl1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -196,32 +196,36 @@ namespace WizEdit
         }
         public void OpenSelectDialog()
         {
-            wizSelectControl1.SetOwnerSize(wizNameBox1);
+            /*
+            //wizSelectControl1.SetOwnerSize(wizNameBox1);
             wizSelectControl1.ClearItem();
             wizSelectControl1.AddItem("Good");
             wizSelectControl1.AddItem("Neutral");
             wizSelectControl1.AddItem("Evil");
             wizSelectControl1.SelectedIndex = 1;
             ShowSelectControl();
-
+            */
         }
         public void ShowSelectControl()
         {
+            /*
             if (wizSelectControl1.IsDisp == false)
             {
                 wizSelectControl1.SetIsDisp(true);
                 wizCharList1.IsActive = false;
             }
+            */
 
         }
         public void HideSelectControl()
         {
+            /*
             if (wizSelectControl1.IsDisp == true)
             {
                 wizSelectControl1.SetIsDisp(false);
                 wizCharList1.IsActive = true;
             }
-
+            */
         }
 
         private void wizNameBox1_Click(object sender, EventArgs e)

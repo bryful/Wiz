@@ -25,18 +25,32 @@ namespace WizEdit
         public Color Fore = Color.White;
 
         public Graphics Graphics = null;
+        public int Left = 0;
+        public int Top = 0;
         public int Width = 0;
         public int Height = 0;
-
         public Size Size
         {
             get { return new Size(Width, Height); }
+            set { Width = value.Width;Height = value.Height; }
+        }
+        public Point Location
+        {
+            get { return new Point(Left, Top); }
+            set { Left = value.X; Top = value.Y; }
+        }
+        public Rectangle Rectangle
+        {
+            get { return new Rectangle(Left, Top, Width, Height); }
             set
             {
+                Left = value.Left;
+                Top = value.Top;
                 Width = value.Width;
                 Height = value.Height;
             }
         }
+
         public WizBox()
         {
 
@@ -53,21 +67,22 @@ namespace WizEdit
             try
             {
                 //塗りつぶし
-                Graphics.FillRectangle(sb, new Rectangle(0,0,Width,Height));
+                Graphics.FillRectangle(sb, new Rectangle(Left,Top,Width,Height));
                 if (LineWidth > 0)
                 {
                     Point[] ps = {
-                        new Point(LeftMargin, TopMargin+Corner),
-                        new Point(LeftMargin+Corner, TopMargin),
-                        new Point(Width - RightMargin - Corner, TopMargin),
-                        new Point(Width - RightMargin , TopMargin+Corner),
-                        new Point(Width - RightMargin , Height-BottomMargin-Corner),
-                        new Point(Width - LeftMargin - Corner, Height - BottomMargin),
-                        new Point(LeftMargin + Corner, Height -  BottomMargin),
-                        new Point(LeftMargin , Height - BottomMargin - Corner)
+                        new Point(Left + LeftMargin, Top + TopMargin+Corner),
+                        new Point(Left + LeftMargin+Corner, Top + TopMargin),
+                        new Point(Left + Width - RightMargin - Corner, Top + TopMargin),
+                        new Point(Left + Width - RightMargin , Top + TopMargin+Corner),
+                        new Point(Left + Width - RightMargin , Top + Height-BottomMargin-Corner),
+                        new Point(Left + Width - LeftMargin - Corner, Top + Height - BottomMargin),
+                        new Point(Left + LeftMargin + Corner, Top + Height -  BottomMargin),
+                        new Point(Left + LeftMargin , Top + Height - BottomMargin - Corner)
                         };
                     Graphics.DrawPolygon(pn, ps);
                 }
+                
             }
             finally
             {

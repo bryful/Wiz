@@ -97,15 +97,6 @@
     <Compile Include="AppInfoDialog.Designer.cs">
       <DependentUpon>AppInfoDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="CombWizAlg.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="CombWizClass.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="CombWizRace.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="DynamicJson.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -130,11 +121,11 @@
     <Compile Include="WizConrol.Designer.cs">
       <DependentUpon>WizConrol.cs</DependentUpon>
     </Compile>
-    <Compile Include="WizMainForm.cs">
+    <Compile Include="WizForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WizMainForm.Designer.cs">
-      <DependentUpon>WizMainForm.cs</DependentUpon>
+    <Compile Include="WizForm.Designer.cs">
+      <DependentUpon>WizForm.cs</DependentUpon>
     </Compile>
     <Compile Include="WizNameBox.cs">
       <SubType>Component</SubType>
@@ -149,6 +140,9 @@
       <DependentUpon>WizSelectControl.cs</DependentUpon>
     </Compile>
     <Compile Include="WizSpell.cs" />
+    <Compile Include="WizTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WizU.cs" />
     <EmbeddedResource Include="AppInfoDialog.resx">
       <DependentUpon>AppInfoDialog.cs</DependentUpon>
@@ -166,8 +160,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="WizMainForm.resx">
-      <DependentUpon>WizMainForm.cs</DependentUpon>
+    <EmbeddedResource Include="WizForm.resx">
+      <DependentUpon>WizForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WizSelectControl.resx">
       <DependentUpon>WizSelectControl.cs</DependentUpon>

@@ -72,6 +72,11 @@ namespace WizEdit
         public WizConrol()
         {
             InitializeComponent();
+            this.SetStyle(
+                ControlStyles.DoubleBuffer |
+                ControlStyles.UserPaint |
+                ControlStyles.AllPaintingInWmPaint,
+                true);
         }
         // ************************************************************
         protected override void InitLayout()
@@ -83,7 +88,7 @@ namespace WizEdit
         // ************************************************************
         protected override void OnPaint(PaintEventArgs e)
         {
-            //base.OnPaint(e);
+            base.OnPaint(e);
             wb.Graphics = e.Graphics;
             wb.Size = this.ClientSize;
             wb.Back = this.BackColor;
@@ -92,6 +97,12 @@ namespace WizEdit
 
         }
         // ************************************************************
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            wb.Size = this.ClientSize;
+            this.Invalidate();
+        }
 
     }
 }

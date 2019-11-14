@@ -11,7 +11,7 @@ using System.Drawing.Drawing2D;
 
 namespace WizEdit
 {
-    public class WizNameBox : Control
+    public class WizNameBox : WizTextBox
     {
         #region state
         private WizNesState m_state = null;
@@ -23,19 +23,23 @@ namespace WizEdit
                 m_state = value;
                 if (m_state!=null)
                 {
+                    this.NearText = m_state.CharName;
                     m_state.ChangeCurrentChar += M_state_ChangeCurrentChar;
                     m_state.FinishedLoadFile += M_state_FinishedLoadFile;
+                    this.Invalidate();
                 }
             }
         }
 
         private void M_state_FinishedLoadFile(object sender, EventArgs e)
         {
+            this.NearText = m_state.CharName;
             this.Invalidate();
         }
 
         private void M_state_ChangeCurrentChar(object sender, CurrentCharEventArgs e)
         {
+            this.NearText = m_state.CharName;
             this.Invalidate();
         }
         #endregion
@@ -49,50 +53,9 @@ namespace WizEdit
         protected override void InitLayout()
         {
             base.InitLayout();
-            this.BackColor = Color.Black;
-            this.ForeColor = Color.White;
-            this.Size = new Size(150, 24);
-            this.MaximumSize = this.Size;
-            this.MinimumSize = this.Size;
+            this.SetSize(new Size(120, 24));
         }
-        // *********************************************************************
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            SolidBrush sb = new SolidBrush(this.BackColor);
-            Pen p = new Pen(Color.DarkGray);
-            p.Width = 2;
-            StringFormat sf = new StringFormat();
-            sf.Alignment = StringAlignment.Near;
-            sf.LineAlignment = StringAlignment.Center;
-            Graphics g = e.Graphics;
-            try
-            {
-                Rectangle rct = new Rectangle(0, 0, this.Size.Width, this.Size.Height);
-                g.FillRectangle(sb,rct);
-
-                g.DrawRectangle(p, rct);
-
-                if (m_state != null)
-                {
-                    string cn = m_state.CharName;
-                    if (cn != "")
-                    {
-                        sb.Color = this.ForeColor;
-                        g.DrawString(cn, this.Font, sb, rct, sf);
-                    }
-                }
-            }
-            finally
-            {
-                sb.Dispose();
-                p.Dispose();
-                sf.Dispose();
-            }
-
-
-
-        }
+ 
         // *********************************************************************
     }
 }

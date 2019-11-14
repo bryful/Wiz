@@ -57,7 +57,7 @@ namespace WizEdit
 
         private int m_TextSideMargin = 30;
         private int m_TextVurtualMargin = 5;
-        private int m_LineHeight = 20;
+        private int m_LineHeight = 18;
         private int m_LineCount = 20;
         private int m_Width = 150;
 
