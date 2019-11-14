@@ -13,75 +13,59 @@ namespace WizEdit
 {
     public partial class WizConrol : Control
     {
-        private int m_SideMargin = 5;
+        private WizBox wb = new WizBox();
         public int SiseMargin
         {
-            get { return m_SideMargin; }
+            get { return wb.LeftMargin; }
             set
             {
-                m_SideMargin = value;
+                wb.LeftMargin = value;
+                wb.RightMargin = value;
                 this.Invalidate();
             }
         }
-
-        private int m_TopMargin = 5;
         public int TopMargin
         {
-            get { return m_TopMargin; }
+            get { return wb.TopMargin; }
             set
             {
                 int v = value;
                 if (v < 0) v = 0;
-                if (m_TopMargin != v)
-                {
-                    m_TopMargin = v;
-                    this.Invalidate();
-                }
+                wb.TopMargin = v;
+                this.Invalidate();
             }
         }
-        private int m_BottomMargin = 5;
         public int BottomMargin
         {
-            get { return m_BottomMargin; }
+            get { return wb.BottomMargin; }
             set
             {
                 int v = value;
                 if (v < 0) v = 0;
-                if (m_BottomMargin != v)
-                {
-                    m_BottomMargin = v;
-                    this.Invalidate();
-                }
+                wb.BottomMargin = v;
+                this.Invalidate();
             }
         }
-        private int m_Corner = 5;
         public int Corner
         {
-            get { return m_Corner; }
+            get { return wb.Corner; }
             set
             {
                 int v = value;
                 if (v < 0) v = 0;
-                if (m_Corner != v)
-                {
-                    m_Corner = v;
-                    this.Invalidate();
-                }
+                wb.Corner = v;
+                this.Invalidate();
             }
         }
-        private int m_LineWidth = 3;
         public int LineWidth
         {
-            get { return m_LineWidth; }
+            get { return wb.LineWidth; }
             set
             {
                 int v = value;
                 if (v < 0) v = 0;
-                if (m_LineWidth != v)
-                {
-                    m_LineWidth = v;
-                    this.Invalidate();
-                }
+                wb.LineWidth = v;
+                this.Invalidate();
             }
         }
         // ************************************************************
@@ -100,38 +84,12 @@ namespace WizEdit
         protected override void OnPaint(PaintEventArgs e)
         {
             //base.OnPaint(e);
-            Graphics g = e.Graphics;
-            SolidBrush sb = new SolidBrush(this.BackColor);
-            Pen p = new Pen(this.ForeColor);
-            p.Width = m_LineWidth;
-            p.LineJoin = LineJoin.Round;
-            try
-            {
-                //塗りつぶし
-                g.FillRectangle(sb, this.Bounds);
+            wb.Graphics = e.Graphics;
+            wb.Size = this.ClientSize;
+            wb.Back = this.BackColor;
+            wb.Fore = this.ForeColor;
+            wb.DrawFrame();
 
-                if (m_LineWidth > 0)
-                {
-                    int w = this.ClientSize.Width;
-                    int h = this.ClientSize.Height;
-                    Point[] ps = {
-                        new Point(m_SideMargin, m_TopMargin+m_Corner),
-                        new Point(m_SideMargin+m_Corner, m_TopMargin),
-                        new Point(w - m_SideMargin - m_Corner, m_TopMargin),
-                        new Point(w - m_SideMargin , m_TopMargin+m_Corner),
-                        new Point(w - m_SideMargin , h-m_BottomMargin-m_Corner),
-                        new Point(w - m_SideMargin -m_Corner, h-m_BottomMargin),
-                        new Point(m_SideMargin + m_Corner, h-m_BottomMargin),
-                        new Point(m_SideMargin , h-m_BottomMargin-m_Corner)
-                        };
-                    g.DrawPolygon(p, ps);
-                }
-            }
-            finally
-            {
-                sb.Dispose();
-                p.Dispose();
-            }
         }
         // ************************************************************
 

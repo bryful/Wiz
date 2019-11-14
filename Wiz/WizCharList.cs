@@ -13,7 +13,16 @@ namespace WizEdit
 {
     public class WizCharList : WizConrol
     {
-
+        private bool m_IsActive = true;
+        public bool IsActive
+        {
+            get { return m_IsActive; }
+            set
+            {
+                m_IsActive = value;
+                this.Invalidate();
+            }
+        }
         public event EventHandler ChangedSelectedIndex;
         protected virtual void OnChangedSelectedIndex(EventArgs e)
         {
@@ -31,6 +40,7 @@ namespace WizEdit
                 {
                     m_state.FinishedLoadFile += RedrawAction;
                     m_state.ChangeCurrentChar += RedrawAction;
+                    this.Invalidate();
                 }
             }
         }
@@ -45,7 +55,7 @@ namespace WizEdit
         }
         // ***********************************
 
-        private int m_TextSideMargin = 20;
+        private int m_TextSideMargin = 30;
         private int m_TextVurtualMargin = 5;
         private int m_LineHeight = 20;
         private int m_LineCount = 20;
@@ -82,12 +92,14 @@ namespace WizEdit
             sf.Alignment = StringAlignment.Near;
             sf.LineAlignment = StringAlignment.Center;
             Graphics g = e.Graphics;
+
             try
             {
+                //テキストの描画範囲
                 Rectangle rct = new Rectangle(
                     this.SiseMargin + m_TextSideMargin,
                     this.TopMargin + m_TextVurtualMargin,
-                    this.ClientSize.Width - (this.SiseMargin + m_TextSideMargin) * 2,
+                    this.ClientSize.Width - (this.SiseMargin*2 + m_TextSideMargin+15),
                     m_LineHeight
                     );
                 for (int i = 0; i < names.Length; i++)
@@ -97,15 +109,12 @@ namespace WizEdit
                         Rectangle rr = new Rectangle(rct.Left, rct.Top + 6, rct.Width, rct.Height - 12);
                         sb.Color = Color.Blue;
                         g.FillRectangle(sb, rr);
-                        sb.Color = this.ForeColor;
-
-                        Point[] ps = new Point[]
+                        if (m_IsActive == true)
                         {
-                            new Point(rr.Left-15,rr.Top),
-                            new Point(rr.Left-3,rr.Top+4),
-                            new Point(rr.Left-15,rr.Top + 8)
-                        };
-                        g.FillPolygon(sb, ps);
+                            sb.Color = Color.Red;
+                            WizU.DrawCursor(g, sb, rct.Left - 25, rct.Top);
+                        }
+                        sb.Color = this.ForeColor;
                     }
                     g.DrawString(names[i], this.Font, sb, rct, sf);
 
@@ -123,6 +132,7 @@ namespace WizEdit
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
+            if (m_IsActive == false) return;
             if (m_state != null)
             {
                 int c = (e.Y - (this.TopMargin + m_TextVurtualMargin)) / m_LineHeight;
@@ -130,31 +140,30 @@ namespace WizEdit
                 {
                     m_state.CurrentChar = c;
                 }
-                this.Focus();
             }
 
         }
         // ****************************************************************************
         public void CursolDown()
         {
+            if (m_IsActive == false) return;
             if ( m_state !=null)
             {
                 if ( (m_state.CurrentChar>=0)&&(m_state.CurrentChar< m_state.CharCount-1))
                 {
                     m_state.CurrentChar = m_state.CurrentChar + 1;
-                    this.Invalidate();
                 }
             }
         }
         // ****************************************************************************
         public void CursolUp()
         {
+            if (m_IsActive == false) return;
             if (m_state != null)
             {
                 if ((m_state.CurrentChar >= 1) && (m_state.CurrentChar < m_state.CharCount))
                 {
                     m_state.CurrentChar = m_state.CurrentChar - 1;
-                    this.Invalidate();
                 }
             }
         }

@@ -15,10 +15,11 @@ using Codeplex.Data;
 /// <summary>
 /// 基本となるアプリのスケルトン
 /// </summary>
-namespace WizEdit
+namespace WIzSaveChk
 {
     public partial class Form1 : Form
     {
+        private byte[] m_save = new byte[0];
         //-------------------------------------------------------------
         /// <summary>
         /// コンストラクタ
@@ -26,33 +27,7 @@ namespace WizEdit
         public Form1()
         {
             InitializeComponent();
-
-
-
-
-            this.KeyPreview = true;
-            //m_state.FinishedLoadFile += M_state_FinishedLoadFile;
-            //m_state.ChangeCurrentChar += M_state_ChangeCurrentChar;
-
-            wizSelectControl1.SetIsDisp(false);
-            wizSelectControl1.MouseDoubleClick += WizSelectControl1_MouseDoubleClick;
-            wizSelectControl1.SetFont(wizCharList1.Font);
-
         }
-
-
-
-        // ***************************************************************
-        private void M_state_FinishedLoadFile(object sender, EventArgs e)
-        {
-        }
-        // ***************************************************************
-        private void M_state_ChangeCurrentChar(object sender, CurrentCharEventArgs e)
-        {
-            //combWizAlg1.Alg =
-        }
-        // ***************************************************************
-
         /// <summary>
         /// コントロールの初期化はこっちでやる
         /// </summary>
@@ -72,7 +47,8 @@ namespace WizEdit
             JsonPref pref = new JsonPref();
             if (pref.Load())
             {
-                Size sz = pref.GetSize("Size", out bool ok);
+                bool ok = false;
+                Size sz = pref.GetSize("Size", out ok);
                 if (ok) this.Size = sz;
                 Point p = pref.GetPoint("Point", out ok);
                 if (ok) this.Location = p;
@@ -135,8 +111,12 @@ namespace WizEdit
             {
                 foreach (string s in cmd)
                 {
-                    if (LoadFile(s) == true) break;
-                }                
+                    if (LoadFile(s)==true)
+                    {
+                        DispSave();
+                        break;
+                    }
+                }
             }
         }
         /// <summary>
@@ -154,79 +134,68 @@ namespace WizEdit
         {
             AppInfoDialog.ShowAppInfoDialog();
         }
-
-        /// <summary>
-        /// Stateファイルを読み込む
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
         public bool LoadFile(string p)
         {
-            return wizNesState1.LoadFile(p);
-        }
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            this.Text = keyData.ToString() + " / Pro";
-
-            if (wizSelectControl1.IsDisp == true)
+            bool ret = false;
+            if (File.Exists(p) == false) return ret;
+            FileStream fs = new FileStream(p, FileMode.Open, FileAccess.Read);
+            try
             {
-                if ((keyData == Keys.Escape))
-                {
-                    HideSelectControl();
-                } else if ((keyData==Keys.Return)|| (keyData == Keys.Return))
-                {
-                    HideSelectControl();
-                }
+                int fsize = (int)fs.Length;
+                m_save = new byte[fsize];
+                int sz = fs.Read(m_save, 0, fsize);
+                ret = (sz == fsize);
             }
-            else
+            finally
             {
-
-
-                if (wizNesState1 != null)
-                {
-                    if ((keyData == Keys.Up) || (keyData == Keys.A)) { wizCharList1.CursolUp(); }
-                    else if ((keyData == Keys.Down) || (keyData == Keys.Z)) { wizCharList1.CursolDown(); }
-                }
+                fs.Close();
             }
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
-        private void WizSelectControl1_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            HideSelectControl();
-        }
-        public void OpenSelectDialog()
-        {
-            wizSelectControl1.SetOwnerSize(wizNameBox1);
-            wizSelectControl1.ClearItem();
-            wizSelectControl1.AddItem("Good");
-            wizSelectControl1.AddItem("Neutral");
-            wizSelectControl1.AddItem("Evil");
-            wizSelectControl1.SelectedIndex = 1;
-            ShowSelectControl();
-
-        }
-        public void ShowSelectControl()
-        {
-            if (wizSelectControl1.IsDisp == false)
+            if (ret == false)
             {
-                wizSelectControl1.SetIsDisp(true);
-                wizCharList1.IsActive = false;
+                m_save = new byte[0];
             }
-
+            return ret;
         }
-        public void HideSelectControl()
+        public void DispSave()
         {
-            if (wizSelectControl1.IsDisp == true)
+            listBox1.Items.Clear();
+            if (m_save.Length <= 0x80) return;
+            for ( int i=0;i<0x80;i++)
             {
-                wizSelectControl1.SetIsDisp(false);
-                wizCharList1.IsActive = true;
+                string s = String.Format("{0:X4} - {1:X2}", i, m_save[i]);
+                listBox1.Items.Add(s);
             }
+            AddShort();
 
         }
-
-        private void wizNameBox1_Click(object sender, EventArgs e)
+        public void AddByte()
         {
-            OpenSelectDialog();
+            edAddByte.Text = "";
+            if (m_save.Length <= 0x80) return;
+
+            int v =0;
+            for ( int i=0; i<0x7E;i++)
+            {
+                v = v ^ (int)m_save[i];
+            }
+            string s = String.Format("{0:X6}", v);
+            edAddByte.Text = s;
+
+        }
+        public void AddShort()
+        {
+            edAddByte.Text = "";
+            if (m_save.Length <= 0x80) return;
+
+            int v = 0xFFFF;
+            for (int i = 0; i < 0x3F; i++)
+            {
+                v  = v * ( (int)m_save[i*2] + (int)m_save[i * 2+1] * 0x100);
+                v = v & 0xFFFF;
+            }
+            string s = String.Format("{0:X6}", v);
+            edAddByte.Text = s;
         }
     }
 }
+

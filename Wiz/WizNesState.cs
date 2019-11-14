@@ -110,50 +110,19 @@ namespace WizEdit
                 if ((value >= 0) && (value < m_CharCount))
                 {
                     m_CurrentChar = value;
-                    //イベント発生
-                    CurrentCharEventArgs e = new CurrentCharEventArgs();
-                    e.CurrentChar = m_CurrentChar;
-                    OnChangeCurrentChar(e);
                 }
+                else
+                {
+                    m_CurrentChar = -1;
+                }
+                //イベント発生
+                CurrentCharEventArgs e = new CurrentCharEventArgs();
+                e.CurrentChar = m_CurrentChar;
+                OnChangeCurrentChar(e);
             }
         }
 
         #endregion
-
-        private WizCharList m_WizCharList = null;
-        public WizCharList WizCharList
-        {
-            get { return m_WizCharList; }
-            set
-            {
-                m_WizCharList = value;
-                if (m_WizCharList != null)
-                {
-                    m_WizCharList.WizNesState = this;
-                    this.ChangeCurrentChar += WizNesState_ChangeCurrentChar;
-                    this.FinishedLoadFile += WizNesState_FinishedLoadFile;
-                }
-            }
-        }
-
-        private void WizNesState_FinishedLoadFile(object sender, EventArgs e)
-        {
-            if (m_WizCharList != null)
-            {
-                m_WizCharList.Invalidate();
-            }
-        }
-
-        private void WizNesState_ChangeCurrentChar(object sender, CurrentCharEventArgs e)
-        {
-            if (m_WizCharList!=null)
-            {
-                m_WizCharList.Invalidate();
-            }
-        }
-
-
-
 
         #region Const Text
         static public readonly string[] RaceStr = new string[]
@@ -188,6 +157,10 @@ namespace WizEdit
         /// </summary>
         public WizNesState()
         {
+            if (ResLoad()==true)
+            {
+
+            }
         }
         /// <summary>
         /// キャラクターの先頭アドレス
@@ -520,7 +493,7 @@ namespace WizEdit
                 m_CharCount = GetCharCount();
                 if(m_CharCount>0)
                 {
-                    m_CurrentChar = 0;
+                    CurrentChar = 0;
                 }
             }
 
@@ -558,11 +531,24 @@ namespace WizEdit
             }
             //イベント
             OnFinishedLoadFile(EventArgs.Empty);
-            if(m_WizCharList!=null)
-            {
-                m_WizCharList.Invalidate();
-            }
 
+            return ret;
+        }
+        public bool ResLoad()
+        {
+            bool ret = false;
+            byte[] bs = Properties.Resources.wiz1;
+            int ln = bs.Length;
+            if (ln>0)
+            {
+                m_stateBuf = new byte[ln];
+                for (int i = 0; i < ln; i++) m_stateBuf[i] = bs[i];
+                ret = ChkState();
+                if (ret == false)
+                {
+                    m_stateBuf = new byte[0];
+                }
+            }
             return ret;
         }
     }
