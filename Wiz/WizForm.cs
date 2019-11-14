@@ -14,7 +14,7 @@ namespace WizEdit
     {
         private WizBox wb = new WizBox();
         private WizBox wbCap = new WizBox();
-        private string m_Caption = "Wizardry FC State File Editor";
+        private string m_Caption = "Wizardry(FC) State File Editor";
         private WizNesState m_state = null;
         public WizNesState WizNesState
         {
@@ -32,6 +32,9 @@ namespace WizEdit
             InitializeComponent();
             wb.Rectangle = this.ClientRectangle;
             wb.TopMargin = 50;
+            wb.LeftMargin = 20;
+            wb.RightMargin = 20;
+            wb.BottomMargin = 10;
 
             wbCap.Size = new Size(220, 40);
         }

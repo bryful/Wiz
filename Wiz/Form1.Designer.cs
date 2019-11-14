@@ -52,7 +52,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(758, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(918, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -123,7 +123,7 @@
             this.wizNameBox1.FarText = "";
             this.wizNameBox1.ForeColor = System.Drawing.Color.White;
             this.wizNameBox1.IsDrawFrame = false;
-            this.wizNameBox1.Location = new System.Drawing.Point(217, 91);
+            this.wizNameBox1.Location = new System.Drawing.Point(183, 99);
             this.wizNameBox1.MaximumSize = new System.Drawing.Size(140, 26);
             this.wizNameBox1.MinimumSize = new System.Drawing.Size(140, 26);
             this.wizNameBox1.Name = "wizNameBox1";
@@ -140,7 +140,7 @@
             this.wizCharList1.ForeColor = System.Drawing.Color.White;
             this.wizCharList1.IsActive = true;
             this.wizCharList1.LineWidth = 3;
-            this.wizCharList1.Location = new System.Drawing.Point(28, 81);
+            this.wizCharList1.Location = new System.Drawing.Point(27, 82);
             this.wizCharList1.MaximumSize = new System.Drawing.Size(150, 360);
             this.wizCharList1.MinimumSize = new System.Drawing.Size(150, 360);
             this.wizCharList1.Name = "wizCharList1";
@@ -157,16 +157,16 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(758, 454);
+            this.ClientSize = new System.Drawing.Size(918, 519);
             this.Controls.Add(this.wizCharList1);
             this.Controls.Add(this.wizNameBox1);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
-            this.MinimumSize = new System.Drawing.Size(16, 490);
+            this.MinimumSize = new System.Drawing.Size(500, 500);
             this.Name = "Form1";
-            this.Text = "{X=0,Y=0,Width=758,Height=454}";
+            this.Text = "{X=0,Y=0,Width=918,Height=519}";
             this.WizNesState = this.wizNesState1;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
