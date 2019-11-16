@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace WizEdit
 {
-    public partial class WizSelectControl : WizConrol
+    public partial class WizSelectControl : WizBoxControl
     {
         private bool m_IsDisp = false;
         public bool IsDisp { get { return m_IsDisp; } }
@@ -32,7 +32,16 @@ namespace WizEdit
             m_ListBox.ScrollAlwaysVisible = true;
             m_ListBox.MouseDoubleClick += M_ListBox_MouseDoubleClick;
         }
-
+        public bool IsShowScrol
+        {
+            get { return m_ListBox.ScrollAlwaysVisible; }
+            set { m_ListBox.ScrollAlwaysVisible = value; }
+        }
+        public bool ListEnabled
+        {
+            get { return m_ListBox.Enabled; }
+            set { m_ListBox.Enabled = value; }
+        }
         private void M_ListBox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             this.OnMouseDoubleClick(e);

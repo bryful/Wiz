@@ -47,15 +47,51 @@ namespace WizEdit
         EVIL
     }
 
+    public enum WIZSTATUS
+    {
+        // 0:OK, 1:ASLEEP, 2:AFRAID, 3:PARALY, 4:STONED, 5:DEAD, 6:ASHED, 7:LOST
+        OK=0,
+        ASLEEP,
+        AFRAID,
+        PARALY,
+        STONED,
+        DEAD,
+        ASHED,
+        LOST
+    }
+
+
     #endregion
 
 
+    public class MagicPoint
+    {
+        public byte[] NowP = new byte[7];
+        public byte[] MaxP = new byte[7];
+        public byte[] Learning = new byte[7];
+        public MagicPoint()
+        {
+            Clear();
+        }
+        public void Clear()
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                NowP[i] = 0;
+                MaxP[i] = 0;
+                Learning[i] = 0;
+            }
+        }
+    }
+   
     public class CurrentCharEventArgs : EventArgs
     {
         public int CurrentChar;
     }
     public class WizNesState :Component
     {
+        public const int BounusCount = 6;
+ 
         #region Event
         //CurrentCharが変更された時
         public delegate void ChangeCurrentCharHandler(object sender, CurrentCharEventArgs e);
@@ -101,24 +137,38 @@ namespace WizEdit
         /// </summary>
         public int CharCount { get { return m_CharCount; } }
 
-        private int m_CurrentChar = -1;
-        public int CurrentChar
+        private int m_CharCurrent = -1;
+        public int CharCurrent
         {
-            get { return m_CurrentChar; }
+            get { return m_CharCurrent; }
             set
             {
                 if ((value >= 0) && (value < m_CharCount))
                 {
-                    m_CurrentChar = value;
+                    m_CharCurrent = value;
                 }
                 else
                 {
-                    m_CurrentChar = -1;
+                    m_CharCurrent = -1;
                 }
                 //イベント発生
                 CurrentCharEventArgs e = new CurrentCharEventArgs();
-                e.CurrentChar = m_CurrentChar;
+                e.CurrentChar = m_CharCurrent;
                 OnChangeCurrentChar(e);
+            }
+        }
+        public void CharCurrentUp()
+        {
+            if ((m_CharCurrent>0)&&(m_CharCount>0))
+            {
+                CharCurrent = m_CharCurrent - 1;
+            }
+        }
+        public void CharCurrentDown()
+        {
+            if ((m_CharCurrent < m_CharCount -1) && (m_CharCount > 0))
+            {
+                CharCurrent = m_CharCurrent + 1;
             }
         }
 
@@ -133,7 +183,7 @@ namespace WizEdit
             "GNOME",
             "HOBIT"
         };
-        static public readonly string[] JobStr = new string[]
+        static public readonly string[] ClassStr = new string[]
         {
             "FIG",
             "MAG",
@@ -149,6 +199,19 @@ namespace WizEdit
             "Good",
             "Neutral",
             "Evil"
+       };
+        static public readonly string[] StatusStr = new string[]
+       {
+           // 0:OK, 1:ASLEEP, 2:AFRAID, 3:PARALY, 4:STONED, 5:DEAD, 6:ASHED, 7:LOST
+            "OK",
+            "ASLEEP",
+            "AFRAID",
+            "PARALY",
+            "STONED",
+            "DEAD",
+            "ASHED",
+            "LOST",
+            ""
        };
         #endregion
         // ***********************************************************************
@@ -236,10 +299,10 @@ namespace WizEdit
         // ************************************************************************
         public string CharName
         {
-            get { return CharNameFromIndex(m_CurrentChar); }
+            get { return CharNameFromIndex(m_CharCurrent); }
         }
         // ************************************************************************
-        public WIZRACE RaceFromIndex(int idx)
+        public WIZRACE CharRaceFromIndex(int idx)
         {
             WIZRACE ret = WIZRACE.HUMAN;
             if ((idx<0)||(idx>=m_CharCount))
@@ -265,13 +328,62 @@ namespace WizEdit
             return ret;
         }
         // ************************************************************************
-        public WIZRACE Race
+        public  void SetCharRaceFromIndex(int idx, WIZRACE r)
         {
-            get { return RaceFromIndex(m_CurrentChar);}
+            /*
+            //種族                  //76543210 5-7bit
+	        Wiz2Human	=	$00;    //00000000 人間
+	        Wiz2Elf		=	$20;    //00100000 エルフ
+	        Wiz2Dwarf	=	$40;	//01000000 ドワーフ
+	        Wiz2Gnome	=	$60;	//01100000 ノーム
+	        Wiz2Hobit	=	$80;	//10000000 ホビット
+             */
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x0A;
+                    m_stateBuf[adr] = (byte)((byte)r & 0x07);
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x0A;
+                    byte v = m_stateBuf[adr];
+                    byte v2 = (byte)(((byte)r & 0x07) << 5);
+                    v = (byte)((v & 0x1F) | v2);
+                    m_stateBuf[adr] = v;
+                    break;
+            }
+        }
+        // ************************************************************************
+        public WIZRACE CharRace
+        {
+            get { return CharRaceFromIndex(m_CharCurrent);}
+            set { SetCharRaceFromIndex(m_CharCurrent, value); }
+        }
+        // ************************************************************************
+        public string CharRaceStr
+        {
+            get
+            {
+                WIZRACE idx = CharRaceFromIndex(m_CharCurrent);
+                if ((idx >= WIZRACE.HUMAN) && (idx <= WIZRACE.HOBIT))
+                {
+                    return RaceStr[(int)idx];
+                }
+                else
+                {
+                    return "???";  
+                }
+            }
         }
 
         // ************************************************************************
-        public WIZCLASS ClassFromIndex(int idx)
+        public WIZCLASS CharClassFromIndex(int idx)
         {
             WIZCLASS ret = WIZCLASS.FIG;
             if ((idx < 0) || (idx >= m_CharCount))
@@ -295,12 +407,65 @@ namespace WizEdit
             return ret;
         }
         // ************************************************************************
-        public WIZCLASS CLASS
+        public void SetCharClassFromIndex(int idx, WIZCLASS cl)
         {
-            get { return ClassFromIndex(m_CurrentChar); }
+            /*
+             *
+            職業                    //76543210 2-4bit
+	        Wiz2Fighter	= $00;	    //00000000せんし
+	        Wiz2Mage		= $04;	//00000100まほうつかい
+	        Wiz2Priest	= $08;	    //00001000そうりょ
+	        Wiz2Thief		= $0C;	//00001100シーフ
+	        Wiz2Bishop	= $10;	    //00010000ビショップ
+	        Wiz2Sumrai	= $14;	    //00010100サムライ
+	        Wiz2Lord		= $18;	//00011000ロード
+	        Wiz2Ninja		= $1C;	//00011100ニンジャ
+
+             */
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x0B;
+                    m_stateBuf[adr] = (byte)((byte)cl & 0x07);
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x0A;
+                    byte v = m_stateBuf[adr];
+                    byte v2 = (byte)(((byte)cl & 0x07) << 2); // 
+                    v = (byte)((v & 0xE3) | v2);
+                    m_stateBuf[adr] = v;
+                    break;
+            }
         }
         // ************************************************************************
-        public WIZALG AlgFromIndex(int idx)
+        public WIZCLASS CharClass
+        {
+            get { return CharClassFromIndex(m_CharCurrent); }
+            set { SetCharClassFromIndex(m_CharCurrent, value); }
+        }
+        public string CharClassStr
+        {
+            get
+            {
+                WIZCLASS idx = CharClassFromIndex(m_CharCurrent);
+                if((idx>=WIZCLASS.FIG)&&(idx<=WIZCLASS.NIN))
+                {
+                    return ClassStr[(int)idx];
+                }
+                else
+                {
+                    return "???";
+                }
+            }
+        }
+        // ************************************************************************
+        public WIZALG CharAlgFromIndex(int idx)
         {
             WIZALG ret = WIZALG.GOOD;
             if ((idx < 0) || (idx >= m_CharCount))
@@ -326,19 +491,527 @@ namespace WizEdit
             return ret;
         }
         // ************************************************************************
-        public WIZALG Alg
+        public void SetCharAlgFromIndex(int idx, WIZALG alg)
         {
-            get { return AlgFromIndex(m_CurrentChar); }
+            /*
+             * 
+             * Const
+
+           //属性                    //76543210 0-1Bit
+	        Wiz2Good		=00;    //00000000 Ｇ
+	        Wiz2Neutral	=01;		//00000001 Ｎ
+	        Wiz2Evil		=02;	//00000010 Ｅ
+	        Wiz2Etc			=03;	//00000011 ？ (？はどの属性とも組めるが、全ての装備が呪われるし、転職ができない。魔物？)
+    */
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x0C;
+                    m_stateBuf[adr] = (byte)((byte)alg & 0x03);
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    //adr += 0x0A;
+                    byte v = m_stateBuf[adr + 0x0A];
+                    v = (byte)((v & 0xFC) | (byte)alg);
+                    m_stateBuf[adr + 0x0A] = v;
+                    break;
+            }
         }
         // ************************************************************************
-        public byte[] GetCharData(int idx)
+        public WIZALG CharAlg
+        {
+            get { return CharAlgFromIndex(m_CharCurrent); }
+            set { SetCharAlgFromIndex(m_CharCurrent, value); }
+        }
+        // ************************************************************************
+        public string CharAlgStr
+        {
+            get
+            {
+                WIZALG idx = CharAlgFromIndex(m_CharCurrent);
+                if ((idx >= WIZALG.GOOD) && (idx <= WIZALG.EVIL))
+                {
+                    return AlgStr[(int)idx];
+                }else
+                {
+                    return "???";
+                }
+            }
+        }
+        // ************************************************************************
+        public int CharLevelFromIndex(int idx)
+        {
+            int ret = 1;
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x23;
+                    ret = ((int)m_stateBuf[adr] * 0x100 + (int)m_stateBuf[adr + 1]);
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x21;
+                    ret = ((int)m_stateBuf[adr] * 0x100 + (int)m_stateBuf[adr + 1]);
+                    break;
+                default:
+                    return ret;
+            }
+
+            return ret;
+        }
+        // ************************************************************************
+        public int CharLevel
+        {
+            get { return CharLevelFromIndex(m_CharCurrent); }
+        }
+        // ************************************************************************
+        public long CharGoldFromIndex(int idx)
+        {
+            long ret = 1;
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x13;
+                    ret = WizU.WizHexToLong(GetCode(adr, 6));
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x11;
+                    ret = WizU.WizHexToLong(GetCode(adr, 6));
+                    break;
+                default:
+                    return ret;
+            }
+
+            return ret;
+        }
+        // ************************************************************************
+        public long CharGold
+        {
+            get { return CharGoldFromIndex(m_CharCurrent); }
+        }
+        // ************************************************************************
+        public long CharExpFromIndex(int idx)
+        {
+            long ret = 1;
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x19;
+                    ret = WizU.WizHexToLong(GetCode(adr, 6));
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x17;
+                    ret = WizU.WizHexToLong(GetCode(adr, 6));
+                    break;
+                default:
+                    return ret;
+            }
+
+            return ret;
+        }
+        // ************************************************************************
+        public long CharExp
+        {
+            get { return CharExpFromIndex(m_CharCurrent); }
+        }
+        // ************************************************************************
+        public int CharAgeFromIndex(int idx)
+        {
+            int ret = 1;
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x26;
+                    ret = (int)m_stateBuf[adr];
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x24;
+                    ret = (int)m_stateBuf[adr];
+                    break;
+                default:
+                    return ret;
+            }
+
+            return ret;
+        }
+        // ************************************************************************
+        public long CharAge
+        {
+            get { return CharAgeFromIndex(m_CharCurrent); }
+        }
+        // ************************************************************************
+        public int CharWeekFromIndex(int idx)
+        {
+            int ret = 1;
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x27;
+                    ret = (int)m_stateBuf[adr];
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x25;
+                    ret = (int)m_stateBuf[adr];
+                    break;
+                default:
+                    return ret;
+            }
+
+            return ret;
+        }
+        // ************************************************************************
+        public long CharWeek
+        {
+            get { return CharWeekFromIndex(m_CharCurrent); }
+        }
+        // ************************************************************************
+        public int CharACFromIndex(int idx)
+        {
+            int ret = 1;
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x28;
+                    ret = (int)m_stateBuf[adr];
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x26;
+                    ret = (int)m_stateBuf[adr];
+                    break;
+                default:
+                    return ret;
+            }
+
+            return ret;
+        }
+        // ************************************************************************
+        public long CharAC
+        {
+            get { return CharACFromIndex(m_CharCurrent); }
+        }       // 
+        // ************************************************************************
+        public byte[] CharBounusFromIndex(int idx)
+        {
+            byte[] ret = new byte[BounusCount];
+
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                for (int i =0; i < BounusCount; i++) ret[i] = 0;
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x0D;
+                    ret = GetCode(adr, BounusCount);
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x0B;
+                    ret = GetCode(adr, BounusCount);
+                    break;
+                default:
+                    return ret;
+            }
+
+            return ret;
+        }
+        // ************************************************************************
+        public byte[] CharBounus
+        {
+            get { return CharBounusFromIndex(m_CharCurrent); }
+        }
+        // ************************************************************************
+        public int CharHPFromIndex(int idx)
+        {
+            int ret = 0;
+
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x1F;
+                    ret = m_stateBuf[adr]* 0x100 + m_stateBuf[adr+1];
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x1D;
+                    ret = m_stateBuf[adr] * 0x100 + m_stateBuf[adr + 1];
+                    break;
+                default:
+                    return ret;
+            }
+
+            return ret;
+        }
+        // ************************************************************************
+        public int CharHP
+        {
+            get { return CharHPFromIndex(m_CharCurrent); }
+        }
+        // ************************************************************************
+        public int CharHPMaxFromIndex(int idx)
+        {
+            int ret = 0;
+
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x21;
+                    ret = m_stateBuf[adr] * 0x100 + m_stateBuf[adr + 1];
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x1F;
+                    ret = m_stateBuf[adr] * 0x100 + m_stateBuf[adr + 1];
+                    break;
+                default:
+                    return ret;
+            }
+
+            return ret;
+        }
+        // ************************************************************************
+        public int CharHPMax
+        {
+            get { return CharHPMaxFromIndex(m_CharCurrent); }
+        }
+        // ************************************************************************
+        public WIZSTATUS CharStatusFromIndex(int idx)
+        {
+            WIZSTATUS ret = WIZSTATUS.OK;
+
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            int v = 0;
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x25;
+                    v = (int)(m_stateBuf[adr] & 0x7);
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x23;
+                    v = (int)(m_stateBuf[adr] & 0x7);
+                    break;
+                default:
+                    return ret;
+            }
+            ret = (WIZSTATUS)v;
+
+            return ret;
+        }
+        // ************************************************************************
+        public WIZSTATUS CharStatus
+        {
+            get { return CharStatusFromIndex(m_CharCurrent); }
+        }
+        public string CharStatusStr
+        {
+            get
+            {
+                WIZSTATUS s = CharStatusFromIndex(m_CharCurrent);
+                return StatusStr[ (int)s];
+            }
+        }
+        // ************************************************************************
+        public byte[] CharDataFromIndex(int idx)
         {
             int sz = CharSize;
             byte[] ret = new byte[sz];
             if (sz <= 0) return ret;
+            if ((idx < 0) || (idx >= m_CharCount)) return ret;
 
             return GetCode(CharAdr(idx), sz);
 
+        }
+        // ************************************************************************
+        public byte[] CharData
+        {
+            get { return CharDataFromIndex(m_CharCurrent); }
+        }
+        // ************************************************************************
+        public MagicPoint CharMagicFromIndex(int idx)
+        {
+            MagicPoint ret = new MagicPoint();
+
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    ret.NowP = GetCode(adr + 0x29, 7);
+                    ret.MaxP = GetCode(adr + 0x37, 7);
+                    ret.Learning = GetCode(adr + 0x45, 7);
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    byte [] a = GetCode(adr + 0x27, 7);
+                    for ( int i=0; i<7; i++)
+                    {
+                        ret.NowP[i] = (byte)((a[i] >> 4) & 0xF);
+                        ret.MaxP[i] = (byte)(a[i] & 0xF);
+                    }
+                    ret.Learning = GetCode(adr + 0x35, 7);
+                    break;
+                default:
+                    return ret;
+            }
+            return ret;
+
+        }
+        // ************************************************************************
+        public MagicPoint CharMagic
+        {
+            get { return CharMagicFromIndex(m_CharCurrent); }
+        }
+        // ************************************************************************
+        public MagicPoint CharPriestFromIndex(int idx)
+        {
+            MagicPoint ret = new MagicPoint();
+
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    ret.NowP = GetCode(adr + 0x30, 7);
+                    ret.MaxP = GetCode(adr + 0x3E, 7);
+                    ret.Learning = GetCode(adr + 0x45, 7);
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    byte[] a = GetCode(adr + 0x2E, 7);
+                    for (int i = 0; i < 7; i++)
+                    {
+                        ret.NowP[i] = (byte)((a[i] >> 4) & 0xF);
+                        ret.MaxP[i] = (byte)(a[i] & 0xF);
+                    }
+                    ret.Learning = GetCode(adr + 0x3C, 7);
+                    break;
+                default:
+                    return ret;
+            }
+            return ret;
+
+        }
+        // ************************************************************************
+        public MagicPoint CharPriest
+        {
+            get { return CharPriestFromIndex(m_CharCurrent); }
+        }
+        // ************************************************************************
+        public WizItem [] CharItemsFromIndex(int idx)
+        {
+            WizItem[] ret = new WizItem[0];
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            int cnt = 0;
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    cnt = m_stateBuf[adr + 0x5C];
+                    if (cnt>0)
+                    {
+                        ret = new WizItem[cnt];
+                        for (int i = 0; i < cnt; i++)
+                        {
+                            ret[i] = new WizItem(m_scn);
+                            ret[i].ID = m_stateBuf[adr + 0x54 + i];
+                            ret[i].Status = m_stateBuf[adr + 0x4C + i];
+                        }
+                    }
+
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    cnt = m_stateBuf[adr + 0x53];
+                    if (cnt > 0)
+                    {
+                        ret = new WizItem[cnt];
+                        for (int i = 0; i < cnt; i++)
+                        {
+                            ret[i] = new WizItem(m_scn);
+                            ret[i].ID = m_stateBuf[adr + 0x4B + i];
+                            ret[i].Status = m_stateBuf[adr + 0x43 + i];
+                        }
+                    }
+
+                    break;
+                default:
+                    return ret;
+            }
+            return ret;
+
+        }
+        // ************************************************************************
+        public WizItem[] CharItems
+        {
+            get { return CharItemsFromIndex(m_CharCurrent); }
         }
         // ************************************************************************
         public int GetCharCount()
@@ -459,7 +1132,7 @@ namespace WizEdit
             m_scn = WIZ_SCN.NO;
             m_sramIndex = -1;
             m_CharCount = 0;
-            m_CurrentChar = -1;
+            m_CharCurrent = -1;
 
             //サイズチェック
             if (m_stateBuf.Length < 14872) return ret;
@@ -493,7 +1166,7 @@ namespace WizEdit
                 m_CharCount = GetCharCount();
                 if(m_CharCount>0)
                 {
-                    CurrentChar = 0;
+                    CharCurrent = 0;
                 }
             }
 
@@ -534,7 +1207,8 @@ namespace WizEdit
 
             return ret;
         }
-        public bool ResLoad()
+    // ************************************************************************
+    public bool ResLoad()
         {
             bool ret = false;
             byte[] bs = Properties.Resources.wiz1;

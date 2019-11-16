@@ -1,0 +1,101 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Shift_JIS">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../css.css"> 
+<TITLE>Analysis Top</TITLE>
+</HEAD>
+<BODY><CENTER> <!-- start AD -->
+<CENTER>
+<A href="../../www.infoseek.co.jp/redirect?sv=FM&lk=&ak=aifl-2070-1112-H1375&rd=http://aiful.jp/j.php?/ecashingkssl/KE21A000.do?a=11020201&i=iinf013t06010100" class="##DIRECT##">[PR]ｱｲﾌﾙ　10日間<BR>無利息ｷｬﾝﾍﾟｰﾝ中!</A></CENTER>
+<!-- end AD -->
+</CENTER><HR><P><BR>
+<BLOCKQUOTE>
+※　シリーズ共通説明　※<BR><BR><BR>
+1・クイックセーブファイルは訓練場に入った時に作った物を使用<BR>
+2・セーブファイルはゲーム開始後即終了した物を使用<BR>
+3・原則として初期化後のデータを使って調べています<BR><BR><P>
+<IMG SRC="game.png"><BR>
+（例　画像はSFC#1を使用）<P>
+初期状態で訓練場一番目のキャラクターのステータス画像です<BR>
+まあ、見たままです<P><BR>
+<IMG SRC="bin.png"><BR>
+（その初期状態のデータ詳細）<P>
+反転している部分が1人目のデータ格納場所になっています<BR>
+2人目はその下からですね<P><BR>
+このデータ詳細を表にすると、次のようになります<P><BR>
+<TABLE BORDER>
+<TR><TH>OFFSET</TH><TH WIDTH="30">xxh</TH><TH>詳細</TH><TH>ゲーム内表記</TH><TH>備考</TH></TR>
+<TR><TD COLSPAN="5" BGCOLOR="GRAY"><BR></TD></TR>
+<TR><TD>00000814</TD><TH>01</TH><TD></TD><TD></TD><TD></TD></TR>
+<TR><TD>00000815</TD><TH>04</TH><TD>名前文字数フラグ</TD><TD></TD><TD></TD></TR>
+<TR><TD>00000816</TD><TH>9E</TH><TD>名前1文字目</TD><TD>せ</TD><TD>文字リスト</TD></TR>
+<TR><TD>00000817</TD><TH>FD</TH><TD>名前2文字目</TD><TD>ん</TD><TD>文字リスト</TD></TR>
+<TR><TD>00000818</TD><TH>9C</TH><TD>名前3文字目</TD><TD>し</TD><TD>文字リスト</TD></TR>
+<TR><TD>00000819</TD><TH>31</TH><TD>名前4文字目</TD><TD>１</TD><TD>文字リスト</TD></TR>
+<TR><TD>0000081A</TD><TH>20</TH><TD>名前5文字目</TD><TD>　</TD><TD>文字リスト</TD></TR>
+<TR><TD>0000081B</TD><TH>20</TH><TD>名前6文字目</TD><TD>　</TD><TD>文字リスト</TD></TR>
+<TR><TD>0000081C</TD><TH>20</TH><TD>名前7文字目</TD><TD>　</TD><TD>文字リスト</TD></TR>
+<TR><TD>0000081D</TD><TH>20</TH><TD>名前8文字目</TD><TD>　</TD><TD>文字リスト</TD></TR>
+<TR><TD>0000081E</TD><TH>00</TH><TD>種族 職業 性格</TD><TD>Hum-G-Fig</TD><TD>種族 職業 性格リスト</TD></TR>
+<TR><TD>0000081F</TD><TH>0B</TH><TD>力</TD><TD>11</TD><TD></TD></TR>
+<TR><TD COLSPAN="5" BGCOLOR="GRAY"><BR></TD></TR>
+<TR><TD>00000820</TD><TH>08</TH><TD>知恵</TD><TD>8</TD><TD></TD></TR>
+<TR><TD>00000821</TD><TH>07</TH><TD>信仰心</TD><TD>7</TD><TD></TD></TR>
+<TR><TD>00000822</TD><TH>08</TH><TD>生命力</TD><TD>8</TD><TD></TD></TR>
+<TR><TD>00000823</TD><TH>08</TH><TD>素早さ</TD><TD>8</TD><TD></TD></TR>
+<TR><TD>00000824</TD><TH>09</TH><TD>運の強さ</TD><TD>9</TD><TD></TD></TR>
+<TR><TD>00000825</TD><TH><FONT COLOR="red">00</FONT></TH><TD>所持金</TD><TD></TD><TD>上位:千億　下位:百億</TD></TR>
+<TR><TD>00000826</TD><TH><FONT COLOR="red">00</FONT></TH><TD>所持金</TD><TD></TD><TD>上位:十億　下位:億</TD></TR>
+<TR><TD>00000827</TD><TH><FONT COLOR="red">00</FONT></TH><TD>所持金</TD><TD></TD><TD>上位:千万　下位:百万</TD></TR>
+<TR><TD>00000828</TD><TH><FONT COLOR="red">00</FONT></TH><TD>所持金</TD><TD></TD><TD>上位:十万　下位:万</TD></TR>
+<TR><TD>00000829</TD><TH><FONT COLOR="red">00</FONT></TH><TD>所持金</TD><TD></TD><TD>上位:千　下位:百</TD></TR>
+<TR><TD>0000082A</TD><TH><FONT COLOR="red">00</FONT></TH><TD>所持金</TD><TD>0</TD><TD>上位:十　下位:一</TD></TR>
+<TR><TD>0000082B</TD><TH><FONT COLOR="red">00</FONT></TH><TD>経験値</TD><TD></TD><TD>上位:千億　下位:百億</TD></TR>
+<TR><TD>0000082C</TD><TH><FONT COLOR="red">00</FONT></TH><TD>経験値</TD><TD></TD><TD>上位:十億　下位:億</TD></TR>
+<TR><TD>0000082D</TD><TH><FONT COLOR="red">00</FONT></TH><TD>経験値</TD><TD></TD><TD>上位:千万　下位:百万</TD></TR>
+<TR><TD>0000082E</TD><TH><FONT COLOR="red">00</FONT></TH><TD>経験値</TD><TD></TD><TD>上位:十万　下位:万</TD></TR>
+<TR><TD>0000082F</TD><TH><FONT COLOR="red">00</FONT></TH><TD>経験値</TD><TD></TD><TD>上位:千　下位:百</TD></TR></TABLE><P>
+※　OFFSET<P>
+　　バイナリエディタの時はOFFSETと呼び、プロセスエディタの時はADDRESSと呼びます<BR>
+　　PS等でPARを使用した事がある方はADDRESSと言った方が解りやすいですかね。まあ番地の事です<P>
+※　xxh<P>
+　　初期値を上から下に書いています<BR>
+　　基本的に16進数での管理ですが、例外として赤字は10進数での管理です<P>
+※　詳細<P>
+　　調べた結果、判明したデータ管理部分です<P>
+※　ゲーム内表記<P>
+　　ゲーム内で確認出来ないものは空白です<P>
+※　備考内のリスト<BR>
+　　（このページではリンクを外しています）<P><BR>
+<TABLE BORDER>
+<TR><TD COLSPAN="6" BGCOLOR="GRAY">アイテムリスト</TD></TR><TR></TR>
+<TR><TH WIDTH="30">xx</TH><TH></TH><TH WIDTH="150">0x</TH><TH WIDTH="150">1x</TH><TH WIDTH="150">2x</TH><TH WIDTH="150">3x</TH><TR></TR>
+<TR><TH>x0</TH><TD></TD><TD>ガラクタ</TD><TD>毒消しの薬</TD><TD>硬い杖</TD><TD>豪華な革鎧</TD></TR>
+<TR><TH>x1</TH><TD></TD><TD>剣</TD><TD>切り裂きの剣</TD><TD>ドラゴンスレイヤー</TD><TD>エルフの鎖帷子</TD></TR>
+<TR><TH>x2</TH><TD></TD><TD>短剣</TD><TD>良い短剣</TD><TD>忍耐の兜</TD><TD>極上の鎧</TD></TR>
+<TR><TH>x3</TH><TD></TD><TD>メイス</TD><TD>粉砕のメイス</TD><TD>腐った革鎧</TD><TD>支えの盾</TD></TR>
+<TR><TH>x4</TH><TD></TD><TD>フレイル</TD><TD>鉄の杖</TD><TD>錆びた鎖帷子</TD><TD>悪の兜</TD></TR>
+<TR><TH>x5</TH><TD></TD><TD>杖</TD><TD>眠りの巻物</TD><TD>罅割れた胸当て</TD><TD>回復の薬</TD></TR></TABLE><P>
+上記のリストの場合、数値を該当管理場所に書き換えるとその効果が得られます<BR>
+つまり、アイテム１個目種類の場所に[03]と書き換えるとメイス<BR>
+[12]に書き換えると良い短剣<BR>
+[35]に書き換えると回復の薬が得られます<P><BR><BR>
+<TABLE BORDER>
+<TR><TD COLSPAN="9" BGCOLOR="GRAY">Mag呪文習得リスト</TD></TR><TR></TR>
+<TR><TH WIDTH="30">xx</TH><TH></TH><TH WIDTH="150">L1</TH><TH WIDTH="150">L2</TH><TH WIDTH="150">L3</TH><TH WIDTH="150">L4</TH><TH WIDTH="150">L5</TH><TH WIDTH="150">L6</TH><TH WIDTH="150">L7</TH></TR><TR></TR>
+<TR><TH>+01</TH><TD></TD><TD>ハリト</TD><TD>ディルト</TD><TD>マハリト</TD><TD>モーリス</TD><TD>マモーリス</TD><TD>ラカニト</TD><TD>マロール</TD></TR>
+<TR><TH>+02</TH><TD></TD><TD>モグレフ</TD><TD>ソピック</TD><TD>モリト</TD><TD>ダルト</TD><TD>マカニト</TD><TD>ジルワン</TD><TD>マハマン</TD></TR>
+<TR><TH>+04</TH><TD></TD><TD>カティノ</TD><TD></TD><TD></TD><TD>ラハリト</TD><TD>マダルト</TD><TD>マゾピック</TD><TD>ティルトウェイト</TD></TR>
+<TR><TH>+08</TH><TD></TD><TD>デュマピック</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>ハマン</TD></TR><TR></TR></TABLE><P>
+この様な、+xxが書かれたリストは、その数値を加算することで得られるデータになってます<P>
+Mag呪文L1だけに絞って書くと・・・<P>
+[01]　→「ハリト」習得<BR>
+[03]　→01+02　なので「ハリト」「モグレフ」習得<BR>
+[0F]　→01+02+04+08　なので「ハリト」「モグレフ」「カティノ」「デュマピック」習得<BR>
+16進数の計算が出来ない　→とりあえず[FF]入れておけば全部習得<P><BR><BR>
+どれも見たら解ると思うのですが、、、とにかく経験です。実際触ってみればすぐに解るようになるはずです。<BR>
+（説明が解りにくいとかはナシで。10進数から2進数や16進数の変換が出来ないと話にならないですし・・・）
+</BLOCKQUOTE>
+<BR><BR><BR><BR><BR>
+</BODY>
+</HTML>>

@@ -1,0 +1,132 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Shift_JIS">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../css.css">
+<TITLE>Analysis Menu</TITLE>
+</HEAD>
+<BODY>
+<P><BR>
+
+<script language="JavaScript">
+<!--
+
+function SymError()
+{
+  return true;
+}
+
+window.onerror = SymError;
+
+var SymRealWinOpen = window.open;
+
+function SymWinOpen(url, name, attributes)
+{
+  return (new Object());
+}
+
+window.open = SymWinOpen;
+
+//-->
+</script>
+
+<SCRIPT language="JavaScript">
+<!--
+	buf = escape(parent.document.referrer);
+	ref = "";
+	for (i = 0; i < buf.length; i++) {
+		str = buf.charAt(i);
+		ref += (str == "+") ? "%2B" : str;
+	}
+	scr = screen.width+","+screen.height+","+screen.colorDepth;
+
+	document.write('<IMG SRC="../cgi-bin/count/fcount.cgi?LOG=index&FONT=val&REF=',ref,'&SCR=',scr,'">');
+// -->
+</SCRIPT>
+<NOSCRIPT>
+	<IMG src="./cgi-bin/count/fcount.cgi?LOG=index&FONT=val&REF=noscript&SCR=-">
+</NOSCRIPT>
+<P><BR>
+#1 狂王の試練場<BR>
+Proving Grounds of the Mad Overlord<BR>
+<A HREF="fc1/index.html" TARGET="main">FC</A><BR>
+<A HREF="sfc1/index.html" TARGET="main">SFC</A><BR>
+<A HREF="gb1/index.html" TARGET="main">GB</A><BR><P>
+#2 ダイアモンドの騎士<BR>
+The Knight of Diamonds<BR>
+<A HREF="fc3/index.html" TARGET="main">FC</A><BR>
+<A HREF="sfc3/index.html" TARGET="main">SFC</A><BR>
+<A HREF="gb3/index.html" TARGET="main">GB</A><BR><P>
+#3 リルガミンの遺産<BR>
+Legacy of Llylgamyn<BR>
+<A HREF="fc2/index.html" TARGET="main">FC</A><BR>
+<A HREF="sfc2/index.html" TARGET="main">SFC</A><BR>
+<A HREF="gb2/index.html" TARGET="main">GB</A><BR><P>
+<!--
+#4 ワードナの逆襲<BR>
+The Return of Werdna<P>
+-->
+#5 災渦の中心<BR>
+Heart of the Maelstrom<BR>
+<A HREF="sfc5/index.html" TARGET="main">SFC</A><BR><P>
+#6 禁断の魔筆<BR>
+Bane of the Cosmic Forge<BR>
+<A HREF="sfc6/index.html" TARGET="main">SFC</A><BR><P>
+<!--
+#7 ガーディアの宝珠<BR>
+Crusaders of the Dark Savant<P>
+#8<BR>
+Wizardry 8<P>
+-->
+外伝1 女王の受難<BR>
+Suffering of the Queen<BR>
+<A HREF="gbg1/index.html" TARGET="main">GB</A><BR><P>
+外伝2 古代皇帝の呪い<BR>
+Curse of the Ancient Emperor<BR>
+<A HREF="gbg2/index.html" TARGET="main">GB</A><BR><P>
+外伝3 闇の聖典<BR>
+Scripture of the Dark<BR>
+<A HREF="gbg3/index.html" TARGET="main">GB</A><BR><P>
+外伝4 胎魔の鼓動<BR>
+Throb of the Demon's Heart<BR>
+<A HREF="sfcg4/index.html" TARGET="main">SFC</A><BR><P>
+<!--
+ディンギル<BR>
+Dimguil<P>
+-->
+エンパイア<BR>
+Empire<BR>
+<A HREF="gbe1/index.html" TARGET="main">GB</A><BR><P>
+エンパイア2<BR>
+Empire 復活の杖<BR>
+<A HREF="gbe2/index.html" TARGET="main">GB</A><BR><P>
+<!--エンパイア1 古の王女<BR>
+Princess of the ancient<P>
+エンパイア2 王女の遺産<BR>
+Legacy of the princess<P>
+エンパイア3 覇王の系譜<BR>
+Ancestry of the Emperor<P>
+-->
+サマナー<BR>
+Summoner<BR>
+<A HREF="gba/index.html" TARGET="main">GBA</A><BR><P>
+<!--
+クロニクル<BR>
+Wizardry Chronicle<P>
+-->
+Others<BR>
+<A HREF="../index.html" TARGET="_top">Index</A><BR>
+<A HREF="top.html" TARGET="main">Top</A><BR>
+<A HREF="../cgi-bin/sub/bbs.cgi" TARGET="main">BBS</A><BR>
+<P><BR>
+<BR><BR><BR><BR><BR>
+</BODY>
+
+<script language="JavaScript">
+<!--
+
+window.open = SymRealWinOpen;
+
+//-->
+</script>
+
+</HTML>

@@ -163,33 +163,6 @@ namespace WizEdit
         {
             return wizNesState1.LoadFile(p);
         }
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            this.Text = keyData.ToString() + " / Pro";
-            /*
-            if (m_Selection!=null)
-            {
-                if (m_Selection.IsDisp == true)
-                {
-                    if ((keyData == Keys.Escape))
-                    {
-                        //HideSelectControl();
-                    }
-                    else if ((keyData == Keys.Return) || (keyData == Keys.Return))
-                    {
-                        //HideSelectControl();
-                    }
-                }
-            }
-            */
-            if (wizNesState1 != null)
-            {
-                if ((keyData == Keys.Up) || (keyData == Keys.A)) { wizCharList1.CursolUp(); }
-                else if ((keyData == Keys.Down) || (keyData == Keys.Z)) { wizCharList1.CursolDown(); }
-            }
-            
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
         private void WizSelectControl1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             HideSelectControl();
@@ -232,5 +205,7 @@ namespace WizEdit
         {
             OpenSelectDialog();
         }
+       
+       
     }
 }

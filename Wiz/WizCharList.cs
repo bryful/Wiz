@@ -11,8 +11,10 @@ using System.Drawing.Drawing2D;
 
 namespace WizEdit
 {
-    public class WizCharList : WizConrol
+    public class WizCharList : WizBoxControl
     {
+ 
+
         private bool m_IsActive = true;
         public bool IsActive
         {
@@ -23,12 +25,6 @@ namespace WizEdit
                 this.Invalidate();
             }
         }
-        public event EventHandler ChangedSelectedIndex;
-        protected virtual void OnChangedSelectedIndex(EventArgs e)
-        {
-            ChangedSelectedIndex?.Invoke(this, e);
-        }
-
         private WizNesState m_state = null;
         public WizNesState WizNesState
         {
@@ -47,21 +43,53 @@ namespace WizEdit
         // ***********************************
         private void RedrawAction(object sender, EventArgs e)
         {
-            if (m_state != null)
-            {
-                m_SelectedIndex = m_state.CurrentChar;
-            }
             this.Invalidate();
         }
         // ***********************************
-
-        private int m_TextSideMargin = 30;
-        private int m_TextVurtualMargin = 5;
         private int m_LineHeight = 18;
+        public int LineHeight
+        {
+            get { return m_LineHeight; }
+            set
+            {
+                m_LineHeight = value;
+                if (m_LineHeight < 12) m_LineHeight = 12;
+                int x = this.MinimumSize.Width;
+                this.MinimumSize = new Size(x, m_LineHeight * m_LineCount+this.TopMargin+ this.BottomMargin);
+                this.Invalidate();
+            }
+        }
         private int m_LineCount = 20;
-        private int m_Width = 150;
+        public int LineCount
+        {
+            get { return m_LineCount; }
+        }
 
-        private int m_SelectedIndex = -1;
+
+    private int m_ListTopMgn = 5;
+        public int ListTopMgn
+        {
+            get { return m_ListTopMgn; }
+            set { m_ListTopMgn = value;  if (m_ListTopMgn < 0) m_ListTopMgn = 0; this.Invalidate();}
+        }
+        private int m_ListBottomMgn = 5;
+        public int ListBottomMgn
+        {
+            get { return m_ListBottomMgn; }
+            set { m_ListBottomMgn = value; if (m_ListBottomMgn < 0) m_ListBottomMgn = 0; this.Invalidate(); }
+        }
+        private int m_ListLeftMgn = 30;
+        public int ListLeftMgn
+        {
+            get { return m_ListLeftMgn; }
+            set { m_ListLeftMgn = value; if (m_ListLeftMgn < 0) m_ListLeftMgn = 0; this.Invalidate(); }
+        }
+        private int m_ListRightMgn = 10;
+        public int ListRightMgn
+        {
+            get { return m_ListRightMgn; }
+            set { m_ListRightMgn = value; if (m_ListRightMgn < 0) m_ListRightMgn = 0; this.Invalidate(); }
+        }
         // ****************************************************************************
         public WizCharList()
         {
@@ -70,14 +98,13 @@ namespace WizEdit
            ControlStyles.UserPaint |
            ControlStyles.AllPaintingInWmPaint,
            true);
+            int x = this.MinimumSize.Width;
+            this.MinimumSize = new Size(x, m_LineHeight * m_LineCount + this.TopMargin + this.BottomMargin);
         }
         // ****************************************************************************
         protected override void InitLayout()
         {
             base.InitLayout();
-            this.ClientSize = new Size(m_Width, m_LineHeight* m_LineCount);
-            this.MaximumSize = this.Size;
-            this.MinimumSize = this.Size;
         }
         // ****************************************************************************
         protected override void OnPaint(PaintEventArgs e)
@@ -97,22 +124,22 @@ namespace WizEdit
             {
                 //テキストの描画範囲
                 Rectangle rct = new Rectangle(
-                    this.SiseMargin + m_TextSideMargin,
-                    this.TopMargin + m_TextVurtualMargin,
-                    this.ClientSize.Width - (this.SiseMargin*2 + m_TextSideMargin+15),
+                    this.SiseMargin + m_ListLeftMgn,
+                    this.TopMargin + m_ListTopMgn,
+                    this.ClientSize.Width - (this.SiseMargin*2 + m_ListLeftMgn + m_ListRightMgn),
                     m_LineHeight
                     );
                 for (int i = 0; i < names.Length; i++)
                 {
-                    if (i==m_state.CurrentChar)
+                    if (i==m_state.CharCurrent)
                     {
-                        Rectangle rr = new Rectangle(rct.Left, rct.Top + 6, rct.Width, rct.Height - 12);
+                        Rectangle rr = new Rectangle(rct.Left, rct.Top + 3, rct.Width, rct.Height - 6);
                         sb.Color = Color.Blue;
                         g.FillRectangle(sb, rr);
                         if (m_IsActive == true)
                         {
                             sb.Color = Color.Red;
-                            WizU.DrawCursor(g, sb, rct.Left - 25, rct.Top);
+                            WizU.DrawCursor(g, sb, rct.Left - 25, rct.Top + rct.Height/2);
                         }
                         sb.Color = this.ForeColor;
                     }
@@ -135,10 +162,10 @@ namespace WizEdit
             if (m_IsActive == false) return;
             if (m_state != null)
             {
-                int c = (e.Y - (this.TopMargin + m_TextVurtualMargin)) / m_LineHeight;
+                int c = (e.Y - (this.TopMargin + m_ListTopMgn)) / m_LineHeight;
                 if ((c >= 0) && (c < m_state.CharCount))
                 {
-                    m_state.CurrentChar = c;
+                    m_state.CharCurrent = c;
                 }
             }
 
@@ -149,9 +176,9 @@ namespace WizEdit
             if (m_IsActive == false) return;
             if ( m_state !=null)
             {
-                if ( (m_state.CurrentChar>=0)&&(m_state.CurrentChar< m_state.CharCount-1))
+                if ( (m_state.CharCurrent>=0)&&(m_state.CharCurrent< m_state.CharCount-1))
                 {
-                    m_state.CurrentChar = m_state.CurrentChar + 1;
+                    m_state.CharCurrent = m_state.CharCurrent + 1;
                 }
             }
         }
@@ -161,9 +188,9 @@ namespace WizEdit
             if (m_IsActive == false) return;
             if (m_state != null)
             {
-                if ((m_state.CurrentChar >= 1) && (m_state.CurrentChar < m_state.CharCount))
+                if ((m_state.CharCurrent >= 1) && (m_state.CharCurrent < m_state.CharCount))
                 {
-                    m_state.CurrentChar = m_state.CurrentChar - 1;
+                    m_state.CharCurrent = m_state.CharCurrent - 1;
                 }
             }
         }

@@ -30,6 +30,9 @@ namespace WizEdit
 
         public WizTextBox()
         {
+            this.BackColor = Color.Black;
+            this.ForeColor = Color.White;
+            this.Text = "";
         }
         public bool IsDrawFrame
         {
@@ -40,22 +43,7 @@ namespace WizEdit
                 this.Invalidate();
             }
         }
-        // *********************************************************************
-        protected override void InitLayout()
-        {
-            base.InitLayout();
-            this.BackColor = Color.Black;
-            this.ForeColor = Color.White;
-            this.Text = "";
-        }
-        // *********************************************************************
-        public void SetSize(Size sz)
-        {
-            this.Size = sz;
-            this.MaximumSize = this.Size;
-            this.MinimumSize = this.Size;
-
-        }
+ 
         // *********************************************************************
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -84,7 +72,7 @@ namespace WizEdit
                 if (m_FarText != "")
                 {
                     sf.Alignment = StringAlignment.Far;
-                    g.DrawString(m_NearText, this.Font, sb, rct, sf);
+                    g.DrawString(m_FarText, this.Font, sb, rct, sf);
                 }
             }
             finally

@@ -108,18 +108,32 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WindowsShellAPI.cs" />
-    <Compile Include="WizCaption.cs">
+    <Compile Include="WizBonus.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WizChar.cs" />
+    <Compile Include="WizCharCaption.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WizCharList.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WizConrol.cs">
+    <Compile Include="WizBoxControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WizConrol.Designer.cs">
-      <DependentUpon>WizConrol.cs</DependentUpon>
+    <Compile Include="WizBoxControl.Designer.cs">
+      <DependentUpon>WizBoxControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WizDump.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WizEditClass.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WizEditClass.Designer.cs">
+      <DependentUpon>WizEditClass.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WizExecList.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="WizForm.cs">
       <SubType>Form</SubType>
@@ -127,23 +141,43 @@
     <Compile Include="WizForm.Designer.cs">
       <DependentUpon>WizForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="WizNameBox.cs">
+    <Compile Include="WizHP.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WizItem.cs" />
+    <Compile Include="WizItemList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WizMP.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WizParam.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WizNesState.cs" />
     <Compile Include="WizNesString.cs" />
-    <Compile Include="WizParams.cs" />
     <Compile Include="WizSelectControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WizSelectControl.Designer.cs">
       <DependentUpon>WizSelectControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="WizSpell.cs" />
+    <Compile Include="WizSettingDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WizSettingDialog.Designer.cs">
+      <DependentUpon>WizSettingDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WizStatus.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WizTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WizU.cs" />
+    <Compile Include="WizValueEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="AppInfoDialog.resx">
       <DependentUpon>AppInfoDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -160,11 +194,17 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="WizEditClass.resx">
+      <DependentUpon>WizEditClass.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WizForm.resx">
       <DependentUpon>WizForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WizSelectControl.resx">
       <DependentUpon>WizSelectControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WizSettingDialog.resx">
+      <DependentUpon>WizSettingDialog.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
