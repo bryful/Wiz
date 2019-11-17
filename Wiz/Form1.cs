@@ -32,11 +32,7 @@ namespace WizEdit
 
 
             this.KeyPreview = true;
-            /*
-            wizSelectControl1.SetIsDisp(false);
-            wizSelectControl1.MouseDoubleClick += WizSelectControl1_MouseDoubleClick;
-            wizSelectControl1.SetFont(wizCharList1.Font);
-            */
+
         }
 
 
@@ -71,12 +67,11 @@ namespace WizEdit
             JsonPref pref = new JsonPref();
             if (pref.Load())
             {
-                Size sz = pref.GetSize("Size", out bool ok);
-                if (ok) this.Size = sz;
+                bool ok = false;
                 Point p = pref.GetPoint("Point", out ok);
                 if (ok) this.Location = p;
             }
-            this.Text = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
+           // this.Text = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
         }
         //-------------------------------------------------------------
         /// <summary>
@@ -88,7 +83,6 @@ namespace WizEdit
         {
             //設定ファイルの保存
             JsonPref pref = new JsonPref();
-            pref.SetSize("Size", this.Size);
             pref.SetPoint("Point", this.Location);
 
             pref.SetIntArray("IntArray", new int[] { 8, 9, 7 });
@@ -163,44 +157,10 @@ namespace WizEdit
         {
             return wizNesState1.LoadFile(p);
         }
-        private void WizSelectControl1_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            HideSelectControl();
-        }
         public void OpenSelectDialog()
         {
-            /*
-            //wizSelectControl1.SetOwnerSize(wizNameBox1);
-            wizSelectControl1.ClearItem();
-            wizSelectControl1.AddItem("Good");
-            wizSelectControl1.AddItem("Neutral");
-            wizSelectControl1.AddItem("Evil");
-            wizSelectControl1.SelectedIndex = 1;
-            ShowSelectControl();
-            */
         }
-        public void ShowSelectControl()
-        {
-            /*
-            if (wizSelectControl1.IsDisp == false)
-            {
-                wizSelectControl1.SetIsDisp(true);
-                wizCharList1.IsActive = false;
-            }
-            */
-
-        }
-        public void HideSelectControl()
-        {
-            /*
-            if (wizSelectControl1.IsDisp == true)
-            {
-                wizSelectControl1.SetIsDisp(false);
-                wizCharList1.IsActive = true;
-            }
-            */
-        }
-
+ 
         private void wizNameBox1_Click(object sender, EventArgs e)
         {
             OpenSelectDialog();

@@ -47,6 +47,13 @@ namespace WizEdit
         public event EventHandler CancelClicked;
         protected virtual void OnCancelClicked(EventArgs e) { CancelClicked?.Invoke(this, e); }
 
+        private string m_Caption = "";
+        public string Caption
+        {
+            get { return m_Caption; }
+            set { m_Caption = value; this.Invalidate(); }
+        }
+
         private long m_Value = 0;
         public long Value
         {
@@ -57,10 +64,7 @@ namespace WizEdit
                 if (v < m_ValueMin) v = m_ValueMin;
                 else if (v > m_ValueMax) v = m_ValueMax;
                 m_Value = m_ValueOrg = v;
-
-                m_OrgValue.Text = m_ValueOrg.ToString();
-                m_EditValue.Text = m_Value.ToString();
-
+                this.Invalidate();
             }
         }
 
@@ -74,8 +78,7 @@ namespace WizEdit
                 m_ValueMin = value;
                 if (m_Value < m_ValueMin) m_Value = m_ValueMin;
                 if (m_ValueOrg < m_ValueMin) m_ValueOrg = m_ValueMin;
-                m_OrgValue.Text = m_ValueOrg.ToString();
-                m_EditValue.Text = m_Value.ToString();
+                this.Invalidate();
             }
         }
         private long m_ValueMax = 0xFFFFFFFFFFFF;
@@ -87,20 +90,9 @@ namespace WizEdit
                 m_ValueMax = value;
                 if (m_Value > m_ValueMax) m_Value = m_ValueMax;
                 if (m_ValueOrg > m_ValueMax) m_ValueOrg = m_ValueMax;
-                m_OrgValue.Text = m_ValueOrg.ToString();
-                m_EditValue.Text = m_Value.ToString();
+                this.Invalidate();
             }
         }
-        public string Caption
-        {
-            get { return m_Caption.Text; }
-            set { m_Caption.Text = value; }
-        }
-
-        private Label m_OrgValue = new Label();
-        private Label m_EditValue = new Label();
-
-        private Label m_Caption = new Label();
 
         private MyButton[] m_Btns = new MyButton[(int)BTN.BTN_COUNT];
         //-------------------------------------------------------
@@ -113,56 +105,16 @@ namespace WizEdit
             this.MinimumSize = this.Size;
             this.MaximumSize = this.Size;
 
-            SetupLabel(m_Caption);
-            m_Caption.RightToLeft = RightToLeft.No;
-            m_Caption.Text = "Untitled";
-            SetupLabel(m_OrgValue);
-            SetupLabel(m_EditValue);
-
             for ( int i= (int)BTN.BTN0;i<(int)BTN.BTN_COUNT;i++)
             {
                 m_Btns[i] = NewButton((BTN)i);
             }
-
-
-            SizeChk();
-
-
-
-
-            this.Controls.Add(m_Caption);
-            this.Controls.Add(m_OrgValue);
-            this.Controls.Add(m_EditValue);
 
             for (int i = (int)BTN.BTN0; i < (int)BTN.BTN_COUNT; i++)
             {
                 this.Controls.Add(m_Btns[i]);
             }
 
-        }
-        //-------------------------------------------------------
-        private void SizeChk()
-        {
-            m_Caption.Location = new Point(20, 20);
-            m_Caption.Size = new Size(this.Width - 40, 20);
-
-            m_OrgValue.Location = new Point(20, 45);
-            m_OrgValue.Size = new Size(this.Width-40, 20);
-
-            m_EditValue.Location = new Point(20, 70);
-            m_EditValue.Size = new Size(this.Width - 40, 20);
-
-        }
-
-        //-------------------------------------------------------
-        private void SetupLabel(Label lb)
-        {
-            lb.BackColor = this.BackColor;
-            lb.ForeColor = this.ForeColor;
-            lb.Font = new Font(this.Font.FontFamily, 14,FontStyle.Bold);
-            lb.AutoSize = false;
-            lb.RightToLeft = RightToLeft.Yes;
-            lb.Text = "0";
         }
         //-------------------------------------------------------
         private MyButton NewButton(BTN v)
@@ -293,45 +245,57 @@ namespace WizEdit
 
 
         }
+  
         public void SetNum(int v)
         {
-            v = v % 10;
-            m_Value = m_Value * 10 + v;
-            if (m_Value > m_ValueMax) m_Value = m_ValueMax;
-            m_EditValue.Text = m_Value.ToString();
+            long mv = m_Value;
+            long d = 1;
+            if( mv<0)
+            {
+                d = -1;
+                mv = mv * -1;
+            }
 
+            v = v % 10;
+            mv = mv * 10 + v;
+
+            m_Value = mv * d;
+
+            if (m_Value < m_ValueMin) m_Value = m_ValueMin;
+            else if (m_Value > m_ValueMax) m_Value = m_ValueMax;
+            this.Invalidate();
         }
         public void ClrNum()
         {
             m_Value = 0;
             if (m_Value < m_ValueMin) m_Value = m_ValueMin;
-            m_EditValue.Text = m_Value.ToString();
+            else if (m_Value > m_ValueMax) m_Value = m_ValueMax;
+            this.Invalidate();
 
         }
         public void BSNum()
         {
             m_Value = m_Value/10;
-            m_EditValue.Text = m_Value.ToString();
+            if (m_Value < m_ValueMin) m_Value = m_ValueMin;
+            else if (m_Value > m_ValueMax) m_Value = m_ValueMax;
+            this.Invalidate();
 
         }
         public void PlusNum()
         {
             m_Value += 1;
-            if (m_Value > m_ValueMax) m_Value = m_ValueMax;
-            m_EditValue.Text = m_Value.ToString();
+            if (m_Value < m_ValueMin) m_Value = m_ValueMin;
+            else if (m_Value > m_ValueMax) m_Value = m_ValueMax;
+            this.Invalidate();
         }
         public void MinusNum()
         {
             m_Value -= 1;
             if (m_Value < m_ValueMin) m_Value = m_ValueMin;
-            m_EditValue.Text = m_Value.ToString();
+            else if (m_Value > m_ValueMax) m_Value = m_ValueMax;
+            this.Invalidate();
         }
         //-------------------------------------------------------
-        protected override void OnSizeChanged(EventArgs e)
-        {
-            SizeChk();
-            base.OnSizeChanged(e);
-        }
         protected override void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
         {
             base.OnPreviewKeyDown(e);
@@ -349,7 +313,7 @@ namespace WizEdit
             {
                 SetNum((int)k - (int)Keys.D0);
             }
-            else if (k == Keys.Clear)
+            else if ((k == Keys.Clear)|| (k == Keys.Delete))
             {
                 ClrNum();
             }
@@ -361,11 +325,51 @@ namespace WizEdit
             {
                 OnOKClicked(new EventArgs());
             }
+            else if ((k == Keys.Add)|| (k == Keys.Oemplus))
+            {
+                PlusNum();
+            }
+            else if ((k == Keys.Subtract) || (k == Keys.OemMinus))
+            {
+                MinusNum();
+            }
             else if (k == Keys.Escape)
             {
                 OnCancelClicked(new EventArgs());
             }
         }
         //-------------------------------------------------------
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            Graphics g = e.Graphics;
+            SolidBrush sb = new SolidBrush(this.ForeColor);
+
+            StringFormat sf = new StringFormat();
+
+            sf.Alignment = StringAlignment.Far;
+            sf.LineAlignment = StringAlignment.Center;
+
+            try
+            {
+                Rectangle rct0 = new Rectangle(20, 20, this.Width - 40, 20);
+                Rectangle rct1 = new Rectangle(20, 40, this.Width - 40, 20);
+                Rectangle rct2 = new Rectangle(20, 65, this.Width - 40, 20);
+
+                sf.Alignment = StringAlignment.Near;
+                g.DrawString(m_Caption, this.Font, sb, rct0, sf);
+                sf.Alignment = StringAlignment.Far;
+                g.DrawString(m_ValueOrg.ToString(), this.Font, sb, rct1, sf);
+                g.DrawString(m_Value.ToString(), this.Font, sb, rct2, sf);
+
+            }
+            finally
+            {
+                sb.Dispose();
+                sf.Dispose();
+            }
+
+        }
     }
 }

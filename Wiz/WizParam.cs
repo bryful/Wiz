@@ -33,8 +33,9 @@ namespace WizEdit
                 m_state = value;
                 if (m_state != null)
                 {
-                    m_state.ChangeCurrentChar += M_state_ChangeCurrentChar;
-                    m_state.FinishedLoadFile += M_state_FinishedLoadFile;
+                    m_state.CurrentCharChanged += M_state_ChangeCurrentChar;
+                    m_state.LoadFileFinished += M_state_FinishedLoadFile;
+                    m_state.ValueChanged += M_state_FinishedLoadFile;
                     GetInfo();
                 }
             }
@@ -47,7 +48,7 @@ namespace WizEdit
                     this.NearText = "GOLD";
                     if (m_state != null)
                     {
-                        this.FarText = m_state.CharGold.ToString();
+                        this.Value = m_state.CharGold;
                     }
                     break;
                 case WizParamMode.Exp:

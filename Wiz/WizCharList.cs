@@ -34,10 +34,11 @@ namespace WizEdit
                 m_state = value;
                 if (m_state!=null)
                 {
-                    m_state.FinishedLoadFile += RedrawAction;
-                    m_state.ChangeCurrentChar += RedrawAction;
-                    this.Invalidate();
+                    m_state.LoadFileFinished += RedrawAction;
+                    m_state.CurrentCharChanged += RedrawAction;
+                    m_state.ValueChanged += RedrawAction;
                 }
+                this.Invalidate();
             }
         }
         // ***********************************

@@ -16,6 +16,17 @@ namespace WizEdit
         private int m_hp = 0;
         private int m_hpmax = 0;
 
+        public event EventHandler HPClicked;
+        protected virtual void OnHPClicked(EventArgs e)
+        {
+            HPClicked?.Invoke(this, e);
+        }
+        public event EventHandler HPMaxClicked;
+        protected virtual void OnHPMaxClicked(EventArgs e)
+        {
+            HPMaxClicked?.Invoke(this, e);
+        }
+
         #region state
         private WizNesState m_state = null;
         public WizNesState WizNesState
@@ -26,8 +37,9 @@ namespace WizEdit
                 m_state = value;
                 if (m_state != null)
                 {
-                    m_state.ChangeCurrentChar += M_state_ChangeCurrentChar;
-                    m_state.FinishedLoadFile += M_state_FinishedLoadFile;
+                    m_state.CurrentCharChanged += M_state_ChangeCurrentChar;
+                    m_state.LoadFileFinished += M_state_FinishedLoadFile;
+                    m_state.ValueChanged += M_state_FinishedLoadFile;
                 }
                 GetInfo();
             }
@@ -142,6 +154,21 @@ namespace WizEdit
             {
                 sb.Dispose();
             }
+        }
+        // ********************************************************************************************
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            int x = e.X - m_CaptionWidth;
+
+            if( x <m_HPWidth)
+            {
+                OnHPClicked(new EventArgs());
+            }
+            else
+            {
+                OnHPMaxClicked(new EventArgs());
+            }
+            base.OnMouseDown(e);
         }
     }
 }

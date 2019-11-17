@@ -39,18 +39,18 @@ namespace WizEdit
                 m_state = value;
                 if (m_state != null)
                 {
-                    m_state.ChangeCurrentChar += M_state_ChangeCurrentChar;
-                    m_state.FinishedLoadFile += M_state_FinishedLoadFile;
-                    this.Invalidate();
+                    m_state.CurrentCharChanged += M_state_ChangeCurrentChar;
+                    m_state.LoadFileFinished += M_state_ValueChanged;
+                    m_state.ValueChanged += M_state_ValueChanged;
                 }
+                this.Invalidate();
             }
         }
 
-        private void M_state_FinishedLoadFile(object sender, EventArgs e)
+        private void M_state_ValueChanged(object sender, EventArgs e)
         {
             this.Invalidate();
         }
-
         private void M_state_ChangeCurrentChar(object sender, CurrentCharEventArgs e)
         {
             this.Invalidate();

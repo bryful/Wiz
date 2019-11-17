@@ -137,6 +137,7 @@ namespace WizEdit
 
             return (byte)(((p1 << 4) | p0) & 0xFF);
         }
+        // ***************************************************
         static public long WizHexToLong(byte[] v)
         {
             long ret = 0;
@@ -146,10 +147,12 @@ namespace WizEdit
             }
             return ret;
         }
+        // ***************************************************
         static public byte[] LongToWizHex(long v)
         {
             byte [] ret = new byte[6];
-            if (v > 0xFFFFFFFFFFFF) v = 0xFFFFFFFFFFFF;
+            if (v < 0) v = 0;
+            else if (v > 0xFFFFFFFFFFFF) v = 0xFFFFFFFFFFFF;
 
             for ( int i = 5; i>=0;i--)
             {

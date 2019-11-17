@@ -13,6 +13,24 @@ namespace WizEdit
 {
     public class WizItemList : Control
     {
+        public event EventHandler ItemClicked;
+        protected virtual void OnItemClicked(EventArgs e) { ItemClicked?.Invoke(this, e); }
+
+        public event EventHandler IndClicked;
+        protected virtual void OnIndClicked(EventArgs e) { IndClicked?.Invoke(this, e); }
+
+        public event EventHandler CurseClicked;
+        protected virtual void OnCurseClicked(EventArgs e) { CurseClicked?.Invoke(this, e); }
+
+        public event EventHandler EquClicked;
+        protected virtual void OnEquClicked(EventArgs e) { EquClicked?.Invoke(this, e); }
+
+        private int m_SelectedIndex = -1;
+        public int SelectedIndex
+        {
+            get { return m_SelectedIndex; }
+        }
+
         public WizItemList()
         {
             this.ForeColor = Color.White;
@@ -32,6 +50,39 @@ namespace WizEdit
             get { return m_LineHeight; }
             set { m_LineHeight = value; SizeChk();  this.Invalidate(); }
         }
+        private int m_StWidth = 18;
+        public int StWidth
+        {
+            get { return m_StWidth; }
+            set { m_StWidth = value; this.Invalidate(); }
+        }
+
+        // *************************************************************************
+        public int ItemID
+        {
+            get
+            {
+                int idx = m_SelectedIndex;
+                if (idx < 0) idx = 0;
+                if (m_items.Length <= 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return m_items[idx].ID;
+                }
+            }
+            set
+            {
+                if (m_SelectedIndex < 0) return;
+                if (m_items.Length <= 0) return;
+                if (m_SelectedIndex < m_items[0].ItemCount)
+                {
+                    m_items[m_SelectedIndex].ID = (byte)value;
+                }
+            }
+        }
         // *************************************************************************
         public void SizeChk()
         {
@@ -50,8 +101,9 @@ namespace WizEdit
                 m_state = value;
                 if (m_state != null)
                 {
-                    m_state.ChangeCurrentChar += M_state_ChangeCurrentChar;
-                    m_state.FinishedLoadFile += M_state_FinishedLoadFile;
+                    m_state.CurrentCharChanged += M_state_ChangeCurrentChar;
+                    m_state.LoadFileFinished += M_state_FinishedLoadFile;
+                    m_state.ValueChanged += M_state_FinishedLoadFile;
                 }
                 GetInfo();
             }
@@ -102,16 +154,41 @@ namespace WizEdit
                         g.DrawLine(pn, 0, y, this.Width, y);
                         y += m_LineHeight;
                     }
+                    int x = m_StWidth;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        g.DrawLine(pn, x, 0, x, this.Height);
+                        x += m_StWidth;
+                    }
+
                 }
                 sb.Color = this.ForeColor;
                 sf.Alignment = StringAlignment.Near;
 
                 if(m_items.Length>0)
                 {
+                    int t = m_StWidth * 3;
+                    int w = this.Width - t;
                     for ( int i=0;i<m_items.Length;i++)
                     {
-                        rct = new Rectangle(0, m_LineHeight*i, this.Width, m_LineHeight);
+                        rct = new Rectangle(t, m_LineHeight*i, w, m_LineHeight);
                         g.DrawString(m_items[i].CaptionText, this.Font, sb, rct, sf);
+
+                        rct = new Rectangle(0, m_LineHeight * i, m_StWidth, m_StWidth);
+                        if (m_items[i].Indeterminate==true)
+                        {
+                            g.DrawString("未", this.Font, sb, rct, sf);
+                        }
+                        rct = new Rectangle(m_StWidth, m_LineHeight * i, m_StWidth, m_StWidth);
+                        if (m_items[i].Curse == true)
+                        {
+                            g.DrawString("呪", this.Font, sb, rct, sf);
+                        }
+                        rct = new Rectangle(m_StWidth*2, m_LineHeight * i, m_StWidth, m_StWidth);
+                        if (m_items[i].Equipment == true)
+                        {
+                            g.DrawString("*", this.Font, sb, rct, sf);
+                        }
                     }
                 }
             }
@@ -120,6 +197,59 @@ namespace WizEdit
                 sb.Dispose();
             }
 
+        }
+        // *****************************************************************************
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            m_SelectedIndex = -1;
+            if (m_items.Length > 0)
+            {
+                int y = e.Y / m_LineHeight;
+                if (y < m_items.Length)
+                {
+                    m_SelectedIndex = y;
+                    if (m_SelectedIndex>=0)
+                    {
+                        int x = e.X / m_StWidth;
+                        if (x >= 3)
+                        {
+                            OnItemClicked(new EventArgs());
+                        }
+                        else if(x==0)
+                        {
+                            OnIndClicked(new EventArgs());
+                        }
+                        else if (x == 1)
+                        {
+                            OnCurseClicked(new EventArgs());
+                        }
+                        else if (x == 2)
+                        {
+                            OnEquClicked(new EventArgs());
+                        }
+
+                    }
+                }
+
+
+
+            }
+            base.OnMouseDown(e);
+        }
+        // *****************************************************************************
+        public Point ItemLocation
+        {
+            get
+            {
+                return new Point(m_StWidth * 3 +this.Left, this.Top);
+            }
+        }
+        public Size ItemSize
+        {
+            get
+            {
+                return new Size(this.Width , this.Height);
+            }
         }
     }
 }

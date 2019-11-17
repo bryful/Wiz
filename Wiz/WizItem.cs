@@ -82,11 +82,11 @@ namespace WizEdit
                 switch (m_scn)
                 {
                     case WIZ_SCN.S1:
-                        return m_ItemName1[m_ID];
+                        return m_ItemNames1[m_ID];
                     case WIZ_SCN.S2:
-                        return m_ItemName2[m_ID];
+                        return m_ItemNames2[m_ID];
                     case WIZ_SCN.S3:
-                        return m_ItemName3[m_ID];
+                        return m_ItemNames3[m_ID];
                     default:
                         return "";
                 }
@@ -98,28 +98,15 @@ namespace WizEdit
             get
             {
                 string s = "";
-                if(Curse == true)
+                if(Indeterminate == true)
                 {
-                    s += "- ";
-                }else if( Equipment == true)
-                {
-                    s += "* ";
-
+                    s = ItemName.Substring(0, 3);
+                    s += "未識別";
                 }
                 else
                 {
-                    s += "  ";
+                    s = ItemName;
                 }
-                s += ItemName;
-/*
-                if ( Indeterminate == true)
-                {
-                    s += "Unknown";
-                }
-                else
-                {
-                    s += ItemName;
-                }*/
                 return s;
             }
         }
@@ -130,19 +117,37 @@ namespace WizEdit
                 switch (m_scn)
                 {
                     case WIZ_SCN.S1:
-                        return m_ItemName1;
+                        return m_ItemNames1;
                     case WIZ_SCN.S2:
-                        return m_ItemName2;
+                        return m_ItemNames2;
                     case WIZ_SCN.S3:
-                        return m_ItemName3;
+                        return m_ItemNames3;
                     default:
                         return new string[0];
                 }
 
             }
         }
+        public int ItemCount
+        {
+            get
+            {
+                switch (m_scn)
+                {
+                    case WIZ_SCN.S1:
+                        return m_ItemNames1.Length;
+                    case WIZ_SCN.S2:
+                        return m_ItemNames2.Length;
+                    case WIZ_SCN.S3:
+                        return m_ItemNames3.Length;
+                    default:
+                        return 0;
+                }
+
+            }
+        }
         #region Wiz1 ItemName
-        private string[] m_ItemName1 = new string[]{
+        private string[] m_ItemNames1 = new string[]{
             "00:こわれたアイテム",
             "01:けん",
             "02:たんけん",
@@ -245,7 +250,7 @@ namespace WizEdit
             "63:きんのかぎ",
             "64:ブルーリボン"
         };
-        private string[] m_ItemName2 = new string[]{
+        private string[] m_ItemNames2 = new string[]{
         "00:なし",
         "01:イアリシンのほうじゅ",
         "02:ちゅうりつのすいしょう",
@@ -358,7 +363,7 @@ namespace WizEdit
         "6D:きいろいみみせん",
         "6E:こはくのつえ"
     };
-        private string[] m_ItemName3 = new string[]{
+        private string[] m_ItemNames3 = new string[]{
     "00:ガラクタ",
     "01:つるぎ",
     "02:たんけん",
@@ -499,19 +504,18 @@ namespace WizEdit
     "89:あくまのいし"
     };
 
-        public string[] ItemName1
+        public string[] ItemNames1
         {
-            get { return m_ItemName1; }
+            get { return m_ItemNames1; }
         }
-        public string[] ItemName2
+        public string[] ItemNames2
         {
-            get { return m_ItemName2; }
+            get { return m_ItemNames2; }
         }
-        public string[] ItemName3
+        public string[] ItemNames3
         {
-            get { return m_ItemName2; }
+            get { return m_ItemNames2; }
         }
-
         #endregion
     }
 }

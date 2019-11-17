@@ -90,21 +90,33 @@ namespace WizEdit
     }
     public class WizNesState :Component
     {
+        private string m_statePath = "";
+        public string StatePath
+        {
+            get { return m_statePath; }
+        }
+
         public const int BounusCount = 6;
  
         #region Event
         //CurrentCharが変更された時
-        public delegate void ChangeCurrentCharHandler(object sender, CurrentCharEventArgs e);
-        public event ChangeCurrentCharHandler ChangeCurrentChar;
-        protected virtual void OnChangeCurrentChar(CurrentCharEventArgs e)
+        public delegate void CurrentCharChangeHandler(object sender, CurrentCharEventArgs e);
+        public event CurrentCharChangeHandler CurrentCharChanged;
+        protected virtual void OnCurrentCharChanged(CurrentCharEventArgs e)
         {
-            ChangeCurrentChar?.Invoke(this, e);
+            CurrentCharChanged?.Invoke(this, e);
         }
         //ファイルがロードされた時
-        public event EventHandler FinishedLoadFile;
-        protected virtual void OnFinishedLoadFile(EventArgs e)
+        public event EventHandler LoadFileFinished;
+        protected virtual void OnLoadFileFinished(EventArgs e)
         {
-            FinishedLoadFile?.Invoke(this, e);
+            LoadFileFinished?.Invoke(this, e);
+        }
+
+        public event EventHandler ValueChanged;
+        protected virtual void OnValueChanged(EventArgs e)
+        {
+            ValueChanged?.Invoke(this, e);
         }
         #endregion
 
@@ -154,7 +166,7 @@ namespace WizEdit
                 //イベント発生
                 CurrentCharEventArgs e = new CurrentCharEventArgs();
                 e.CurrentChar = m_CharCurrent;
-                OnChangeCurrentChar(e);
+                OnCurrentCharChanged(e);
             }
         }
         public void CharCurrentUp()
@@ -212,6 +224,17 @@ namespace WizEdit
             "ASHED",
             "LOST",
             ""
+       };
+        static public readonly string[] StatusStrJ = new string[]
+       {
+            "OK",
+            "ねむっている",
+            "おそれている",
+            "まひしている",
+            "いしになった",
+            "しんでいる",
+            "はいになった",
+            "うしなわれた"
        };
         #endregion
         // ***********************************************************************
@@ -342,20 +365,20 @@ namespace WizEdit
             {
                 return;
             }
+            if (CharRaceFromIndex(idx) == r) return;
             int adr = CharAdr(idx);
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
                     adr += 0x0A;
                     m_stateBuf[adr] = (byte)((byte)r & 0x07);
+                    OnValueChanged(new EventArgs());
                     break;
                 case WIZ_SCN.S2:
                 case WIZ_SCN.S3:
                     adr += 0x0A;
-                    byte v = m_stateBuf[adr];
-                    byte v2 = (byte)(((byte)r & 0x07) << 5);
-                    v = (byte)((v & 0x1F) | v2);
-                    m_stateBuf[adr] = v;
+                    m_stateBuf[adr] = (byte)(((byte)r & 0x07) << 5);
+                    OnValueChanged(new EventArgs());
                     break;
             }
         }
@@ -426,20 +449,22 @@ namespace WizEdit
             {
                 return;
             }
+            if (CharClassFromIndex(idx) == cl) return;
             int adr = CharAdr(idx);
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
                     adr += 0x0B;
                     m_stateBuf[adr] = (byte)((byte)cl & 0x07);
+                    OnValueChanged(new EventArgs());
                     break;
                 case WIZ_SCN.S2:
                 case WIZ_SCN.S3:
                     adr += 0x0A;
                     byte v = m_stateBuf[adr];
-                    byte v2 = (byte)(((byte)cl & 0x07) << 2); // 
-                    v = (byte)((v & 0xE3) | v2);
+                    v = (byte)((v & 0xE3) | (((byte)cl & 0x07) << 2));
                     m_stateBuf[adr] = v;
+                    OnValueChanged(new EventArgs());
                     break;
             }
         }
@@ -507,12 +532,14 @@ namespace WizEdit
             {
                 return;
             }
+            if (CharAlgFromIndex(idx) == alg) return;
             int adr = CharAdr(idx);
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
                     adr += 0x0C;
                     m_stateBuf[adr] = (byte)((byte)alg & 0x03);
+                    OnValueChanged(new EventArgs());
                     break;
                 case WIZ_SCN.S2:
                 case WIZ_SCN.S3:
@@ -520,6 +547,7 @@ namespace WizEdit
                     byte v = m_stateBuf[adr + 0x0A];
                     v = (byte)((v & 0xFC) | (byte)alg);
                     m_stateBuf[adr + 0x0A] = v;
+                    OnValueChanged(new EventArgs());
                     break;
             }
         }
@@ -571,14 +599,45 @@ namespace WizEdit
             return ret;
         }
         // ************************************************************************
+        public void SetCharLevelFromIndex(int idx,int v)
+        {
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            if (v < 0) v = 0;
+            else if (v > 0xFFFF) v = 0xFFFF;
+
+            if (CharLevelFromIndex(idx) == v) return;
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x23;
+                    m_stateBuf[adr] = (byte)((v >> 8) & 0xFF);
+                    m_stateBuf[adr+1] = (byte)(v & 0xFF);
+                    OnValueChanged(new EventArgs());
+
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x21;
+                    m_stateBuf[adr] = (byte)((v >> 8) & 0xFF);
+                    m_stateBuf[adr + 1] = (byte)(v & 0xFF);
+                    OnValueChanged(new EventArgs());
+                    break;
+            }
+        }
+        // ************************************************************************
         public int CharLevel
         {
             get { return CharLevelFromIndex(m_CharCurrent); }
+            set { SetCharLevelFromIndex(m_CharCount, value); }
         }
         // ************************************************************************
         public long CharGoldFromIndex(int idx)
         {
-            long ret = 1;
+            long ret = 0;
             if ((idx < 0) || (idx >= m_CharCount))
             {
                 return ret;
@@ -602,9 +661,41 @@ namespace WizEdit
             return ret;
         }
         // ************************************************************************
+        public void  SetCharGoldFromIndex(int idx,long v)
+        {
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            if (v < 0) v = 0;
+            else if (v > 0xFFFFFFFFFFFF) v = 0xFFFFFFFFFFFF;
+
+
+            if (CharGoldFromIndex(idx) == v) return;
+
+            int adr = CharAdr(idx);
+
+            byte[] va = WizU.LongToWizHex(v);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x13;
+                    SetCode(adr, va);
+                    OnValueChanged(new EventArgs());
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x11;
+                    SetCode(adr, va);
+                    OnValueChanged(new EventArgs());
+                    break;
+            }
+        }
+        // ************************************************************************
         public long CharGold
         {
             get { return CharGoldFromIndex(m_CharCurrent); }
+            set { SetCharGoldFromIndex(m_CharCurrent, value); }
         }
         // ************************************************************************
         public long CharExpFromIndex(int idx)
@@ -633,14 +724,43 @@ namespace WizEdit
             return ret;
         }
         // ************************************************************************
+        public void SetCharExpFromIndex(int idx,long v)
+        {
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            if (CharExpFromIndex(idx) == v) return;
+            int adr = CharAdr(idx);
+            byte[] va = WizU.LongToWizHex(v);
+
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x19;
+                    SetCode(adr, va);
+                    OnValueChanged(new EventArgs());
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x17;
+                    SetCode(adr, va);
+                    OnValueChanged(new EventArgs());
+                    break;
+            }
+
+            return;
+        }
+        // ************************************************************************
         public long CharExp
         {
             get { return CharExpFromIndex(m_CharCurrent); }
+            set { SetCharExpFromIndex(m_CharCurrent, value); }
         }
         // ************************************************************************
-        public int CharAgeFromIndex(int idx)
+        public sbyte CharAgeFromIndex(int idx)
         {
-            int ret = 1;
+            sbyte ret = 0;
             if ((idx < 0) || (idx >= m_CharCount))
             {
                 return ret;
@@ -650,12 +770,12 @@ namespace WizEdit
             {
                 case WIZ_SCN.S1:
                     adr += 0x26;
-                    ret = (int)m_stateBuf[adr];
+                    ret = (sbyte)m_stateBuf[adr];
                     break;
                 case WIZ_SCN.S2:
                 case WIZ_SCN.S3:
                     adr += 0x24;
-                    ret = (int)m_stateBuf[adr];
+                    ret = (sbyte)m_stateBuf[adr];
                     break;
                 default:
                     return ret;
@@ -663,10 +783,39 @@ namespace WizEdit
 
             return ret;
         }
+        public void SetCharAgeFromIndex(int idx, sbyte v)
+        {
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            if (v < -128) v = -128;
+            else if (v > 127) v = 127;
+            sbyte v2 = (sbyte)v;
+
+            if (CharAgeFromIndex(idx) == v2) return;
+
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x26;
+                    m_stateBuf[adr] = (byte)v2;
+                    OnValueChanged(new EventArgs());
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x24;
+                    m_stateBuf[adr] = (byte)v2;
+                    OnValueChanged(new EventArgs());
+                    break;
+            }
+        }
         // ************************************************************************
-        public long CharAge
+        public sbyte CharAge
         {
             get { return CharAgeFromIndex(m_CharCurrent); }
+            set { SetCharAgeFromIndex(m_CharCurrent, value); }
         }
         // ************************************************************************
         public int CharWeekFromIndex(int idx)
@@ -694,15 +843,43 @@ namespace WizEdit
 
             return ret;
         }
-        // ************************************************************************
-        public long CharWeek
+        public void SetCharWeekFromIndex(int idx,int v)
         {
-            get { return CharWeekFromIndex(m_CharCurrent); }
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            if (v < 0) v = 0;
+            else if (v > 255) v = 255;
+
+            if (CharWeekFromIndex(idx) == v) return;
+
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x27;
+                    m_stateBuf[adr] = (byte)v;
+                    OnValueChanged(new EventArgs());
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x25;
+                    m_stateBuf[adr] = (byte)v;
+                    OnValueChanged(new EventArgs());
+                    break;
+            }
         }
         // ************************************************************************
-        public int CharACFromIndex(int idx)
+        public int CharWeek
         {
-            int ret = 1;
+            get { return CharWeekFromIndex(m_CharCurrent); }
+            set { SetCharWeekFromIndex(m_CharCurrent, value); }
+        }
+        // ************************************************************************
+        public sbyte CharACFromIndex(int idx)
+        {
+            sbyte ret = 0;
             if ((idx < 0) || (idx >= m_CharCount))
             {
                 return ret;
@@ -712,12 +889,12 @@ namespace WizEdit
             {
                 case WIZ_SCN.S1:
                     adr += 0x28;
-                    ret = (int)m_stateBuf[adr];
+                    ret = (sbyte)m_stateBuf[adr];
                     break;
                 case WIZ_SCN.S2:
                 case WIZ_SCN.S3:
                     adr += 0x26;
-                    ret = (int)m_stateBuf[adr];
+                    ret = (sbyte)m_stateBuf[adr];
                     break;
                 default:
                     return ret;
@@ -725,12 +902,392 @@ namespace WizEdit
 
             return ret;
         }
+        public void SetCharACFromIndex(int idx, sbyte v)
+        {
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            if (v < -128) v = -128;
+            else if (v > 127) v = 127;
+            sbyte v2 = (sbyte)v;
+            if (CharACFromIndex(idx) == v2) return;
+
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x28;
+                    m_stateBuf[adr] = (byte)v2;
+                    OnValueChanged(new EventArgs());
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x26;
+                    m_stateBuf[adr] = (byte)v2;
+                    OnValueChanged(new EventArgs());
+                    break;
+            }
+        }
         // ************************************************************************
-        public long CharAC
+        public sbyte CharAC
         {
             get { return CharACFromIndex(m_CharCurrent); }
-        }       // 
+            set { SetCharACFromIndex(m_CharCurrent, value); }
+        }
         // ************************************************************************
+        public int CharStrengthFromIndex(int idx)
+        {
+            int ret = 0;
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x0D;
+                    ret = (int)m_stateBuf[adr];
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x0B;
+                    ret = (int)m_stateBuf[adr];
+                    break;
+                default:
+                    return ret;
+            }
+            return ret;
+        }
+        // ************************************************************************
+        public void SetCharStrengthFromIndex(int idx,int v)
+        {
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            if (v < 0) v = 0;
+            else if (v > 0xFF) v = 0xFF;
+            if (CharStrengthFromIndex(idx) == v) return;
+
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x0D;
+                    m_stateBuf[adr] = (byte)v;
+                    OnValueChanged(new EventArgs());
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x0B;
+                    m_stateBuf[adr] = (byte)v;
+                    OnValueChanged(new EventArgs());
+                    break;
+            }
+        }
+        // ************************************************************************
+        public int CharStrength
+        {
+            get { return CharStrengthFromIndex(m_CharCurrent); }
+            set { SetCharStrengthFromIndex(m_CharCurrent, value); }
+        }
+        // ************************************************************************
+        public int CharIQFromIndex(int idx)
+        {
+            int ret = 0;
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x0E;
+                    ret = (int)m_stateBuf[adr];
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x0C;
+                    ret = (int)m_stateBuf[adr];
+                    break;
+                default:
+                    return ret;
+            }
+            return ret;
+        }
+        // ************************************************************************
+        public void SetCharIQFromIndex(int idx, int v)
+        {
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            if (v < 0) v = 0;
+            else if (v > 0xFF) v = 0xFF;
+
+            if (CharIQFromIndex(idx) == v) return;
+
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x0E;
+                    m_stateBuf[adr] = (byte)v;
+                    OnValueChanged(new EventArgs());
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x0C;
+                    m_stateBuf[adr] = (byte)v;
+                    OnValueChanged(new EventArgs());
+                    break;
+            }
+        }
+        // ************************************************************************
+        public int CharIQ
+        {
+            get { return CharIQFromIndex(m_CharCurrent); }
+            set { SetCharIQFromIndex(m_CharCurrent, value); }
+        }
+        // ************************************************************************
+        public int CharPietyFromIndex(int idx)
+        {
+            int ret = 0;
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x0F;
+                    ret = (int)m_stateBuf[adr];
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x0D;
+                    ret = (int)m_stateBuf[adr];
+                    break;
+                default:
+                    return ret;
+            }
+            return ret;
+        }
+        // ************************************************************************
+        public void SetCharPietyFromIndex(int idx, int v)
+        {
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            if (v < 0) v = 0;
+            else if (v > 0xFF) v = 0xFF;
+
+            if (CharPietyFromIndex(idx) == v) return;
+
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x0F;
+                    m_stateBuf[adr] = (byte)v;
+                    OnValueChanged(new EventArgs());
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x0D;
+                    m_stateBuf[adr] = (byte)v;
+                    OnValueChanged(new EventArgs());
+                    break;
+            }
+        }
+        // ************************************************************************
+        public int CharPiety
+        {
+            get { return CharPietyFromIndex(m_CharCurrent); }
+            set { SetCharPietyFromIndex(m_CharCurrent, value); }
+        }
+        // ************************************************************************
+        public int CharVitarityFromIndex(int idx)
+        {
+            int ret = 0;
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x10;
+                    ret = (int)m_stateBuf[adr];
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x0E;
+                    ret = (int)m_stateBuf[adr];
+                    break;
+                default:
+                    return ret;
+            }
+            return ret;
+        }
+        // ************************************************************************
+        public void SetCharVitarityFromIndex(int idx, int v)
+        {
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            if (v < 0) v = 0;
+            else if (v > 0xFF) v = 0xFF;
+
+            if (CharVitarityFromIndex(idx) == v) return;
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x10;
+                    m_stateBuf[adr] = (byte)v;
+                    OnValueChanged(new EventArgs());
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x0E;
+                    m_stateBuf[adr] = (byte)v;
+                    OnValueChanged(new EventArgs());
+                    break;
+            }
+        }
+        // ************************************************************************
+        public int CharVitarity
+        {
+            get { return CharVitarityFromIndex(m_CharCurrent); }
+            set { SetCharVitarityFromIndex(m_CharCurrent, value); }
+        }
+        // ************************************************************************
+        public int CharAgilityFromIndex(int idx)
+        {
+            int ret = 0;
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x11;
+                    ret = (int)m_stateBuf[adr];
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x0F;
+                    ret = (int)m_stateBuf[adr];
+                    break;
+                default:
+                    return ret;
+            }
+            return ret;
+        }
+        // ************************************************************************
+        public void SetCharAgilityFromIndex(int idx, int v)
+        {
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            if (v < 0) v = 0;
+            else if (v > 0xFF) v = 0xFF;
+
+            if (CharAgilityFromIndex(idx) == v) return;
+
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x11;
+                    m_stateBuf[adr] = (byte)v;
+                    OnValueChanged(new EventArgs());
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x0F;
+                    m_stateBuf[adr] = (byte)v;
+                    OnValueChanged(new EventArgs());
+                    break;
+            }
+        }
+        // ************************************************************************
+        public int CharAgility
+        {
+            get { return CharAgilityFromIndex(m_CharCurrent); }
+            set { SetCharAgilityFromIndex(m_CharCurrent, value); }
+        }
+        // ************************************************************************
+        public int CharLuckFromIndex(int idx)
+        {
+            int ret = 0;
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x12;
+                    ret = (int)m_stateBuf[adr];
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x10;
+                    ret = (int)m_stateBuf[adr];
+                    break;
+                default:
+                    return ret;
+            }
+            return ret;
+        }
+        // ************************************************************************
+        public void SetCharLuckFromIndex(int idx, int v)
+        {
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            if (v < 0) v = 0;
+            else if (v > 0xFF) v = 0xFF;
+
+            if (CharLuckFromIndex(idx) == v) return;
+
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x12;
+                    m_stateBuf[adr] = (byte)v;
+                    OnValueChanged(new EventArgs());
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x10;
+                    m_stateBuf[adr] = (byte)v;
+                    OnValueChanged(new EventArgs());
+                    break;
+            }
+        }
+        // ************************************************************************
+        public int CharLuck
+        {
+            get { return CharLuckFromIndex(m_CharCurrent); }
+            set { SetCharLuckFromIndex(m_CharCurrent, value); }
+        }
+        //**************************************************
         public byte[] CharBounusFromIndex(int idx)
         {
             byte[] ret = new byte[BounusCount];
@@ -791,9 +1348,40 @@ namespace WizEdit
             return ret;
         }
         // ************************************************************************
+        public void SetCharHPFromIndex(int idx,int v)
+        {
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            int adr = CharAdr(idx);
+            if (v < 0) v = 0;
+            else if (v > 0xFFFF) v = 0xFFFF;
+
+            if (CharHPFromIndex(idx) == v) return;
+
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x1F;
+                    m_stateBuf[adr] = (byte)((v >> 8) & 0xFF);
+                    m_stateBuf[adr+1] = (byte)(v  & 0xFF);
+                    OnValueChanged(new EventArgs());
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x1D;
+                    m_stateBuf[adr] = (byte)((v >> 8) & 0xFF);
+                    m_stateBuf[adr + 1] = (byte)(v & 0xFF);
+                    OnValueChanged(new EventArgs());
+                    break;
+            }
+        }
+        // ************************************************************************
         public int CharHP
         {
             get { return CharHPFromIndex(m_CharCurrent); }
+            set { SetCharHPFromIndex(m_CharCurrent, value); }
         }
         // ************************************************************************
         public int CharHPMaxFromIndex(int idx)
@@ -805,6 +1393,7 @@ namespace WizEdit
                 return ret;
             }
             int adr = CharAdr(idx);
+
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
@@ -823,9 +1412,39 @@ namespace WizEdit
             return ret;
         }
         // ************************************************************************
+        public void SetCharHPMaxFromIndex(int idx,int v)
+        {
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            int adr = CharAdr(idx);
+            if (v < 0) v = 0;
+            else if (v > 0xFFFF) v = 0xFFFF;
+            if (CharHPMaxFromIndex(idx) == v) return;
+
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x21;
+                    m_stateBuf[adr] = (byte)((v >> 8) & 0xFF);
+                    m_stateBuf[adr + 1] = (byte)(v & 0xFF);
+                    OnValueChanged(new EventArgs());
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x1F;
+                    m_stateBuf[adr] = (byte)((v >> 8) & 0xFF);
+                    m_stateBuf[adr + 1] = (byte)(v & 0xFF);
+                    OnValueChanged(new EventArgs());
+                    break;
+            }
+        }
+        // ************************************************************************
         public int CharHPMax
         {
             get { return CharHPMaxFromIndex(m_CharCurrent); }
+            set { SetCharHPMaxFromIndex(m_CharCurrent, value); }
         }
         // ************************************************************************
         public WIZSTATUS CharStatusFromIndex(int idx)
@@ -857,16 +1476,43 @@ namespace WizEdit
             return ret;
         }
         // ************************************************************************
+        public void SetCharStatusFromIndex(int idx, WIZSTATUS v)
+        {
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            if (CharStatusFromIndex(idx) == v) return;
+            int adr = CharAdr(idx);
+            byte v2 = (byte)((byte)v & 0x0F);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x25;
+                    m_stateBuf[adr] = v2;
+                    OnValueChanged(new EventArgs());
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    adr += 0x23;
+                    m_stateBuf[adr] = v2;
+                    OnValueChanged(new EventArgs());
+                    break;
+            }
+        }
+        // ************************************************************************
         public WIZSTATUS CharStatus
         {
             get { return CharStatusFromIndex(m_CharCurrent); }
+            set { SetCharStatusFromIndex(m_CharCurrent, value); }
         }
+        // ************************************************************************
         public string CharStatusStr
         {
             get
             {
                 WIZSTATUS s = CharStatusFromIndex(m_CharCurrent);
-                return StatusStr[ (int)s];
+                return StatusStrJ[ (int)s];
             }
         }
         // ************************************************************************
@@ -881,10 +1527,17 @@ namespace WizEdit
 
         }
         // ************************************************************************
-        public byte[] CharData
+        public void SetCharDataFromIndex(int idx,byte[] a)
         {
-            get { return CharDataFromIndex(m_CharCurrent); }
+            if ((idx < 0) || (idx >= m_CharCount)) return;
+            if(a.Length != CharSize)
+            {
+                return;
+            }
+            SetCode(idx, a);
+
         }
+ 
         // ************************************************************************
         public MagicPoint CharMagicFromIndex(int idx)
         {
@@ -962,6 +1615,168 @@ namespace WizEdit
             get { return CharPriestFromIndex(m_CharCurrent); }
         }
         // ************************************************************************
+        public WizItem CharItemFromIndex(int c_idx,int i_idx)
+        {
+            WizItem ret = new WizItem(m_scn);
+            if ((c_idx < 0) || (c_idx >= m_CharCount))
+            {
+                return ret;
+            }
+            if ((i_idx < 0) || (i_idx >= 8))
+            {
+                return ret;
+            }
+            int adr = CharAdr(c_idx);
+            int cnt = 0;
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    cnt = m_stateBuf[adr + 0x5C];
+                    if (i_idx < cnt)
+                    {
+                        ret.ID = m_stateBuf[adr + 0x54 + i_idx];
+                        ret.Status = m_stateBuf[adr + 0x4C + i_idx];
+                    }
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    cnt = m_stateBuf[adr + 0x53];
+                    if (i_idx < cnt)
+                    {
+                        ret.ID = m_stateBuf[adr + 0x4B + i_idx];
+                        ret.Status = m_stateBuf[adr + 0x43 + i_idx];
+                    }
+                    break;
+                default:
+                    return ret;
+            }
+            return ret;
+
+        }
+        // ************************************************************************
+        public void  SetCharItemFromIndex(int c_idx, int i_idx,WizItem wi)
+        {
+            if ((c_idx < 0) || (c_idx >= m_CharCount))
+            {
+                return;
+            }
+            if ((i_idx < 0) || (i_idx >= 8))
+            {
+                return;
+            }
+            int adr = CharAdr(c_idx);
+            int cnt = 0;
+            bool upd = false;
+            int ad = 0;
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    cnt = m_stateBuf[adr + 0x5C];
+                    if (i_idx < cnt)
+                    {
+                        ad = adr + 0x54 + i_idx;
+                        if (m_stateBuf[ad] != wi.ID)
+                        {
+                            m_stateBuf[ad] = wi.ID;
+                            upd = true;
+                        }
+                        ad = adr + 0x4C + i_idx;
+                        if (m_stateBuf[ad] != wi.Status)
+                        {
+                            m_stateBuf[ad] = wi.Status;
+                            upd = true;
+                        }
+                    }
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    cnt = m_stateBuf[adr + 0x53];
+                    if (i_idx < cnt)
+                    {
+                        ad = adr + 0x4B + i_idx;
+                        if (m_stateBuf[ad] != wi.ID)
+                        {
+                            m_stateBuf[ad] = wi.ID;
+                            upd = true;
+                        }
+                        ad = adr + 0x43 + i_idx;
+                        if (m_stateBuf[ad] != wi.Status)
+                        {
+                            m_stateBuf[ad] = wi.Status;
+                            upd = true;
+                        }
+                    }
+                    break;
+            }
+            if(upd==true)
+            {
+                OnValueChanged(new EventArgs());
+            }
+
+        }
+        // ************************************************************************
+        public byte [] CharSpellFromIndex(int idx)
+        {
+            byte[] ret = new byte[0];
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x45;
+                    ret = GetCode(adr, 7);
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    //Wiz2MSkill = $35;
+                    //Wiz2PSkill = $3C;
+                    adr += 0x35;
+                    ret = GetCode(adr, 14);
+                    break;
+                default:
+                    return ret;
+            }
+            return ret;
+        }
+        // ************************************************************************
+        public void SetCharSpellFromIndex(int idx, byte[] a)
+        {
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    adr += 0x45;
+                    if (a.Length == 7)
+                    {
+                        SetCode(adr, a);
+                    }
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    //Wiz2MSkill = $35;
+                    //Wiz2PSkill = $3C;
+                    adr += 0x35;
+                    if (a.Length == 14)
+                    {
+                        SetCode(adr, a);
+                    }
+                    break;
+            }
+        }
+        // ************************************************************************
+        public byte[] CharSpell
+        {
+            get { return CharSpellFromIndex(m_CharCurrent); }
+            set { SetCharSpellFromIndex(m_CharCurrent, value); }
+        }
+        // ************************************************************************
         public WizItem [] CharItemsFromIndex(int idx)
         {
             WizItem[] ret = new WizItem[0];
@@ -980,9 +1795,11 @@ namespace WizEdit
                         ret = new WizItem[cnt];
                         for (int i = 0; i < cnt; i++)
                         {
-                            ret[i] = new WizItem(m_scn);
-                            ret[i].ID = m_stateBuf[adr + 0x54 + i];
-                            ret[i].Status = m_stateBuf[adr + 0x4C + i];
+                            ret[i] = new WizItem(m_scn)
+                            {
+                                ID = m_stateBuf[adr + 0x54 + i],
+                                Status = m_stateBuf[adr + 0x4C + i]
+                            };
                         }
                     }
 
@@ -995,9 +1812,11 @@ namespace WizEdit
                         ret = new WizItem[cnt];
                         for (int i = 0; i < cnt; i++)
                         {
-                            ret[i] = new WizItem(m_scn);
-                            ret[i].ID = m_stateBuf[adr + 0x4B + i];
-                            ret[i].Status = m_stateBuf[adr + 0x43 + i];
+                            ret[i] = new WizItem(m_scn)
+                            {
+                                ID = m_stateBuf[adr + 0x4B + i],
+                                Status = m_stateBuf[adr + 0x43 + i]
+                            };
                         }
                     }
 
@@ -1070,7 +1889,8 @@ namespace WizEdit
                 }
             }
             return ret;
-        }// ************************************************************************
+        }
+        // ************************************************************************
         /// <summary>
         /// 文字列の検索　アスキー文字　Wiz文字ではない
         /// </summary>
@@ -1109,6 +1929,19 @@ namespace WizEdit
                 ret[i] = m_stateBuf[index + i];
             }
             return ret;
+        }
+        public void SetCode(int index, byte [] a)
+        {
+            int len = a.Length;
+            if (len <= 0) return;
+            if ((len > 0) && (index >= 0) && (index < m_stateBuf.Length))
+            {
+                for (int i = 0; i < len; i++)
+                {
+                    m_stateBuf[index + i] = a[i];
+                }
+            }
+
         }
         // ************************************************************************
         /// <summary>
@@ -1182,6 +2015,7 @@ namespace WizEdit
         public bool LoadFile(string p)
         {
             bool ret = false;
+            m_statePath = "";
             if (File.Exists(p) == false) return ret;
             FileStream fs = new FileStream(p, FileMode.Open, FileAccess.Read);
             try
@@ -1202,16 +2036,76 @@ namespace WizEdit
             {
                 m_stateBuf = new byte[0];
             }
+            else
+            {
+                m_statePath = p;
+            }
             //イベント
-            OnFinishedLoadFile(EventArgs.Empty);
+            OnLoadFileFinished(EventArgs.Empty);
+            return ret;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public bool SaveFile(string p)
+        {
+            bool ret = false;
+            if (m_stateBuf.Length <= 0) return ret;
+            FileStream fs = new FileStream(p,FileMode.Create,FileAccess.Write);
+            try
+            {
+                fs.Write(m_stateBuf, 0, m_stateBuf.Length);
+                ret = true;
+            }
+            catch
+            {
+                ret = false;
+            }
+            finally
+            {
+                fs.Close();
+            }
+            if(ret == true)
+            {
+                m_statePath = p;
+            }
 
             return ret;
         }
-    // ************************************************************************
-    public bool ResLoad()
+        // ************************************************************************
+        private WIZ_SCN m_res_scn = WIZ_SCN.S1;
+        public WIZ_SCN RES_SCN
+        {
+            get { return m_res_scn; }
+            set
+            {
+                if (m_res_scn != value)
+                {
+                    m_res_scn = value;
+                    ResLoad();
+                }
+            }
+        }
+        public bool ResLoad()
         {
             bool ret = false;
-            byte[] bs = Properties.Resources.wiz1;
+            byte[] bs = null;
+            switch(m_res_scn)
+            {
+                case WIZ_SCN.S1:
+                    bs= Properties.Resources.Wizardry1;
+                    break;
+                case WIZ_SCN.S2:
+                    bs = Properties.Resources.Wizardry2;
+                    break;
+                case WIZ_SCN.S3:
+                    bs = Properties.Resources.Wizardry3;
+                    break;
+                default:
+                    return ret;
+            }
             int ln = bs.Length;
             if (ln>0)
             {
@@ -1222,8 +2116,26 @@ namespace WizEdit
                 {
                     m_stateBuf = new byte[0];
                 }
+                else
+                {
+                    m_statePath = "";
+                    OnLoadFileFinished(new EventArgs());
+                }
             }
             return ret;
+        }
+        // ************************************************************************
+        public void Refresh()
+        {
+            OnLoadFileFinished(new EventArgs());
+        }
+        public string [] ItemList
+        {
+            get
+            {
+                WizItem wi = new WizItem(m_scn);
+                return wi.ItemNames;
+            }
         }
     }
 }

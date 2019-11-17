@@ -26,7 +26,11 @@ namespace WizEdit
             get { return m_FarText; }
             set { m_FarText = value; this.Invalidate(); }
         }
-
+        public long Value
+        {
+            get { return long.Parse(m_FarText); }
+            set { m_FarText = value.ToString(); this.Invalidate(); }
+        }
 
         public WizTextBox()
         {
@@ -49,10 +53,14 @@ namespace WizEdit
         {
             base.OnPaint(e);
             SolidBrush sb = new SolidBrush(this.BackColor);
-            Pen p = new Pen(Color.DarkGray);
-            p.Width = 2;
-            StringFormat sf = new StringFormat();
-            sf.LineAlignment = StringAlignment.Center;
+            Pen p = new Pen(Color.DarkGray)
+            {
+                Width = 2
+            };
+            StringFormat sf = new StringFormat
+            {
+                LineAlignment = StringAlignment.Center
+            };
             Graphics g = e.Graphics;
             try
             {

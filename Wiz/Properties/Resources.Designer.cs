@@ -63,9 +63,29 @@ namespace WizEdit.Properties {
         /// <summary>
         ///   型 System.Byte[] のローカライズされたリソースを検索します。
         /// </summary>
-        internal static byte[] wiz1 {
+        internal static byte[] Wizardry1 {
             get {
-                object obj = ResourceManager.GetObject("wiz1", resourceCulture);
+                object obj = ResourceManager.GetObject("Wizardry1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static byte[] Wizardry2 {
+            get {
+                object obj = ResourceManager.GetObject("Wizardry2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static byte[] Wizardry3 {
+            get {
+                object obj = ResourceManager.GetObject("Wizardry3", resourceCulture);
                 return ((byte[])(obj));
             }
         }

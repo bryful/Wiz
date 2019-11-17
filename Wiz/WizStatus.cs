@@ -56,6 +56,10 @@ namespace WizEdit
             get { return m_CaptionWidth; }
             set { m_CaptionWidth = value; this.Invalidate(); }
         }
+        public Point StatusPoint
+        {
+            get { return new Point(m_CaptionWidth+ this.Left, this.Top); }
+        }
         // *************************************************************************
         #region state
         private WizNesState m_state = null;
@@ -67,8 +71,9 @@ namespace WizEdit
                 m_state = value;
                 if (m_state != null)
                 {
-                    m_state.ChangeCurrentChar += M_state_ChangeCurrentChar;
-                    m_state.FinishedLoadFile += M_state_FinishedLoadFile;
+                    m_state.CurrentCharChanged += M_state_ChangeCurrentChar;
+                    m_state.LoadFileFinished += M_state_FinishedLoadFile;
+                    m_state.ValueChanged += M_state_FinishedLoadFile;
                 }
                 GetInfo();
             }

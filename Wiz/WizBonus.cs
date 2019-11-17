@@ -14,6 +14,38 @@ namespace WizEdit
 {
     public class WizBonus : Control
     {
+        public event EventHandler StrengthClicked;
+        protected virtual void OnStrengthClicked(EventArgs e)
+        {
+            StrengthClicked?.Invoke(this, e);
+        }
+        public event EventHandler IQClicked;
+        protected virtual void OnIQClicked(EventArgs e)
+        {
+            IQClicked?.Invoke(this, e);
+        }
+        public event EventHandler PietyClicked;
+        protected virtual void OnPietyClicked(EventArgs e)
+        {
+            PietyClicked?.Invoke(this, e);
+        }
+        public event EventHandler VitarityClicked;
+        protected virtual void OnVitarityClicked(EventArgs e)
+        {
+            VitarityClicked?.Invoke(this, e);
+        }
+        public event EventHandler AgilityClicked;
+        protected virtual void OnAgilityClicked(EventArgs e)
+        {
+            AgilityClicked?.Invoke(this, e);
+        }
+        public event EventHandler LuckClicked;
+        protected virtual void OnLuckClicked(EventArgs e)
+        {
+            LuckClicked?.Invoke(this, e);
+        }
+
+
         public const int BounusCount = 6;
         private int[] m_Bounus = new int[BounusCount];
         private bool m_IsDrawFrame = false;
@@ -75,17 +107,18 @@ namespace WizEdit
                 m_state = value;
                 if (m_state != null)
                 {
-                    m_state.ChangeCurrentChar += M_state_ChangeCurrentChar;
-                    m_state.FinishedLoadFile += M_state_FinishedLoadFile;
+                    m_state.CurrentCharChanged += M_state_ChangeCurrentChar;
+                    m_state.LoadFileFinished += M_state_ValueChanged;
+                    m_state.ValueChanged += M_state_ValueChanged;
                 }
                 GetInfo();
             }
         }
-        private void M_state_FinishedLoadFile(object sender, EventArgs e)
+
+        private void M_state_ValueChanged(object sender, EventArgs e)
         {
             GetInfo();
         }
-
         private void M_state_ChangeCurrentChar(object sender, CurrentCharEventArgs e)
         {
             GetInfo();
@@ -168,5 +201,33 @@ namespace WizEdit
 
         }
         // *************************************************************************
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            int y = e.Y / m_LineHeight;
+
+            switch(y)
+            {
+                case 0:
+                    OnStrengthClicked(new EventArgs());
+                    break;
+                case 1:
+                    OnIQClicked(new EventArgs());
+                    break;
+                case 2:
+                    OnPietyClicked(new EventArgs());
+                    break;
+                case 3:
+                    OnVitarityClicked(new EventArgs());
+                    break;
+                case 4:
+                    OnAgilityClicked(new EventArgs());
+                    break;
+                case 5:
+                    OnLuckClicked(new EventArgs());
+                    break;
+            }
+
+            base.OnMouseDown(e);
+        }
     }
 }
