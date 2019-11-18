@@ -146,6 +146,11 @@
             this.wizNesState1.CharIQ = 8;
             this.wizNesState1.CharLevel = 1;
             this.wizNesState1.CharLuck = 9;
+            this.wizNesState1.CharNameCode = new byte[] {
+        ((byte)(123)),
+        ((byte)(155)),
+        ((byte)(121)),
+        ((byte)(1))};
             this.wizNesState1.CharPiety = 7;
             this.wizNesState1.CharRace = WizFCEdit.WIZRACE.HUMAN;
             this.wizNesState1.CharSpell = new byte[] {
@@ -376,7 +381,7 @@
             this.wizItemList1.IsDrawFrame = false;
             this.wizItemList1.ItemID = 1;
             this.wizItemList1.LineHeight = 20;
-            this.wizItemList1.Location = new System.Drawing.Point(267, 381);
+            this.wizItemList1.Location = new System.Drawing.Point(267, 391);
             this.wizItemList1.MinimumSize = new System.Drawing.Size(0, 160);
             this.wizItemList1.Name = "wizItemList1";
             this.wizItemList1.Size = new System.Drawing.Size(389, 160);
@@ -435,7 +440,7 @@
             this.wizValueEditor1.Corner = 5;
             this.wizValueEditor1.ForeColor = System.Drawing.Color.White;
             this.wizValueEditor1.LineWidth = 3;
-            this.wizValueEditor1.Location = new System.Drawing.Point(54, 78);
+            this.wizValueEditor1.Location = new System.Drawing.Point(-45, 166);
             this.wizValueEditor1.MaximumSize = new System.Drawing.Size(250, 310);
             this.wizValueEditor1.MinimumSize = new System.Drawing.Size(250, 310);
             this.wizValueEditor1.Name = "wizValueEditor1";
@@ -459,7 +464,7 @@
             this.wizSpellList1.LeftMgn = 30;
             this.wizSpellList1.LineHeight = 20;
             this.wizSpellList1.LineWidth = 3;
-            this.wizSpellList1.Location = new System.Drawing.Point(85, 195);
+            this.wizSpellList1.Location = new System.Drawing.Point(-448, 86);
             this.wizSpellList1.MaximumSize = new System.Drawing.Size(570, 250);
             this.wizSpellList1.MinimumSize = new System.Drawing.Size(570, 250);
             this.wizSpellList1.Name = "wizSpellList1";

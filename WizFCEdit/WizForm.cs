@@ -34,6 +34,7 @@ namespace WizFCEdit
         Item,
         Level,
         Name,
+        Spell,
         COUNT
     }
 
@@ -408,6 +409,21 @@ namespace WizFCEdit
 
         #endregion
 
+        #region SepllList
+        private WizSpellList m_SpellList = null;
+        public WizSpellList WizSpellList
+        {
+            get { return m_SpellList; }
+            set
+            {
+                m_SpellList = value;
+                if(m_SpellList!=null)
+                {
+
+                }
+            }
+        }
+        #endregion
 
         #region CharCaption
         // **************************************************************************************
@@ -913,6 +929,20 @@ namespace WizFCEdit
             }
             m_Mode = WizFormMode.CHARLIST;
             this.Invalidate();
+        }
+        // **************************************************************************************
+        public void EditSpellList()
+        {
+            if (m_state == null) return;
+            if (m_SpellList == null) return;
+            if (m_Mode != WizFormMode.CHARLIST) return;
+            if (m_Limit.IsSpell == false) return;
+
+            m_Mode = WizFormMode.Spell;
+            m_SpellList.Location = new Point(70, 200);
+            m_SpellList.Visible = true;
+            m_SpellList.Enabled = true;
+
         }
         // **************************************************************************************
         /// <summary>
