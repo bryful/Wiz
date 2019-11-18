@@ -139,6 +139,7 @@
     <Compile Include="WizItemList.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="WizLimit.cs" />
     <Compile Include="WizMP.cs">
       <SubType>Component</SubType>
     </Compile>
