@@ -42,9 +42,6 @@
             this.wizCharCaption1 = new WizFCEdit.WizCharCaption();
             this.wizGold = new WizFCEdit.WizParam();
             this.wizEP = new WizFCEdit.WizParam();
-            this.wizAge = new WizFCEdit.WizParam();
-            this.wizWeek = new WizFCEdit.WizParam();
-            this.wizAC = new WizFCEdit.WizParam();
             this.wizBonus1 = new WizFCEdit.WizBonus();
             this.wizHP1 = new WizFCEdit.WizHP();
             this.wizStatus1 = new WizFCEdit.WizStatus();
@@ -58,6 +55,10 @@
             this.wizSpellList1 = new WizFCEdit.WizSpellList();
             this.btnSetting = new WizFCEdit.WizButton();
             this.wizPictureBox1 = new WizFCEdit.WizPictureBox();
+            this.beAge = new WizFCEdit.WizByteEdit();
+            this.beWeek = new WizFCEdit.WizByteEdit();
+            this.beAC = new WizFCEdit.WizByteEdit();
+            this.wizLongEdit1 = new WizFCEdit.WizLongEdit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -135,23 +136,23 @@
             // 
             this.wizNesState1.CharAC = ((sbyte)(4));
             this.wizNesState1.CharAge = ((sbyte)(16));
-            this.wizNesState1.CharAgility = 8;
+            this.wizNesState1.CharAgility = ((byte)(8));
             this.wizNesState1.CharAlg = WizFCEdit.WIZALG.GOOD;
             this.wizNesState1.CharClass = WizFCEdit.WIZCLASS.FIG;
             this.wizNesState1.CharCurrent = 0;
             this.wizNesState1.CharExp = ((long)(0));
             this.wizNesState1.CharGold = ((long)(0));
-            this.wizNesState1.CharHP = 8;
-            this.wizNesState1.CharHPMax = 8;
-            this.wizNesState1.CharIQ = 8;
-            this.wizNesState1.CharLevel = 1;
-            this.wizNesState1.CharLuck = 9;
+            this.wizNesState1.CharHP = ((ushort)(8));
+            this.wizNesState1.CharHPMax = ((ushort)(8));
+            this.wizNesState1.CharIQ = ((byte)(8));
+            this.wizNesState1.CharLevel = ((ushort)(1));
+            this.wizNesState1.CharLuck = ((byte)(9));
             this.wizNesState1.CharNameCode = new byte[] {
         ((byte)(123)),
         ((byte)(155)),
         ((byte)(121)),
         ((byte)(1))};
-            this.wizNesState1.CharPiety = 7;
+            this.wizNesState1.CharPiety = ((byte)(7));
             this.wizNesState1.CharRace = WizFCEdit.WIZRACE.HUMAN;
             this.wizNesState1.CharSpell = new byte[] {
         ((byte)(0)),
@@ -162,9 +163,9 @@
         ((byte)(0)),
         ((byte)(0))};
             this.wizNesState1.CharStatus = WizFCEdit.WIZSTATUS.OK;
-            this.wizNesState1.CharStrength = 11;
-            this.wizNesState1.CharVitarity = 8;
-            this.wizNesState1.CharWeek = 24;
+            this.wizNesState1.CharStrength = ((byte)(11));
+            this.wizNesState1.CharVitarity = ((byte)(8));
+            this.wizNesState1.CharWeek = ((byte)(24));
             this.wizNesState1.RES_SCN = WizFCEdit.WIZ_SCN.S1;
             // 
             // wizCharList1
@@ -180,13 +181,13 @@
             this.wizCharList1.ListBottomMgn = 5;
             this.wizCharList1.ListLeftMgn = 30;
             this.wizCharList1.ListRightMgn = 10;
-            this.wizCharList1.ListTopMgn = 5;
+            this.wizCharList1.ListTopMgn = 30;
             this.wizCharList1.Location = new System.Drawing.Point(37, 86);
             this.wizCharList1.Margin = new System.Windows.Forms.Padding(4);
-            this.wizCharList1.MinimumSize = new System.Drawing.Size(0, 455);
+            this.wizCharList1.MinimumSize = new System.Drawing.Size(0, 370);
             this.wizCharList1.Name = "wizCharList1";
-            this.wizCharList1.SiseMargin = 5;
-            this.wizCharList1.Size = new System.Drawing.Size(205, 455);
+            this.wizCharList1.SideMargin = 5;
+            this.wizCharList1.Size = new System.Drawing.Size(205, 451);
             this.wizCharList1.TabIndex = 0;
             this.wizCharList1.Text = "wizCharList1";
             this.wizCharList1.TopMargin = 5;
@@ -245,57 +246,6 @@
             this.wizEP.Text = "wizParam2";
             this.wizEP.Value = ((long)(0));
             this.wizEP.WizNesState = this.wizNesState1;
-            // 
-            // wizAge
-            // 
-            this.wizAge.BackColor = System.Drawing.Color.Black;
-            this.wizAge.FarText = "16";
-            this.wizAge.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.wizAge.ForeColor = System.Drawing.Color.White;
-            this.wizAge.IsDrawFrame = false;
-            this.wizAge.Location = new System.Drawing.Point(396, 226);
-            this.wizAge.Mode = WizFCEdit.WizParamMode.Age;
-            this.wizAge.Name = "wizAge";
-            this.wizAge.NearText = "AGE";
-            this.wizAge.Size = new System.Drawing.Size(84, 23);
-            this.wizAge.TabIndex = 9;
-            this.wizAge.Text = "wizParam3";
-            this.wizAge.Value = ((long)(16));
-            this.wizAge.WizNesState = this.wizNesState1;
-            // 
-            // wizWeek
-            // 
-            this.wizWeek.BackColor = System.Drawing.Color.Black;
-            this.wizWeek.FarText = "24";
-            this.wizWeek.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.wizWeek.ForeColor = System.Drawing.Color.White;
-            this.wizWeek.IsDrawFrame = false;
-            this.wizWeek.Location = new System.Drawing.Point(556, 226);
-            this.wizWeek.Mode = WizFCEdit.WizParamMode.Week;
-            this.wizWeek.Name = "wizWeek";
-            this.wizWeek.NearText = "Week";
-            this.wizWeek.Size = new System.Drawing.Size(84, 23);
-            this.wizWeek.TabIndex = 10;
-            this.wizWeek.Text = "wizParam4";
-            this.wizWeek.Value = ((long)(24));
-            this.wizWeek.WizNesState = this.wizNesState1;
-            // 
-            // wizAC
-            // 
-            this.wizAC.BackColor = System.Drawing.Color.Black;
-            this.wizAC.FarText = "4";
-            this.wizAC.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.wizAC.ForeColor = System.Drawing.Color.White;
-            this.wizAC.IsDrawFrame = false;
-            this.wizAC.Location = new System.Drawing.Point(451, 255);
-            this.wizAC.Mode = WizFCEdit.WizParamMode.AC;
-            this.wizAC.Name = "wizAC";
-            this.wizAC.NearText = "A.C.";
-            this.wizAC.Size = new System.Drawing.Size(113, 23);
-            this.wizAC.TabIndex = 12;
-            this.wizAC.Text = "wizParam5";
-            this.wizAC.Value = ((long)(4));
-            this.wizAC.WizNesState = this.wizNesState1;
             // 
             // wizBonus1
             // 
@@ -368,7 +318,7 @@
             this.wizConrol1.LineWidth = 3;
             this.wizConrol1.Location = new System.Drawing.Point(249, 86);
             this.wizConrol1.Name = "wizConrol1";
-            this.wizConrol1.SiseMargin = 5;
+            this.wizConrol1.SideMargin = 5;
             this.wizConrol1.Size = new System.Drawing.Size(436, 482);
             this.wizConrol1.TabIndex = 1;
             this.wizConrol1.Text = "wizConrol1";
@@ -444,7 +394,7 @@
             this.wizValueEditor1.MaximumSize = new System.Drawing.Size(250, 310);
             this.wizValueEditor1.MinimumSize = new System.Drawing.Size(250, 310);
             this.wizValueEditor1.Name = "wizValueEditor1";
-            this.wizValueEditor1.SiseMargin = 5;
+            this.wizValueEditor1.SideMargin = 5;
             this.wizValueEditor1.Size = new System.Drawing.Size(250, 310);
             this.wizValueEditor1.TabIndex = 18;
             this.wizValueEditor1.Text = "wizValueEditor1";
@@ -468,7 +418,7 @@
             this.wizSpellList1.MaximumSize = new System.Drawing.Size(570, 250);
             this.wizSpellList1.MinimumSize = new System.Drawing.Size(570, 250);
             this.wizSpellList1.Name = "wizSpellList1";
-            this.wizSpellList1.SiseMargin = 5;
+            this.wizSpellList1.SideMargin = 5;
             this.wizSpellList1.Size = new System.Drawing.Size(570, 250);
             this.wizSpellList1.SpellWidth = 75;
             this.wizSpellList1.TabIndex = 19;
@@ -503,12 +453,79 @@
             this.wizPictureBox1.MaximumSize = new System.Drawing.Size(120, 120);
             this.wizPictureBox1.MinimumSize = new System.Drawing.Size(120, 120);
             this.wizPictureBox1.Name = "wizPictureBox1";
-            this.wizPictureBox1.SiseMargin = 5;
+            this.wizPictureBox1.SideMargin = 5;
             this.wizPictureBox1.Size = new System.Drawing.Size(120, 120);
             this.wizPictureBox1.TabIndex = 21;
             this.wizPictureBox1.Text = "wizPictureBox1";
             this.wizPictureBox1.TopMargin = 5;
             this.wizPictureBox1.WizNesState = this.wizNesState1;
+            // 
+            // beAge
+            // 
+            this.beAge.ArrowWidth = 10;
+            this.beAge.BackColor = System.Drawing.Color.Black;
+            this.beAge.CaptionLeft = true;
+            this.beAge.CaptionWidth = 130;
+            this.beAge.ForeColor = System.Drawing.Color.White;
+            this.beAge.IsEdit = true;
+            this.beAge.Location = new System.Drawing.Point(396, 226);
+            this.beAge.Mode = WizFCEdit.WizByteEditMode.Age;
+            this.beAge.Name = "beAge";
+            this.beAge.Size = new System.Drawing.Size(101, 23);
+            this.beAge.TabIndex = 22;
+            this.beAge.Text = "AGE";
+            this.beAge.Value = 16;
+            this.beAge.WizFCState = this.wizNesState1;
+            // 
+            // beWeek
+            // 
+            this.beWeek.ArrowWidth = 10;
+            this.beWeek.BackColor = System.Drawing.Color.Black;
+            this.beWeek.CaptionLeft = true;
+            this.beWeek.CaptionWidth = 100;
+            this.beWeek.ForeColor = System.Drawing.Color.White;
+            this.beWeek.IsEdit = false;
+            this.beWeek.Location = new System.Drawing.Point(565, 226);
+            this.beWeek.Mode = WizFCEdit.WizByteEditMode.Week;
+            this.beWeek.Name = "beWeek";
+            this.beWeek.Size = new System.Drawing.Size(81, 23);
+            this.beWeek.TabIndex = 23;
+            this.beWeek.Text = "Week";
+            this.beWeek.Value = 24;
+            this.beWeek.WizFCState = this.wizNesState1;
+            // 
+            // beAC
+            // 
+            this.beAC.ArrowWidth = 10;
+            this.beAC.BackColor = System.Drawing.Color.Black;
+            this.beAC.CaptionLeft = true;
+            this.beAC.CaptionWidth = 130;
+            this.beAC.ForeColor = System.Drawing.Color.White;
+            this.beAC.IsEdit = false;
+            this.beAC.Location = new System.Drawing.Point(451, 255);
+            this.beAC.Mode = WizFCEdit.WizByteEditMode.AC;
+            this.beAC.Name = "beAC";
+            this.beAC.Size = new System.Drawing.Size(119, 23);
+            this.beAC.TabIndex = 24;
+            this.beAC.Text = "A.C.";
+            this.beAC.Value = 4;
+            this.beAC.WizFCState = this.wizNesState1;
+            // 
+            // wizLongEdit1
+            // 
+            this.wizLongEdit1.ArrowHeight = 5;
+            this.wizLongEdit1.BackColor = System.Drawing.Color.Black;
+            this.wizLongEdit1.ForeColor = System.Drawing.Color.White;
+            this.wizLongEdit1.IsEdit = true;
+            this.wizLongEdit1.Location = new System.Drawing.Point(334, 472);
+            this.wizLongEdit1.Mode = WizFCEdit.WizLongEditMode.Gold;
+            this.wizLongEdit1.Name = "wizLongEdit1";
+            this.wizLongEdit1.NumWidth = 10;
+            this.wizLongEdit1.Size = new System.Drawing.Size(285, 30);
+            this.wizLongEdit1.TabIndex = 25;
+            this.wizLongEdit1.Text = "wizLongEdit1";
+            this.wizLongEdit1.Value = ((ulong)(9999ul));
+            this.wizLongEdit1.WizFCState = null;
             // 
             // Form1
             // 
@@ -520,6 +537,10 @@
             this.BottomMgn = 15;
             this.CaptionWidth = 320;
             this.ClientSize = new System.Drawing.Size(719, 591);
+            this.Controls.Add(this.wizLongEdit1);
+            this.Controls.Add(this.beAC);
+            this.Controls.Add(this.beWeek);
+            this.Controls.Add(this.beAge);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.wizSpellList1);
             this.Controls.Add(this.wizValueEditor1);
@@ -532,9 +553,6 @@
             this.Controls.Add(this.wizStatus1);
             this.Controls.Add(this.wizHP1);
             this.Controls.Add(this.wizBonus1);
-            this.Controls.Add(this.wizAC);
-            this.Controls.Add(this.wizWeek);
-            this.Controls.Add(this.wizAge);
             this.Controls.Add(this.wizEP);
             this.Controls.Add(this.wizGold);
             this.Controls.Add(this.wizCharCaption1);
@@ -551,8 +569,8 @@
             this.MinimumSize = new System.Drawing.Size(638, 606);
             this.Name = "Form1";
             this.Text = "{X=0,Y=0,Width=903,Height=523}";
-            this.WizAC = this.wizAC;
-            this.WizAge = this.wizAge;
+            this.WizAC = this.beAC;
+            this.WizAge = this.beAge;
             this.WizBonus = this.wizBonus1;
             this.WizCharCaption = this.wizCharCaption1;
             this.WizCharList = this.wizCharList1;
@@ -563,7 +581,7 @@
             this.WizNesState = this.wizNesState1;
             this.WizStatus = this.wizStatus1;
             this.WizValueEditor = this.wizValueEditor1;
-            this.WizWeek = this.wizWeek;
+            this.WizWeek = this.beWeek;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
@@ -591,9 +609,6 @@
         private WizCharCaption wizCharCaption1;
         private WizParam wizGold;
         private WizParam wizEP;
-        private WizParam wizAge;
-        private WizParam wizWeek;
-        private WizParam wizAC;
         private WizBonus wizBonus1;
         private WizHP wizHP1;
         private WizStatus wizStatus1;
@@ -607,6 +622,10 @@
         private WizSpellList wizSpellList1;
         private WizButton btnSetting;
         private WizPictureBox wizPictureBox1;
+        private WizByteEdit beAge;
+        private WizByteEdit beWeek;
+        private WizByteEdit beAC;
+        private WizLongEdit wizLongEdit1;
     }
 }
 

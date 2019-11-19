@@ -111,6 +111,9 @@
     <Compile Include="WizBonus.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="WizByteEdit.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WizCharCaption.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -122,9 +125,6 @@
     </Compile>
     <Compile Include="WizBoxControl.Designer.cs">
       <DependentUpon>WizBoxControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WizExecList.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="WizForm.cs">
       <SubType>Form</SubType>
@@ -140,6 +140,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WizLimit.cs" />
+    <Compile Include="WizLongEdit.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WizMP.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -67,7 +67,7 @@ namespace WizFCEdit
         }
 
 
-    private int m_ListTopMgn = 5;
+        private int m_ListTopMgn = 30;
         public int ListTopMgn
         {
             get { return m_ListTopMgn; }
@@ -125,9 +125,9 @@ namespace WizFCEdit
             {
                 //テキストの描画範囲
                 Rectangle rct = new Rectangle(
-                    this.SiseMargin + m_ListLeftMgn,
+                    this.SideMargin + m_ListLeftMgn,
                     this.TopMargin + m_ListTopMgn,
-                    this.ClientSize.Width - (this.SiseMargin*2 + m_ListLeftMgn + m_ListRightMgn),
+                    this.ClientSize.Width - (this.SideMargin*2 + m_ListLeftMgn + m_ListRightMgn),
                     m_LineHeight
                     );
                 for (int i = 0; i < names.Length; i++)

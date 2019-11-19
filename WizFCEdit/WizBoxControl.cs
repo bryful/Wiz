@@ -14,7 +14,7 @@ namespace WizFCEdit
     public partial class WizBoxControl : Control
     {
         private WizBox wb = new WizBox();
-        public int SiseMargin
+        public int SideMargin
         {
             get { return wb.LeftMargin; }
             set

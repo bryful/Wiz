@@ -80,6 +80,7 @@ namespace WizFCEdit
                 NowP[i] = 0;
                 MaxP[i] = 0;
                 Learning[i] = 0;
+
             }
         }
     }
@@ -142,12 +143,13 @@ namespace WizFCEdit
         public WIZ_SCN SCN { get { return m_scn; } }
 
         public int CharNameLength {get{ return 8; } }
-        public int  CharCountMax { get { return 20; } }
-        private int m_CharCount = 0;
+        private readonly int m_CharCount = 20;
+        public int  CharCount { get { return m_CharCount; } }
+        //private int m_CharCount = 0;
         /// <summary>
         /// 訓練所に登録されているキャラクタ数
         /// </summary>
-        public int CharCount { get { return m_CharCount; } }
+        //public int CharCount { get { return m_CharCount; } }
 
         private int m_CharCurrent = -1;
         public int CharCurrent
@@ -171,14 +173,14 @@ namespace WizFCEdit
         }
         public void CharCurrentUp()
         {
-            if ((m_CharCurrent>0)&&(m_CharCount>0))
+            if (m_CharCurrent>0)
             {
                 CharCurrent = m_CharCurrent - 1;
             }
         }
         public void CharCurrentDown()
         {
-            if ((m_CharCurrent < m_CharCount -1) && (m_CharCount > 0))
+            if ((m_CharCurrent < m_CharCount -1))
             {
                 CharCurrent = m_CharCurrent + 1;
             }
@@ -299,6 +301,18 @@ namespace WizFCEdit
             byte[] ret = new byte[0];
             int idx = CharAdr(index);
             if (idx <= 0) return ret;
+
+            if (m_stateBuf[idx + 1] == 0)
+            {
+                if (m_scn == WIZ_SCN.S1)
+                {
+                    return WizFCString.Wiz1NoneName;
+                }
+                else
+                {
+                    return WizFCString.Wiz2NoneName;
+                }
+            }
             int cnt = m_stateBuf[idx + 1];
             if (cnt <= 0) return ret;
             ret = GetCode(idx + 2, cnt);
@@ -310,7 +324,10 @@ namespace WizFCEdit
         {
             int idx = CharAdr(index);
             if (idx <= 0) return;
+            if (m_stateBuf[idx] == 0) return;
+
             if (nm.Length <= 0) return;
+ 
             m_stateBuf[idx + 1] = (byte)nm.Length;
 
             byte[] a = new byte[8];
@@ -344,6 +361,7 @@ namespace WizFCEdit
         {
             int idx = CharAdr(index);
             if (idx <= 0) return "";
+            if (m_stateBuf[idx] == 0) return WizFCString.NoneName;
             int cnt = m_stateBuf[idx + 1];
             if (cnt <= 0) cnt = 8;
             byte[] nm = GetCode(idx+2, cnt);
@@ -356,12 +374,9 @@ namespace WizFCEdit
             get
             {
                 string[] ret = new string[m_CharCount];
-                if (m_CharCount>0)
+                for ( int i=0; i<m_CharCount;i++)
                 {
-                    for ( int i=0; i<m_CharCount;i++)
-                    {
-                        ret[i] = CharNameFromIndex(i);
-                    }
+                    ret[i] = CharNameFromIndex(i);
                 }
                 return ret;
             }
@@ -412,8 +427,9 @@ namespace WizFCEdit
             {
                 return;
             }
-            if (CharRaceFromIndex(idx) == r) return;
             int adr = CharAdr(idx);
+            if (m_stateBuf[adr] == 0) return;
+            if (CharRaceFromIndex(idx) == r) return;
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
@@ -496,8 +512,10 @@ namespace WizFCEdit
             {
                 return;
             }
-            if (CharClassFromIndex(idx) == cl) return;
             int adr = CharAdr(idx);
+            if (m_stateBuf[adr] == 0) return;
+            if (CharClassFromIndex(idx) == cl) return;
+
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
@@ -579,8 +597,9 @@ namespace WizFCEdit
             {
                 return;
             }
-            if (CharAlgFromIndex(idx) == alg) return;
             int adr = CharAdr(idx);
+            if (m_stateBuf[adr] == 0) return;
+            if (CharAlgFromIndex(idx) == alg) return;
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
@@ -620,9 +639,9 @@ namespace WizFCEdit
             }
         }
         // ************************************************************************
-        public int CharLevelFromIndex(int idx)
+        public ushort CharLevelFromIndex(int idx)
         {
-            int ret = 1;
+            ushort ret = 1;
             if ((idx < 0) || (idx >= m_CharCount))
             {
                 return ret;
@@ -632,12 +651,12 @@ namespace WizFCEdit
             {
                 case WIZ_SCN.S1:
                     adr += 0x23;
-                    ret = ((int)m_stateBuf[adr] * 0x100 + (int)m_stateBuf[adr + 1]);
+                    ret = (ushort)((ushort)m_stateBuf[adr] * 0x100 + (ushort)m_stateBuf[adr + 1]);
                     break;
                 case WIZ_SCN.S2:
                 case WIZ_SCN.S3:
                     adr += 0x21;
-                    ret = ((int)m_stateBuf[adr] * 0x100 + (int)m_stateBuf[adr + 1]);
+                    ret = (ushort)((ushort)m_stateBuf[adr] * 0x100 + (ushort)m_stateBuf[adr + 1]);
                     break;
                 default:
                     return ret;
@@ -646,17 +665,16 @@ namespace WizFCEdit
             return ret;
         }
         // ************************************************************************
-        public void SetCharLevelFromIndex(int idx,int v)
+        public void SetCharLevelFromIndex(int idx,ushort v)
         {
             if ((idx < 0) || (idx >= m_CharCount))
             {
                 return;
             }
-            if (v < 0) v = 0;
-            else if (v > 0xFFFF) v = 0xFFFF;
+            int adr = CharAdr(idx);
+            if (m_stateBuf[adr] == 0) return;
 
             if (CharLevelFromIndex(idx) == v) return;
-            int adr = CharAdr(idx);
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
@@ -676,7 +694,7 @@ namespace WizFCEdit
             }
         }
         // ************************************************************************
-        public int CharLevel
+        public ushort CharLevel
         {
             get { return CharLevelFromIndex(m_CharCurrent); }
             set { SetCharLevelFromIndex(m_CharCurrent, value); }
@@ -717,10 +735,12 @@ namespace WizFCEdit
             if (v < 0) v = 0;
             else if (v > 0xFFFFFFFFFFFF) v = 0xFFFFFFFFFFFF;
 
+            int adr = CharAdr(idx);
+            if (m_stateBuf[adr] == 0) return;
+
 
             if (CharGoldFromIndex(idx) == v) return;
 
-            int adr = CharAdr(idx);
 
             byte[] va = WizU.LongToWizHex(v);
             switch (m_scn)
@@ -777,8 +797,9 @@ namespace WizFCEdit
             {
                 return;
             }
-            if (CharExpFromIndex(idx) == v) return;
             int adr = CharAdr(idx);
+            if (m_stateBuf[adr] == 0) return;
+            if (CharExpFromIndex(idx) == v) return;
             byte[] va = WizU.LongToWizHex(v);
 
             switch (m_scn)
@@ -840,9 +861,12 @@ namespace WizFCEdit
             else if (v > 127) v = 127;
             sbyte v2 = (sbyte)v;
 
+            int adr = CharAdr(idx);
+            if (m_stateBuf[adr] == 0) return;
+
             if (CharAgeFromIndex(idx) == v2) return;
 
-            int adr = CharAdr(idx);
+
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
@@ -865,9 +889,9 @@ namespace WizFCEdit
             set { SetCharAgeFromIndex(m_CharCurrent, value); }
         }
         // ************************************************************************
-        public int CharWeekFromIndex(int idx)
+        public byte CharWeekFromIndex(int idx)
         {
-            int ret = 1;
+            byte ret = 1;
             if ((idx < 0) || (idx >= m_CharCount))
             {
                 return ret;
@@ -877,12 +901,12 @@ namespace WizFCEdit
             {
                 case WIZ_SCN.S1:
                     adr += 0x27;
-                    ret = (int)m_stateBuf[adr];
+                    ret = (byte)m_stateBuf[adr];
                     break;
                 case WIZ_SCN.S2:
                 case WIZ_SCN.S3:
                     adr += 0x25;
-                    ret = (int)m_stateBuf[adr];
+                    ret = (byte)m_stateBuf[adr];
                     break;
                 default:
                     return ret;
@@ -890,18 +914,18 @@ namespace WizFCEdit
 
             return ret;
         }
-        public void SetCharWeekFromIndex(int idx,int v)
+        public void SetCharWeekFromIndex(int idx,byte v)
         {
             if ((idx < 0) || (idx >= m_CharCount))
             {
                 return;
             }
-            if (v < 0) v = 0;
-            else if (v > 255) v = 255;
+
+            int adr = CharAdr(idx);
+            if (m_stateBuf[adr] == 0) return;
 
             if (CharWeekFromIndex(idx) == v) return;
 
-            int adr = CharAdr(idx);
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
@@ -918,7 +942,7 @@ namespace WizFCEdit
             }
         }
         // ************************************************************************
-        public int CharWeek
+        public byte CharWeek
         {
             get { return CharWeekFromIndex(m_CharCurrent); }
             set { SetCharWeekFromIndex(m_CharCurrent, value); }
@@ -958,9 +982,12 @@ namespace WizFCEdit
             if (v < -128) v = -128;
             else if (v > 127) v = 127;
             sbyte v2 = (sbyte)v;
-            if (CharACFromIndex(idx) == v2) return;
 
             int adr = CharAdr(idx);
+            if (m_stateBuf[adr] == 0) return;
+
+            if (CharACFromIndex(idx) == v2) return;
+
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
@@ -983,9 +1010,9 @@ namespace WizFCEdit
             set { SetCharACFromIndex(m_CharCurrent, value); }
         }
         // ************************************************************************
-        public int CharStrengthFromIndex(int idx)
+        public byte CharStrengthFromIndex(int idx)
         {
-            int ret = 0;
+            byte ret = 0;
             if ((idx < 0) || (idx >= m_CharCount))
             {
                 return ret;
@@ -995,12 +1022,12 @@ namespace WizFCEdit
             {
                 case WIZ_SCN.S1:
                     adr += 0x0D;
-                    ret = (int)m_stateBuf[adr];
+                    ret = (byte)m_stateBuf[adr];
                     break;
                 case WIZ_SCN.S2:
                 case WIZ_SCN.S3:
                     adr += 0x0B;
-                    ret = (int)m_stateBuf[adr];
+                    ret = (byte)m_stateBuf[adr];
                     break;
                 default:
                     return ret;
@@ -1008,17 +1035,16 @@ namespace WizFCEdit
             return ret;
         }
         // ************************************************************************
-        public void SetCharStrengthFromIndex(int idx,int v)
+        public void SetCharStrengthFromIndex(int idx,byte v)
         {
             if ((idx < 0) || (idx >= m_CharCount))
             {
                 return;
             }
-            if (v < 0) v = 0;
-            else if (v > 0xFF) v = 0xFF;
-            if (CharStrengthFromIndex(idx) == v) return;
-
             int adr = CharAdr(idx);
+            if (m_stateBuf[adr] == 0) return;
+
+            if (CharStrengthFromIndex(idx) == v) return;
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
@@ -1035,15 +1061,15 @@ namespace WizFCEdit
             }
         }
         // ************************************************************************
-        public int CharStrength
+        public byte CharStrength
         {
             get { return CharStrengthFromIndex(m_CharCurrent); }
             set { SetCharStrengthFromIndex(m_CharCurrent, value); }
         }
         // ************************************************************************
-        public int CharIQFromIndex(int idx)
+        public byte CharIQFromIndex(int idx)
         {
-            int ret = 0;
+            byte ret = 0;
             if ((idx < 0) || (idx >= m_CharCount))
             {
                 return ret;
@@ -1053,12 +1079,12 @@ namespace WizFCEdit
             {
                 case WIZ_SCN.S1:
                     adr += 0x0E;
-                    ret = (int)m_stateBuf[adr];
+                    ret = (byte)m_stateBuf[adr];
                     break;
                 case WIZ_SCN.S2:
                 case WIZ_SCN.S3:
                     adr += 0x0C;
-                    ret = (int)m_stateBuf[adr];
+                    ret = (byte)m_stateBuf[adr];
                     break;
                 default:
                     return ret;
@@ -1066,7 +1092,7 @@ namespace WizFCEdit
             return ret;
         }
         // ************************************************************************
-        public void SetCharIQFromIndex(int idx, int v)
+        public void SetCharIQFromIndex(int idx, byte v)
         {
             if ((idx < 0) || (idx >= m_CharCount))
             {
@@ -1075,9 +1101,10 @@ namespace WizFCEdit
             if (v < 0) v = 0;
             else if (v > 0xFF) v = 0xFF;
 
+            int adr = CharAdr(idx);
+            if (m_stateBuf[adr] == 0) return;
             if (CharIQFromIndex(idx) == v) return;
 
-            int adr = CharAdr(idx);
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
@@ -1094,15 +1121,15 @@ namespace WizFCEdit
             }
         }
         // ************************************************************************
-        public int CharIQ
+        public byte CharIQ
         {
             get { return CharIQFromIndex(m_CharCurrent); }
             set { SetCharIQFromIndex(m_CharCurrent, value); }
         }
         // ************************************************************************
-        public int CharPietyFromIndex(int idx)
+        public byte CharPietyFromIndex(int idx)
         {
-            int ret = 0;
+            byte ret = 0;
             if ((idx < 0) || (idx >= m_CharCount))
             {
                 return ret;
@@ -1112,12 +1139,12 @@ namespace WizFCEdit
             {
                 case WIZ_SCN.S1:
                     adr += 0x0F;
-                    ret = (int)m_stateBuf[adr];
+                    ret = (byte)m_stateBuf[adr];
                     break;
                 case WIZ_SCN.S2:
                 case WIZ_SCN.S3:
                     adr += 0x0D;
-                    ret = (int)m_stateBuf[adr];
+                    ret = (byte)m_stateBuf[adr];
                     break;
                 default:
                     return ret;
@@ -1125,7 +1152,7 @@ namespace WizFCEdit
             return ret;
         }
         // ************************************************************************
-        public void SetCharPietyFromIndex(int idx, int v)
+        public void SetCharPietyFromIndex(int idx, byte v)
         {
             if ((idx < 0) || (idx >= m_CharCount))
             {
@@ -1134,9 +1161,10 @@ namespace WizFCEdit
             if (v < 0) v = 0;
             else if (v > 0xFF) v = 0xFF;
 
+            int adr = CharAdr(idx);
+            if (m_stateBuf[adr] == 0) return;
             if (CharPietyFromIndex(idx) == v) return;
 
-            int adr = CharAdr(idx);
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
@@ -1153,15 +1181,15 @@ namespace WizFCEdit
             }
         }
         // ************************************************************************
-        public int CharPiety
+        public byte CharPiety
         {
             get { return CharPietyFromIndex(m_CharCurrent); }
             set { SetCharPietyFromIndex(m_CharCurrent, value); }
         }
         // ************************************************************************
-        public int CharVitarityFromIndex(int idx)
+        public byte CharVitarityFromIndex(int idx)
         {
-            int ret = 0;
+            byte ret = 0;
             if ((idx < 0) || (idx >= m_CharCount))
             {
                 return ret;
@@ -1171,12 +1199,12 @@ namespace WizFCEdit
             {
                 case WIZ_SCN.S1:
                     adr += 0x10;
-                    ret = (int)m_stateBuf[adr];
+                    ret = (byte)m_stateBuf[adr];
                     break;
                 case WIZ_SCN.S2:
                 case WIZ_SCN.S3:
                     adr += 0x0E;
-                    ret = (int)m_stateBuf[adr];
+                    ret = (byte)m_stateBuf[adr];
                     break;
                 default:
                     return ret;
@@ -1184,7 +1212,7 @@ namespace WizFCEdit
             return ret;
         }
         // ************************************************************************
-        public void SetCharVitarityFromIndex(int idx, int v)
+        public void SetCharVitarityFromIndex(int idx, byte v)
         {
             if ((idx < 0) || (idx >= m_CharCount))
             {
@@ -1193,8 +1221,10 @@ namespace WizFCEdit
             if (v < 0) v = 0;
             else if (v > 0xFF) v = 0xFF;
 
-            if (CharVitarityFromIndex(idx) == v) return;
             int adr = CharAdr(idx);
+            if (m_stateBuf[adr] == 0) return;
+
+            if (CharVitarityFromIndex(idx) == v) return;
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
@@ -1211,15 +1241,15 @@ namespace WizFCEdit
             }
         }
         // ************************************************************************
-        public int CharVitarity
+        public byte CharVitarity
         {
             get { return CharVitarityFromIndex(m_CharCurrent); }
             set { SetCharVitarityFromIndex(m_CharCurrent, value); }
         }
         // ************************************************************************
-        public int CharAgilityFromIndex(int idx)
+        public byte CharAgilityFromIndex(int idx)
         {
-            int ret = 0;
+            byte ret = 0;
             if ((idx < 0) || (idx >= m_CharCount))
             {
                 return ret;
@@ -1229,12 +1259,12 @@ namespace WizFCEdit
             {
                 case WIZ_SCN.S1:
                     adr += 0x11;
-                    ret = (int)m_stateBuf[adr];
+                    ret = (byte)m_stateBuf[adr];
                     break;
                 case WIZ_SCN.S2:
                 case WIZ_SCN.S3:
                     adr += 0x0F;
-                    ret = (int)m_stateBuf[adr];
+                    ret = (byte)m_stateBuf[adr];
                     break;
                 default:
                     return ret;
@@ -1242,7 +1272,7 @@ namespace WizFCEdit
             return ret;
         }
         // ************************************************************************
-        public void SetCharAgilityFromIndex(int idx, int v)
+        public void SetCharAgilityFromIndex(int idx, byte v)
         {
             if ((idx < 0) || (idx >= m_CharCount))
             {
@@ -1251,9 +1281,11 @@ namespace WizFCEdit
             if (v < 0) v = 0;
             else if (v > 0xFF) v = 0xFF;
 
+            int adr = CharAdr(idx);
+            if (m_stateBuf[adr] == 0) return;
+
             if (CharAgilityFromIndex(idx) == v) return;
 
-            int adr = CharAdr(idx);
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
@@ -1270,15 +1302,15 @@ namespace WizFCEdit
             }
         }
         // ************************************************************************
-        public int CharAgility
+        public byte CharAgility
         {
             get { return CharAgilityFromIndex(m_CharCurrent); }
             set { SetCharAgilityFromIndex(m_CharCurrent, value); }
         }
         // ************************************************************************
-        public int CharLuckFromIndex(int idx)
+        public byte CharLuckFromIndex(int idx)
         {
-            int ret = 0;
+            byte ret = 0;
             if ((idx < 0) || (idx >= m_CharCount))
             {
                 return ret;
@@ -1288,12 +1320,12 @@ namespace WizFCEdit
             {
                 case WIZ_SCN.S1:
                     adr += 0x12;
-                    ret = (int)m_stateBuf[adr];
+                    ret = (byte)m_stateBuf[adr];
                     break;
                 case WIZ_SCN.S2:
                 case WIZ_SCN.S3:
                     adr += 0x10;
-                    ret = (int)m_stateBuf[adr];
+                    ret = (byte)m_stateBuf[adr];
                     break;
                 default:
                     return ret;
@@ -1301,7 +1333,7 @@ namespace WizFCEdit
             return ret;
         }
         // ************************************************************************
-        public void SetCharLuckFromIndex(int idx, int v)
+        public void SetCharLuckFromIndex(int idx, byte v)
         {
             if ((idx < 0) || (idx >= m_CharCount))
             {
@@ -1310,9 +1342,11 @@ namespace WizFCEdit
             if (v < 0) v = 0;
             else if (v > 0xFF) v = 0xFF;
 
+            int adr = CharAdr(idx);
+            if (m_stateBuf[adr] == 0) return;
+
             if (CharLuckFromIndex(idx) == v) return;
 
-            int adr = CharAdr(idx);
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
@@ -1329,7 +1363,7 @@ namespace WizFCEdit
             }
         }
         // ************************************************************************
-        public int CharLuck
+        public byte CharLuck
         {
             get { return CharLuckFromIndex(m_CharCurrent); }
             set { SetCharLuckFromIndex(m_CharCurrent, value); }
@@ -1368,9 +1402,9 @@ namespace WizFCEdit
             get { return CharBounusFromIndex(m_CharCurrent); }
         }
         // ************************************************************************
-        public int CharHPFromIndex(int idx)
+        public ushort CharHPFromIndex(int idx)
         {
-            int ret = 0;
+            ushort ret = 0;
 
             if ((idx < 0) || (idx >= m_CharCount))
             {
@@ -1381,12 +1415,12 @@ namespace WizFCEdit
             {
                 case WIZ_SCN.S1:
                     adr += 0x1F;
-                    ret = m_stateBuf[adr]* 0x100 + m_stateBuf[adr+1];
+                    ret = (ushort)((ushort)m_stateBuf[adr]* 0x100 + (ushort)m_stateBuf[adr+1]);
                     break;
                 case WIZ_SCN.S2:
                 case WIZ_SCN.S3:
                     adr += 0x1D;
-                    ret = m_stateBuf[adr] * 0x100 + m_stateBuf[adr + 1];
+                    ret = (ushort)((ushort)m_stateBuf[adr] * 0x100 + (ushort)m_stateBuf[adr + 1]);
                     break;
                 default:
                     return ret;
@@ -1395,7 +1429,7 @@ namespace WizFCEdit
             return ret;
         }
         // ************************************************************************
-        public void SetCharHPFromIndex(int idx,int v)
+        public void SetCharHPFromIndex(int idx,ushort v)
         {
             if ((idx < 0) || (idx >= m_CharCount))
             {
@@ -1404,6 +1438,8 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             if (v < 0) v = 0;
             else if (v > 0xFFFF) v = 0xFFFF;
+
+            if (m_stateBuf[adr] == 0) return;
 
             if (CharHPFromIndex(idx) == v) return;
 
@@ -1425,15 +1461,15 @@ namespace WizFCEdit
             }
         }
         // ************************************************************************
-        public int CharHP
+        public ushort CharHP
         {
             get { return CharHPFromIndex(m_CharCurrent); }
             set { SetCharHPFromIndex(m_CharCurrent, value); }
         }
         // ************************************************************************
-        public int CharHPMaxFromIndex(int idx)
+        public ushort CharHPMaxFromIndex(int idx)
         {
-            int ret = 0;
+            ushort ret = 0;
 
             if ((idx < 0) || (idx >= m_CharCount))
             {
@@ -1445,12 +1481,12 @@ namespace WizFCEdit
             {
                 case WIZ_SCN.S1:
                     adr += 0x21;
-                    ret = m_stateBuf[adr] * 0x100 + m_stateBuf[adr + 1];
+                    ret = (ushort)((ushort)m_stateBuf[adr] * 0x100 + (ushort)m_stateBuf[adr + 1]);
                     break;
                 case WIZ_SCN.S2:
                 case WIZ_SCN.S3:
                     adr += 0x1F;
-                    ret = m_stateBuf[adr] * 0x100 + m_stateBuf[adr + 1];
+                    ret = (ushort)((ushort)m_stateBuf[adr] * 0x100 + (ushort)m_stateBuf[adr + 1]);
                     break;
                 default:
                     return ret;
@@ -1459,7 +1495,7 @@ namespace WizFCEdit
             return ret;
         }
         // ************************************************************************
-        public void SetCharHPMaxFromIndex(int idx,int v)
+        public void SetCharHPMaxFromIndex(int idx, ushort v)
         {
             if ((idx < 0) || (idx >= m_CharCount))
             {
@@ -1468,6 +1504,7 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             if (v < 0) v = 0;
             else if (v > 0xFFFF) v = 0xFFFF;
+            if (m_stateBuf[adr] == 0) return;
             if (CharHPMaxFromIndex(idx) == v) return;
 
             switch (m_scn)
@@ -1488,7 +1525,7 @@ namespace WizFCEdit
             }
         }
         // ************************************************************************
-        public int CharHPMax
+        public ushort CharHPMax
         {
             get { return CharHPMaxFromIndex(m_CharCurrent); }
             set { SetCharHPMaxFromIndex(m_CharCurrent, value); }
@@ -1529,8 +1566,9 @@ namespace WizFCEdit
             {
                 return;
             }
-            if (CharStatusFromIndex(idx) == v) return;
             int adr = CharAdr(idx);
+            if (m_stateBuf[adr] == 0) return;
+            if (CharStatusFromIndex(idx) == v) return;
             byte v2 = (byte)((byte)v & 0x0F);
             switch (m_scn)
             {
@@ -1712,6 +1750,7 @@ namespace WizFCEdit
                 return;
             }
             int adr = CharAdr(c_idx);
+            if (m_stateBuf[adr] == 0) return;
             int cnt = 0;
             bool upd = false;
             int ad = 0;
@@ -1796,6 +1835,7 @@ namespace WizFCEdit
                 return;
             }
             int adr = CharAdr(idx);
+            if (m_stateBuf[adr] == 0) return;
             switch (m_scn)
             {
                 case WIZ_SCN.S1:
@@ -1880,19 +1920,7 @@ namespace WizFCEdit
             get { return CharItemsFromIndex(m_CharCurrent); }
         }
         // ************************************************************************
-        public int GetCharCount()
-        {
-            int ret = 0;
-            for ( int i=0; i< CharCountMax;i++)
-            {
-                if (m_stateBuf[CharAdr(i)]==0)
-                {
-                    break;
-                }
-                ret++;
-            }
-            return ret;
-        }
+       
         // ************************************************************************
         public string CodeToString(byte v)
         {
@@ -2011,7 +2039,6 @@ namespace WizFCEdit
             bool ret = false;
             m_scn = WIZ_SCN.NO;
             m_sramIndex = -1;
-            m_CharCount = 0;
             m_CharCurrent = -1;
 
             //サイズチェック
@@ -2043,11 +2070,7 @@ namespace WizFCEdit
 
             if(ret==true)
             {
-                m_CharCount = GetCharCount();
-                if(m_CharCount>0)
-                {
-                    CharCurrent = 0;
-                }
+                CharCurrent = 0;
             }
 
             return ret;

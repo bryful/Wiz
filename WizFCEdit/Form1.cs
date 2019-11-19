@@ -71,7 +71,7 @@ namespace WizFCEdit
                 Point p = pref.GetPoint("Point", out ok);
                 if (ok) this.Location = p;
                 bool[] wl = pref.GetBoolArray("WizLimit",out ok);
-                this.WizLimit.Values = wl;
+                this.LimitValues = wl;
 
             }
            // this.Text = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
@@ -87,7 +87,7 @@ namespace WizFCEdit
             //設定ファイルの保存
             JsonPref pref = new JsonPref();
             pref.SetPoint("Point", this.Location);
-            pref.SetBoolArray("WizLimit", this.WizLimit.Values);
+            pref.SetBoolArray("WizLimit", this.LimitValues);
             pref.Save();
 
         }

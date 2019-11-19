@@ -41,10 +41,17 @@ namespace WizFCEdit
     public partial class WizForm : Form
     {
         private WizLimit m_Limit = new WizLimit();
-        public WizLimit WizLimit
+        public bool [] LimitValues
         {
-            get { return m_Limit; }
-            set { m_Limit = value; }
+            get { return m_Limit.Values; }
+            set
+            {
+                if (value.Length == (int)WizLimit.P.Count)
+                {
+                    m_Limit.Values = value;
+                    EditChk();
+                }
+            }
         }
         private WizFormMode m_Mode = WizFormMode.CHARLIST;
         private WizBox wb = new WizBox();
@@ -142,28 +149,28 @@ namespace WizFCEdit
                     m_state.CharExp = m_ValueEditor.Value;
                     break;
                 case WizFormMode.HP:
-                    m_state.CharHP = (int)m_ValueEditor.Value;
+                    m_state.CharHP = (ushort)m_ValueEditor.Value;
                     break;
                 case WizFormMode.HPMax:
-                    m_state.CharHPMax = (int)m_ValueEditor.Value;
+                    m_state.CharHPMax = (ushort)m_ValueEditor.Value;
                     break;
                 case WizFormMode.Strength:
-                    m_state.CharStrength = (int)m_ValueEditor.Value;
+                    m_state.CharStrength = (byte)m_ValueEditor.Value;
                     break;
                 case WizFormMode.IQ:
-                    m_state.CharIQ = (int)m_ValueEditor.Value;
+                    m_state.CharIQ = (byte)m_ValueEditor.Value;
                     break;
                 case WizFormMode.Piety:
-                    m_state.CharPiety = (int)m_ValueEditor.Value;
+                    m_state.CharPiety = (byte)m_ValueEditor.Value;
                     break;
                 case WizFormMode.Vitarity:
-                    m_state.CharVitarity = (int)m_ValueEditor.Value;
+                    m_state.CharVitarity = (byte)m_ValueEditor.Value;
                     break;
                 case WizFormMode.Agility:
-                    m_state.CharAgility = (int)m_ValueEditor.Value;
+                    m_state.CharAgility = (byte)m_ValueEditor.Value;
                     break;
                 case WizFormMode.Luck:
-                    m_state.CharLuck = (int)m_ValueEditor.Value;
+                    m_state.CharLuck = (byte)m_ValueEditor.Value;
                     break;
                 case WizFormMode.Age:
                     m_state.CharAge = (sbyte)m_ValueEditor.Value;
@@ -175,7 +182,7 @@ namespace WizFCEdit
                     m_state.CharWeek = (byte)m_ValueEditor.Value;
                     break;
                 case WizFormMode.Level:
-                    m_state.CharLevel = (int)m_ValueEditor.Value;
+                    m_state.CharLevel = (ushort)m_ValueEditor.Value;
                     break;
             }
             ValueEditorShow(false);
@@ -474,8 +481,8 @@ namespace WizFCEdit
         #endregion
 
         #region AGE
-        private WizParam m_WizAge = null;
-        public WizParam WizAge
+        private WizByteEdit m_WizAge = null;
+        public WizByteEdit WizAge
         {
             get { return m_WizAge; }
             set
@@ -483,20 +490,15 @@ namespace WizFCEdit
                 m_WizAge = value;
                 if (m_WizAge != null)
                 {
-                    m_WizAge.MouseDown += M_WizAge_MouseDown;
+                    m_WizAge.IsEdit = m_Limit.IsAge;
                 }
             }
-        }
-
-        private void M_WizAge_MouseDown(object sender, MouseEventArgs e)
-        {
-            EditAge();
         }
         #endregion
 
         #region AC
-        private WizParam m_WizAC = null;
-        public WizParam WizAC
+        private WizByteEdit m_WizAC = null;
+        public WizByteEdit WizAC
         {
             get { return m_WizAC; }
             set
@@ -504,20 +506,15 @@ namespace WizFCEdit
                 m_WizAC = value;
                 if (m_WizAC != null)
                 {
-                    m_WizAC.MouseDown += M_WizAC_MouseDown;
+                    m_WizAC.IsEdit = m_Limit.IsAC;
                 }
             }
-        }
-
-        private void M_WizAC_MouseDown(object sender, MouseEventArgs e)
-        {
-            EditAC();
         }
         #endregion
 
         #region Week
-        private WizParam m_WizWeek = null;
-        public WizParam WizWeek
+        private WizByteEdit m_WizWeek = null;
+        public WizByteEdit WizWeek
         {
             get { return m_WizWeek; }
             set
@@ -525,14 +522,9 @@ namespace WizFCEdit
                 m_WizWeek = value;
                 if (m_WizWeek != null)
                 {
-                    m_WizWeek.MouseDown += M_WizWeek_MouseDown;
+                    m_WizWeek.IsEdit = m_Limit.IsWeek;
                 }
             }
-        }
-
-        private void M_WizWeek_MouseDown(object sender, MouseEventArgs e)
-        {
-            EditWeek();
         }
         #endregion
 
@@ -819,34 +811,7 @@ namespace WizFCEdit
             SetMode(WizFormMode.Luck);
             ValueEditorShow(true);
         }
-        // **************************************************************************************
-        public void EditAge()
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if ((m_state == null) || (m_WizAge == null) || (m_ValueEditor == null)) return;
-            if (m_Limit.IsParams == false) return;
-
-            m_ValueEditor.Caption = "AGE";
-            m_ValueEditor.ValueMin = -128;
-            m_ValueEditor.ValueMax = 127;
-            m_ValueEditor.Value = m_state.CharAge;
-            SetMode(WizFormMode.Age);
-            ValueEditorShow(true);
-        }
-        // **************************************************************************************
-        public void EditAC()
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if ((m_state == null) || (m_WizAC == null) || (m_ValueEditor == null)) return;
-            if (m_Limit.IsAC == false) return;
-
-            m_ValueEditor.Caption = "AC";
-            m_ValueEditor.ValueMin = -128;
-            m_ValueEditor.ValueMax = 127;
-            m_ValueEditor.Value = m_state.CharAC;
-            SetMode(WizFormMode.AC);
-            ValueEditorShow(true);
-        }
+        
         // **************************************************************************************
         public void EditStatus()
         {
@@ -883,20 +848,6 @@ namespace WizFCEdit
             m_ListBox.SelectedIndex = (int)m_ItemList.ItemID;
             SetMode(WizFormMode.Item);
             ListBoxShow(true);
-        }
-        // **************************************************************************************
-        public void EditWeek()
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if ((m_state == null) || (m_WizWeek == null) || (m_ValueEditor == null)) return;
-            if (m_Limit.IsWeek == false) return;
-
-            m_ValueEditor.Caption = "Week";
-            m_ValueEditor.ValueMin = 0;
-            m_ValueEditor.ValueMax = 53;
-            m_ValueEditor.Value = m_state.CharWeek;
-            SetMode(WizFormMode.Week);
-            ValueEditorShow(true);
         }
         // **************************************************************************************
         public void EditLevel()
@@ -1053,9 +1004,16 @@ namespace WizFCEdit
             if(dlg.ShowDialog()==DialogResult.OK)
             {
                 m_Limit = dlg.WizLimit;
+                EditChk();
             }
             if (m_state != null) m_state.RES_SCN = dlg.SCN;
 
+        }
+        private void EditChk()
+        {
+            if (m_WizAge!=null) m_WizAge.IsEdit = m_Limit.IsAge;
+            if (m_WizWeek != null) m_WizWeek.IsEdit = m_Limit.IsWeek;
+            if (m_WizAC != null) m_WizAC.IsEdit = m_Limit.IsAC;
         }
         public void CharCurrentDataUp()
         {

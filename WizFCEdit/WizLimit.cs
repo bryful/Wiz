@@ -8,6 +8,9 @@ namespace WizFCEdit
 {
     public class WizLimit
     {
+        public event EventHandler ValueChanged;
+        protected virtual void OnValueChanged(EventArgs e) { ValueChanged?.Invoke(this, e); }
+
         public bool LevelInit = true;
 
         public enum P
