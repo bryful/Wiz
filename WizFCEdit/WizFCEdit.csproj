@@ -132,9 +132,6 @@
     <Compile Include="WizForm.Designer.cs">
       <DependentUpon>WizForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="WizHP.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="WizItem.cs" />
     <Compile Include="WizItemList.cs">
       <SubType>Component</SubType>

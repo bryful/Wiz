@@ -296,8 +296,8 @@ namespace WizFCEdit
             ListBoxShow(false);
         }
         #region GOLD
-        private WizParam m_WizGOLD = null;
-        public WizParam WizGold
+        private WizLongEdit m_WizGOLD = null;
+        public WizLongEdit WizGold
         {
             get { return m_WizGOLD; }
             set
@@ -305,20 +305,16 @@ namespace WizFCEdit
                 m_WizGOLD = value;
                 if(m_WizGOLD!=null)
                 {
-                    m_WizGOLD.MouseDown += M_WizGOLD_MouseDown;
+                    m_WizGOLD.IsEdit = m_Limit.IsGold;
                 }
             }
         }
 
-        private void M_WizGOLD_MouseDown(object sender, MouseEventArgs e)
-        {
-            EditGold();
-        }
         #endregion
 
         #region EP
-        private WizParam m_WizEP = null;
-        public WizParam WizEP
+        private WizLongEdit m_WizEP = null;
+        public WizLongEdit WizEP
         {
             get { return m_WizEP; }
             set
@@ -326,20 +322,15 @@ namespace WizFCEdit
                 m_WizEP = value;
                 if (m_WizEP != null)
                 {
-                    m_WizEP.MouseDown += M_WizEP_MouseDown;
+                    m_WizEP.IsEdit = m_Limit.IsExp;
                 }
             }
-        }
-
-        private void M_WizEP_MouseDown(object sender, MouseEventArgs e)
-        {
-            EditEP();
         }
         #endregion
 
         #region HP
-        private WizHP m_WizHP = null;
-        public WizHP WizHP
+        private WizLongEdit m_WizHP = null;
+        public WizLongEdit WizHP
         {
             get { return m_WizHP; }
             set
@@ -347,20 +338,25 @@ namespace WizFCEdit
                 m_WizHP = value;
                 if (m_WizHP != null)
                 {
-                    m_WizHP.HPClicked += M_WizHP_HPClicked;
-                    m_WizHP.HPMaxClicked += M_WizHP_HPMaxClicked;
+                    m_WizHP.IsEdit = m_Limit.IsHP;
                 }
             }
         }
+        #endregion
 
-        private void M_WizHP_HPMaxClicked(object sender, EventArgs e)
+        #region HPMax
+        private WizLongEdit m_WizHPMax = null;
+        public WizLongEdit WizHPMax
         {
-            EditHPMax();
-        }
-
-        private void M_WizHP_HPClicked(object sender, EventArgs e)
-        {
-            EditHP();
+            get { return m_WizHPMax; }
+            set
+            {
+                m_WizHPMax = value;
+                if (m_WizHPMax != null)
+                {
+                    m_WizHPMax.IsEdit = m_Limit.IsHP;
+                }
+            }
         }
         #endregion
 
@@ -671,34 +667,8 @@ namespace WizFCEdit
             SetMode(WizFormMode.RACE);
             ListBoxShow(true);
         }
-        // **************************************************************************************
-        public void EditGold()
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if ((m_state == null) || (m_WizGOLD == null) || (m_ValueEditor == null)) return;
-            if (m_Limit.IsGold == false) return;
-
-            m_ValueEditor.Caption = "GOLD";
-            m_ValueEditor.ValueMin = 0;
-            m_ValueEditor.ValueMax = 999999999999;
-            m_ValueEditor.Value = m_state.CharGold;
-            SetMode(WizFormMode.GOLD);
-            ValueEditorShow(true);
-        }
-        // **************************************************************************************
-        public void EditEP()
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if ((m_state == null) || (m_WizEP == null) || (m_ValueEditor == null)) return;
-            if (m_Limit.IsExp == false) return;
-
-            m_ValueEditor.Caption = "E.P.";
-            m_ValueEditor.ValueMin = 0;
-            m_ValueEditor.ValueMax = 999999999999;
-            m_ValueEditor.Value = m_state.CharExp;
-            SetMode(WizFormMode.EP);
-            ValueEditorShow(true);
-        }
+ 
+ 
         // **************************************************************************************
         public void EditHP()
         {
@@ -1014,6 +984,10 @@ namespace WizFCEdit
             if (m_WizAge!=null) m_WizAge.IsEdit = m_Limit.IsAge;
             if (m_WizWeek != null) m_WizWeek.IsEdit = m_Limit.IsWeek;
             if (m_WizAC != null) m_WizAC.IsEdit = m_Limit.IsAC;
+            if (m_WizGOLD != null) m_WizGOLD.IsEdit = m_Limit.IsGold;
+            if (m_WizEP != null) m_WizEP.IsEdit = m_Limit.IsExp;
+            if (m_WizHP != null) m_WizHP.IsEdit = m_Limit.IsHP;
+            if (m_WizHPMax != null) m_WizHPMax.IsEdit = m_Limit.IsHP;
         }
         public void CharCurrentDataUp()
         {

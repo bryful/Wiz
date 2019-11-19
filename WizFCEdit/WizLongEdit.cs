@@ -39,12 +39,12 @@ namespace WizFCEdit
                         case WizLongEditMode.Gold:
                         case WizLongEditMode.Exp:
                             m_MaxValue = 999999999999;
-                            m_NumKetaMax = 12;
+                            m_NumKeta = 12;
                             break;
                         case WizLongEditMode.HP:
                         case WizLongEditMode.HPMax:
                             m_MaxValue = 0xFFFF; //65535
-                            m_NumKetaMax = 5;
+                            m_NumKeta = 5;
                             break;
                     }
 
@@ -56,7 +56,7 @@ namespace WizFCEdit
         }
 
         private ulong m_MaxValue = 0x999999999999;
-        private int m_NumKetaMax = 12;
+        private int m_NumKeta = 12;
 
 
         private ulong m_Value = 0;
@@ -85,22 +85,7 @@ namespace WizFCEdit
             }
             return ret;
         }
-        public void ValuePlus()
-        {
-            if (SetValue(m_Value + 1))
-            {
-                OnValueChanged(new EventArgs());
-            }
-
-        }
-        public void ValueMinus()
-        {
-            if (SetValue(m_Value - 1))
-            {
-                OnValueChanged(new EventArgs());
-            }
-        }
-
+      
         private int m_ArrowHeight = 5;
         public int ArrowHeight
         {
@@ -108,6 +93,7 @@ namespace WizFCEdit
             set
             {
                 int v = value;
+                if (v < 5) v = 5;
                 if(m_ArrowHeight != v)
                 {
                     m_ArrowHeight = v;
@@ -122,14 +108,31 @@ namespace WizFCEdit
         {
             get { return m_NumWidth; }
             set {
-                if (m_NumWidth != value)
+                int v = value;
+                if (v < 5) v = 5;
+                if (m_NumWidth != v)
                 {
-                    m_NumWidth = value;
+                    m_NumWidth = v;
                     this.Invalidate();
                 }
             }
         }
 
+        private int m_ClearWidth = 10;
+        public int ClearWidth
+        {
+            get { return m_ClearWidth; }
+            set
+            {
+                int v = value;
+                if (v < 5) v = 5;
+                if (m_ClearWidth!=v)
+                {
+                    m_ClearWidth = v;
+                    this.Invalidate();
+                }
+            }
+        }
 
         private bool m_IsEdit = true;
         public bool IsEdit 
@@ -229,9 +232,7 @@ namespace WizFCEdit
             this.SetStyle(
              ControlStyles.DoubleBuffer |
              ControlStyles.UserPaint |
-             ControlStyles.AllPaintingInWmPaint, //|
-             //ControlStyles.Selectable|
-             //ControlStyles.UserMouse,
+             ControlStyles.AllPaintingInWmPaint,
              true);
 
             this.BackColor = Color.Black;
@@ -267,7 +268,7 @@ namespace WizFCEdit
                 }
                 //数字の表示
                 sf.Alignment = StringAlignment.Center;
-                rct = new Rectangle(this.Width - m_NumWidth, m_ArrowHeight, m_NumWidth, h);
+                rct = new Rectangle(this.Width - m_NumWidth- m_ClearWidth, m_ArrowHeight, m_NumWidth, h);
                 if (m_IsPushed==ISPUSHED.None)
                 {
                     string s = m_Value.ToString();
@@ -281,22 +282,25 @@ namespace WizFCEdit
                 else
                 {
                     ulong vv = m_Value;
-                    for (int i = 0; i < m_NumKetaMax; i++)
+                    for (int i = 0; i < m_NumKeta; i++)
                     {
                         long vv2 = (long)(vv % 10);
                         g.DrawString(vv2.ToString() , this.Font, sb, rct, sf);
                         rct.Location = new Point(rct.X - m_NumWidth, rct.Y);
                         vv /= 10;
                     }
+                    rct = new Rectangle(this.Width - m_ClearWidth + 2, m_ArrowHeight, m_ClearWidth-2, h);
+                   
+                    g.DrawString("C", this.Font, sb, rct, sf);
 
                 }
 
                 if (IsEdit)
                 {
-                    if (m_TagetKeta >= 0)
+                    if ( (m_TagetKeta >= 0)&& (m_TagetKeta < m_NumKeta))
                     {
                         sb.Color = this.ForeColor;
-                        int l = this.Width + m_NumWidth * (m_TagetKeta - m_NumKetaMax);
+                        int l = this.Width - m_NumWidth * (m_NumKeta - m_TagetKeta) - m_ClearWidth;
                         int h0 = m_ArrowHeight;
                         int h1 = this.Height - m_ArrowHeight;
                         Point[] UpA = new Point[]
@@ -339,6 +343,7 @@ namespace WizFCEdit
             {
                 sb.Dispose();
                 sf.Dispose();
+                
             }
         }
         protected override void OnMouseEnter(EventArgs e)
@@ -371,7 +376,7 @@ namespace WizFCEdit
                 {
                     if ((m_IsPushed != ISPUSHED.UP) && (m_IsPushed != ISPUSHED.Down))
                     {
-                        m_TagetKeta = ((e.X - (this.Width - m_NumWidth * m_NumKetaMax)) / m_NumWidth);
+                        m_TagetKeta = ((e.X - (this.Width - m_NumWidth * m_NumKeta - m_ClearWidth)) / m_NumWidth);
                         this.Invalidate();
                     }
                 }
@@ -382,7 +387,12 @@ namespace WizFCEdit
             base.OnMouseDown(e);
             if (m_IsEdit)
             {
-                if (m_TagetKeta >= 0)
+                if (m_TagetKeta >= m_NumKeta)
+                {
+                    m_Value = 0;
+                    this.Invalidate();
+                }
+                else if (m_TagetKeta >= 0)
                 {
                     if (e.Y < this.Height / 2)
                     {
@@ -411,25 +421,28 @@ namespace WizFCEdit
    
         private void ValueKetaSet()
         {
-            if (m_TagetKeta < 0) return;
+            if ((m_TagetKeta < 0)||(m_TagetKeta>=m_NumKeta)) return;
 
-            int[] tbl = new int[m_NumKetaMax];
+            int[] tbl = new int[m_NumKeta];
 
             ulong v = m_Value;
-            for ( int i=0;i< m_NumKetaMax; i++)
+            for ( int i=0;i< m_NumKeta; i++)
             {
                 tbl[i] = (int)(v % 10);
                 v /= 10;
             }
-            int idx = m_NumKetaMax - m_TagetKeta - 1;
+            int idx = m_NumKeta - m_TagetKeta - 1;
             if(m_IsPushed== ISPUSHED.UP)
             {
                 tbl[idx] += 1;
                 if(tbl[idx]>9)
                 {
-                    if (idx == m_NumKetaMax - 1)
+                    if (idx == m_NumKeta - 1)
                     {
-                        tbl[idx] = 9;
+                        for (int i = 0; i < m_NumKeta; i++)
+                        {
+                            tbl[i] = 9;
+                        }
                     }
                     else
                     {
@@ -444,7 +457,7 @@ namespace WizFCEdit
 
             }
             v = 0;
-            for (int i = m_NumKetaMax-1; i >=0 ; i--)
+            for (int i = m_NumKeta-1; i >=0 ; i--)
             {
                 v = v * 10 + (ulong)tbl[i];
             }
