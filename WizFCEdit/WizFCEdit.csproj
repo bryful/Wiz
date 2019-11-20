@@ -150,6 +150,9 @@
     <Compile Include="WizItemList.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="WizItemSelect.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WizLimit.cs" />
     <Compile Include="WizLongEdit.cs">
       <SubType>Component</SubType>

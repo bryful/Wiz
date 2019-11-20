@@ -65,6 +65,8 @@
             this.wizCharName1 = new WizFCEdit.WizCharName();
             this.wizCharClass1 = new WizFCEdit.WizCharClass();
             this.leLevel = new WizFCEdit.WizLongEdit();
+            this.wizItemSelect1 = new WizFCEdit.WizItemSelect();
+            this.wizItemSelect2 = new WizFCEdit.WizItemSelect();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -296,7 +298,7 @@
             this.wizSpellList1.LeftMgn = 30;
             this.wizSpellList1.LineHeight = 20;
             this.wizSpellList1.LineWidth = 3;
-            this.wizSpellList1.Location = new System.Drawing.Point(49, 300);
+            this.wizSpellList1.Location = new System.Drawing.Point(76, 64);
             this.wizSpellList1.MaximumSize = new System.Drawing.Size(570, 250);
             this.wizSpellList1.MinimumSize = new System.Drawing.Size(570, 250);
             this.wizSpellList1.Name = "wizSpellList1";
@@ -616,6 +618,33 @@
             this.leLevel.Value = ((ulong)(1ul));
             this.leLevel.WizFCState = this.wizNesState1;
             // 
+            // wizItemSelect1
+            // 
+            this.wizItemSelect1.BackColor = System.Drawing.Color.Black;
+            this.wizItemSelect1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.wizItemSelect1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.wizItemSelect1.ForeColor = System.Drawing.Color.White;
+            this.wizItemSelect1.Location = new System.Drawing.Point(0, 0);
+            this.wizItemSelect1.Name = "wizItemSelect1";
+            this.wizItemSelect1.Size = new System.Drawing.Size(0, 21);
+            this.wizItemSelect1.TabIndex = 0;
+            // 
+            // wizItemSelect2
+            // 
+            this.wizItemSelect2.BackColor = System.Drawing.Color.Black;
+            this.wizItemSelect2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.wizItemSelect2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.wizItemSelect2.ForeColor = System.Drawing.Color.White;
+            this.wizItemSelect2.FormattingEnabled = true;
+            this.wizItemSelect2.Items.AddRange(new object[] {
+            "AAA",
+            "BBB",
+            "CCC"});
+            this.wizItemSelect2.Location = new System.Drawing.Point(350, 382);
+            this.wizItemSelect2.Name = "wizItemSelect2";
+            this.wizItemSelect2.Size = new System.Drawing.Size(270, 24);
+            this.wizItemSelect2.TabIndex = 40;
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -626,6 +655,8 @@
             this.BottomMgn = 15;
             this.CaptionWidth = 320;
             this.ClientSize = new System.Drawing.Size(719, 591);
+            this.Controls.Add(this.wizItemSelect2);
+            this.Controls.Add(this.wizItemSelect1);
             this.Controls.Add(this.leLevel);
             this.Controls.Add(this.wizCharClass1);
             this.Controls.Add(this.wizSpellList1);
@@ -733,6 +764,8 @@
         private WizCharName wizCharName1;
         private WizCharClass wizCharClass1;
         private WizLongEdit leLevel;
+        private WizItemSelect wizItemSelect1;
+        private WizItemSelect wizItemSelect2;
     }
 }
 

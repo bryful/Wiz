@@ -12,6 +12,12 @@ namespace WizFCEdit
 {
     public partial class WizCharNameEdit : Form
     {
+        private string[] m_Names = new string[20];
+        public string [] Names
+        {
+            get { return m_Names; }
+            set { m_Names = value; }
+        }
         byte[] temp1 = new byte[] { 0x7B, 0x9B, 0x79, 0x01 };
         byte[] temp2 = new byte[] { 0x9B, 0xFD, 0x9C, 0x31 };
 
@@ -145,12 +151,33 @@ namespace WizFCEdit
             this.Invalidate();
         }
         // *******************************************************************
+        private bool CanSetName(string s)
+        {
+            bool ret = true;
+            if (s == "") return false;
+            if (m_Names.Length <= 0) return ret;
+            for ( int i=0; i< m_Names.Length;i++)
+            {
+                if(m_Names[i]==s)
+                {
+                    ret = false;
+                    break;
+                }
+            }
+            return ret;
+        }
+        // *******************************************************************
         private void NameChk()
         {
             string s0 = WizFCString.CodeToString(m_scn, m_nameOrg.ToArray());
             string s1 = WizFCString.CodeToString(m_scn, m_name.ToArray());
             this.Text = s0 + "/" + s1;
-            btnOK.Enabled = ((m_name.Count > 0) && (s0 != s1));
+            bool ret = ((m_name.Count > 0) && (s0 != s1));
+            if(ret)
+            {
+                ret = CanSetName(s1);
+            }
+            btnOK.Enabled = ret;
         }
         // *******************************************************************
         protected override void OnPaint(PaintEventArgs e)
@@ -270,6 +297,13 @@ namespace WizFCEdit
             }
             base.OnMouseDown(e);
 
+        }
+        // *********************************************************
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            
+
+            base.OnFormClosing(e);
         }
     }
 }

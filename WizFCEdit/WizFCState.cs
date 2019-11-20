@@ -398,17 +398,50 @@ namespace WizFCEdit
 
         }
         // ************************************************************************
-        public string [] CharNames
+        public string [] CharNamesWithOutCurrent
+        {
+            get
+            {
+                string[] ret = new string[m_CharCount-1];
+                for ( int i=0; i<m_CharCount-1;i++)
+                {
+                    if (i != m_CharCurrent)
+                    {
+                        ret[i] = CharNameFromIndex(i);
+                    }
+                }
+                return ret;
+            }
+        }
+        public string[] CharNames
         {
             get
             {
                 string[] ret = new string[m_CharCount];
-                for ( int i=0; i<m_CharCount;i++)
+                for (int i = 0; i < m_CharCount; i++)
                 {
                     ret[i] = CharNameFromIndex(i);
                 }
                 return ret;
             }
+        }
+
+        public bool CanSetCharName(string s)
+        {
+            bool ret = false;
+            string[] ns = CharNamesWithOutCurrent;
+            int idx = -1;
+
+            for (int i=0; i<m_CharCount;i++)
+            {
+                if(s == ns[i])
+                {
+                    idx = i;
+                    break;
+                }
+            }
+            ret = (idx >= 0);
+            return ret;
         }
         // ************************************************************************
         public string CharName

@@ -92,6 +92,7 @@ namespace WizFCEdit
             WizCharNameEdit dlg = new WizCharNameEdit();
             dlg.SCN = m_state.SCN;
             dlg.CharNameCode = m_state.CharNameCode;
+            dlg.Names = m_state.CharNamesWithOutCurrent;
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 m_state.CharNameCode = dlg.CharNameCode;
