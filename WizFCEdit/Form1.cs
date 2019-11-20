@@ -28,9 +28,6 @@ namespace WizFCEdit
         {
             InitializeComponent();
 
-
-
-
             this.KeyPreview = true;
 
         }

@@ -38,6 +38,7 @@ namespace WizFCEdit
         };
 
         private WIZSTATUS m_status = WIZSTATUS.OK;
+        public bool IsEdit = true;
         private bool m_IsJapan = false;
         public bool IsJapan
         {
@@ -156,6 +157,58 @@ namespace WizFCEdit
                 sb.Dispose();
             }
 
+        }
+        // *************************************************************************
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+
+            if (e.X < m_CaptionWidth) return;
+
+            if (m_state == null) return;
+            if (IsEdit == false) return;
+            WizComboBox cmb = new WizComboBox();
+            int ox = cmb.OffsetPoint.X;
+            int oy = cmb.OffsetPoint.Y;
+            cmb.Name = "A";
+            cmb.Location = new Point(this.Left + m_CaptionWidth - ox, this.Top - oy);
+            cmb.Size = new Size(130, this.Height * 3);
+            for (int i = 0; i < m_statusStrE.Length; i++)
+            {
+                if (m_IsJapan)
+                {
+                    cmb.Add(m_statusStrJ[i]);
+                }
+                else
+                {
+                    cmb.Add(m_statusStrE[i]);
+                }
+            }
+            cmb.SelectedIndex = (int)m_state.CharStatus;
+            cmb.IsListMode = true;
+            cmb.VisibleChanged += Cmb_VisibleChanged;
+            this.Parent.Controls.Add(cmb);
+            cmb.BringToFront();
+            cmb.Visible = true;
+            
+        }
+
+        private void Cmb_VisibleChanged(object sender, EventArgs e)
+        {
+            if (m_state == null) return;
+            WizComboBox w = (WizComboBox)sender;
+            if (w.SelectedIndex >= 0)
+            {
+                WIZSTATUS o = m_state.CharStatus;
+                WIZSTATUS r = (WIZSTATUS)w.SelectedIndex;
+
+                if (o != r)
+                {
+                    m_state.CharStatus = r;
+                    this.Invalidate();
+                }
+            }
+            WizComboBox.MeDelete(this.Parent.Controls, w);
         }
     }
 }

@@ -73,7 +73,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Skelton.ico</ApplicationIcon>
+    <ApplicationIcon>WizFCStatED.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
@@ -91,10 +91,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppInfoDialog.cs">
+    <Compile Include="APP_util\AppInfoDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AppInfoDialog.Designer.cs">
+    <Compile Include="APP_util\AppInfoDialog.Designer.cs">
       <DependentUpon>AppInfoDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="DynamicJson.cs" />
@@ -104,7 +104,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="JsonPref.cs" />
+    <Compile Include="APP_util\JsonPref.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -113,7 +113,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="WindowsShellAPI.cs" />
-    <Compile Include="WizBonus.cs">
+    <Compile Include="WizButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WizByteEdit.cs">
@@ -157,29 +157,26 @@
     <Compile Include="WizMP.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WizNameEdit.cs">
+    <Compile Include="WizCharNameEdit.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WizNameEdit.Designer.cs">
-      <DependentUpon>WizNameEdit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WizParam.cs">
-      <SubType>Component</SubType>
+    <Compile Include="WizCharNameEdit.Designer.cs">
+      <DependentUpon>WizCharNameEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="WizFCState.cs" />
     <Compile Include="WizFCString.cs" />
     <Compile Include="WizPictureBox.cs" />
-    <Compile Include="WizSelectControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="WizSelectControl.Designer.cs">
-      <DependentUpon>WizSelectControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="WizSettingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="WizSettingDialog.Designer.cs">
       <DependentUpon>WizSettingDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WizSpellEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WizSpellEdit.Designer.cs">
+      <DependentUpon>WizSpellEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="WizSpellList.cs">
       <SubType>Component</SubType>
@@ -191,10 +188,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WizU.cs" />
-    <Compile Include="WizValueEditor.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <EmbeddedResource Include="AppInfoDialog.resx">
+    <EmbeddedResource Include="APP_util\AppInfoDialog.resx">
       <DependentUpon>AppInfoDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
@@ -208,14 +202,14 @@
     <EmbeddedResource Include="WizForm.resx">
       <DependentUpon>WizForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WizNameEdit.resx">
-      <DependentUpon>WizNameEdit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WizSelectControl.resx">
-      <DependentUpon>WizSelectControl.cs</DependentUpon>
+    <EmbeddedResource Include="WizCharNameEdit.resx">
+      <DependentUpon>WizCharNameEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WizSettingDialog.resx">
       <DependentUpon>WizSettingDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WizSpellEdit.resx">
+      <DependentUpon>WizSpellEdit.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -235,6 +229,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="WizFCStatED.ico" />
     <None Include="Resources\_None.png" />
     <None Include="Resources\BIS.png" />
     <None Include="Resources\FIG.png" />
@@ -256,7 +251,6 @@
     <None Include="Resources\らき.png" />
     <None Include="Resources\SAM.png" />
     <None Include="Resources\THI.png" />
-    <Content Include="Skelton.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

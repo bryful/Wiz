@@ -1,6 +1,6 @@
 ﻿namespace WizFCEdit
 {
-    partial class WizNameEdit
+    partial class WizCharNameEdit
     {
         /// <summary>
         /// Required designer variable.

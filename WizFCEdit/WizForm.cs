@@ -99,96 +99,6 @@ namespace WizFCEdit
         }
         #endregion
 
-        #region WizValueEditor
-        private WizValueEditor m_ValueEditor = null;
-        public WizValueEditor WizValueEditor
-        {
-            get { return m_ValueEditor; }
-            set
-            {
-                m_ValueEditor = value;
-                if (m_ValueEditor != null)
-                {
-                    m_ValueEditor.OKClicked += M_ValueEditor_OKClicked;
-                    m_ValueEditor.CancelClicked += M_ValueEditor_CancelClicked; ;
-                }
-            }
-        }
-        private void M_ValueEditor_CancelClicked(object sender, EventArgs e)
-        {
-            ValueEditorShow(false);
-        }
-
-        private void M_ValueEditor_OKClicked(object sender, EventArgs e)
-        {
-            ValueEditorOK();
-        }
-        private void ValueEditorShow(bool b)
-        {
-            if (m_ValueEditor == null) return;
-            m_ValueEditor.Location = new Point(330, 160);
-            m_ValueEditor.Enabled = b;
-            m_ValueEditor.Visible = b;
-            m_ValueEditor.BringToFront();
-
-            if (b == false)
-            {
-                SetMode(WizFormMode.CHARLIST);
-            }
-
-        }
-        #endregion
-
-        private void ValueEditorOK()
-        {
-            if ((m_state == null) || (m_ValueEditor == null)) return;
-            switch (m_Mode)
-            {
-                case WizFormMode.GOLD:
-                    m_state.CharGold = m_ValueEditor.Value;
-                    break;
-                case WizFormMode.EP:
-                    m_state.CharExp = m_ValueEditor.Value;
-                    break;
-                case WizFormMode.HP:
-                    m_state.CharHP = (ushort)m_ValueEditor.Value;
-                    break;
-                case WizFormMode.HPMax:
-                    m_state.CharHPMax = (ushort)m_ValueEditor.Value;
-                    break;
-                case WizFormMode.Strength:
-                    m_state.CharStrength = (byte)m_ValueEditor.Value;
-                    break;
-                case WizFormMode.IQ:
-                    m_state.CharIQ = (byte)m_ValueEditor.Value;
-                    break;
-                case WizFormMode.Piety:
-                    m_state.CharPiety = (byte)m_ValueEditor.Value;
-                    break;
-                case WizFormMode.Vitarity:
-                    m_state.CharVitarity = (byte)m_ValueEditor.Value;
-                    break;
-                case WizFormMode.Agility:
-                    m_state.CharAgility = (byte)m_ValueEditor.Value;
-                    break;
-                case WizFormMode.Luck:
-                    m_state.CharLuck = (byte)m_ValueEditor.Value;
-                    break;
-                case WizFormMode.Age:
-                    m_state.CharAge = (sbyte)m_ValueEditor.Value;
-                    break;
-                case WizFormMode.AC:
-                    m_state.CharAC = (sbyte)m_ValueEditor.Value;
-                    break;
-                case WizFormMode.Week:
-                    m_state.CharWeek = (byte)m_ValueEditor.Value;
-                    break;
-                case WizFormMode.Level:
-                    m_state.CharLevel = (ushort)m_ValueEditor.Value;
-                    break;
-            }
-            ValueEditorShow(false);
-        }
 
         private WizFCState m_state = null;
         public WizFCState WizNesState
@@ -204,101 +114,46 @@ namespace WizFCEdit
             set { m_CharList = value; }
         }
 
-        #region ListBox
-        private ListBox m_ListBox = null;
-        public ListBox ListBox
+
+        #region Name
+        // **************************************************************************************
+        private WizCharName m_CharName = null;
+        public WizCharName WizCharName
         {
-            get { return m_ListBox;}
+            get { return m_CharName; }
             set
             {
-                m_ListBox = value;
-                if(m_ListBox!=null)
+                m_CharName = value;
+                if (m_CharName != null)
                 {
-                    //ListBoxShow(false);
-                    m_ListBox.MouseDoubleClick += M_ListBox_MouseDoubleClick;
-                    m_ListBox.KeyDown += M_ListBox_KeyDown;
-
+                    m_CharName.IsEdit = m_Limit.IsName;
                 }
             }
         }
-        private void ListBoxShow(bool b)
-        {
-            if (m_ListBox == null) return;
-            m_ListBox.Enabled = b;
-            m_ListBox.Visible = b;
-            m_ListBox.BringToFront();
-            if(b==false)
-            {
-                SetMode(WizFormMode.CHARLIST);
-            }
-            else
-            {
-                m_ListBox.Focus();
-            }
-
-        }
-        private void M_ListBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if ((e.KeyData==Keys.Return)|| (e.KeyData == Keys.Enter))
-            {
-                ListBoxSelected();
-            }
-            else if (e.KeyData == Keys.Escape)
-            {
-                ListBoxShow(false);
-            }
-        }
-
-        private void M_ListBox_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            ListBoxSelected();
-        }
-
+        // **************************************************************************************
         #endregion
-        private void ListBoxSelected()
+
+        #region CLASS
+        // **************************************************************************************
+        private WizCharClass m_WizCharClass = null;
+        public WizCharClass WizCharClass
         {
-            if ((m_state == null) || (m_ListBox == null) ) return;
-            switch (m_Mode)
+            get { return m_WizCharClass; }
+            set
             {
-                case WizFormMode.ALG:
-                    WIZALG a = (WIZALG)m_ListBox.SelectedIndex;
-                    m_state.CharAlg = a;
-                    break;
-                case WizFormMode.CLASS:
-                    WIZCLASS c = (WIZCLASS)m_ListBox.SelectedIndex;
-                    if (m_state.CharClass != c)
-                    {
-                        m_state.CharClass = c;
-                        if (m_Limit.LevelInit == true)
-                        {
-                            m_state.CharLevel = 1;
-                            m_state.CharExp = 0;
-                        }
-                    }
-                    break;
-                case WizFormMode.RACE:
-                    WIZRACE r = (WIZRACE)m_ListBox.SelectedIndex;
-                    m_state.CharRace = r;
-                    break;
-                case WizFormMode.Status:
-                    WIZSTATUS s = (WIZSTATUS)m_ListBox.SelectedIndex;
-                    m_state.CharStatus = s;
-                    break;
-                case WizFormMode.Item:
-                    int id = m_ListBox.SelectedIndex;
-                    int i_idx = m_ItemList.SelectedIndex;
-                    int c_idx = m_state.CharCurrent;
-                    WizItem wi = m_state.CharItemFromIndex(c_idx, i_idx);
-                    if(wi.ID !=id)
-                    {
-                        wi.ID = (byte)id;
-                        m_state.SetCharItemFromIndex(c_idx, i_idx,wi);
-                    }
-                    break;
+                m_WizCharClass = value;
+                if (m_WizCharClass != null)
+                {
+                    m_WizCharClass.IsEditAlg = m_Limit.IsAlg;
+                    m_WizCharClass.IsEditClass = m_Limit.IsClass;
+                    m_WizCharClass.IsEditRace = m_Limit.IsRace;
+                }
             }
-            m_ListBox.Items.Clear();
-            ListBoxShow(false);
         }
+        // **************************************************************************************
+        #endregion
+
+
         #region GOLD
         private WizLongEdit m_WizGOLD = null;
         public WizLongEdit WizGold
@@ -310,6 +165,41 @@ namespace WizFCEdit
                 if(m_WizGOLD!=null)
                 {
                     m_WizGOLD.IsEdit = m_Limit.IsGold;
+                }
+            }
+        }
+
+        #endregion
+
+        #region Name
+        private WizCharName m_WizName = null;
+        public WizCharName WizName
+        {
+            get { return m_WizName; }
+            set
+            {
+                m_WizName = value;
+                if (m_WizName != null)
+                {
+                    m_WizName.IsEdit = m_Limit.IsName;
+                }
+            }
+        }
+
+        #endregion
+
+
+        #region Level
+        private WizLongEdit m_WizLevel = null;
+        public WizLongEdit WizLevel
+        {
+            get { return m_WizLevel; }
+            set
+            {
+                m_WizLevel = value;
+                if (m_WizLevel != null)
+                {
+                    m_WizLevel.IsEdit = m_Limit.IsLevel;
                 }
             }
         }
@@ -374,7 +264,7 @@ namespace WizFCEdit
                 m_WizStrength = value;
                 if (m_WizStrength != null)
                 {
-                    m_WizStrength.IsEdit = m_Limit.IsStatus;
+                    m_WizStrength.IsEdit = m_Limit.IsParams;
                 }
             }
         }
@@ -390,7 +280,7 @@ namespace WizFCEdit
                 m_WizIQ = value;
                 if (m_WizIQ != null)
                 {
-                    m_WizIQ.IsEdit = m_Limit.IsStatus;
+                    m_WizIQ.IsEdit = m_Limit.IsParams;
                 }
             }
         }
@@ -406,7 +296,7 @@ namespace WizFCEdit
                 m_WizPiety = value;
                 if (m_WizPiety != null)
                 {
-                    m_WizPiety.IsEdit = m_Limit.IsStatus;
+                    m_WizPiety.IsEdit = m_Limit.IsParams;
                 }
             }
         }
@@ -422,7 +312,7 @@ namespace WizFCEdit
                 m_WizVitarity = value;
                 if (m_WizVitarity != null)
                 {
-                    m_WizVitarity.IsEdit = m_Limit.IsStatus;
+                    m_WizVitarity.IsEdit = m_Limit.IsParams;
                 }
             }
         }
@@ -438,7 +328,7 @@ namespace WizFCEdit
                 m_WizAgility = value;
                 if (m_WizAgility != null)
                 {
-                    m_WizAgility.IsEdit = m_Limit.IsStatus;
+                    m_WizAgility.IsEdit = m_Limit.IsParams;
                 }
             }
         }
@@ -454,7 +344,7 @@ namespace WizFCEdit
                 m_WizLuck = value;
                 if (m_WizLuck != null)
                 {
-                    m_WizLuck.IsEdit = m_Limit.IsStatus;
+                    m_WizLuck.IsEdit = m_Limit.IsParams;
                 }
             }
         }
@@ -476,53 +366,7 @@ namespace WizFCEdit
         }
         #endregion
 
-        #region CharCaption
-        // **************************************************************************************
-        private WizCharCaption m_CharCaption = null;
-        public WizCharCaption WizCharCaption
-        {
-            get { return m_CharCaption; }
-            set
-            {
-                m_CharCaption = value;
-                if(m_CharCaption!=null)
-                {
-                    m_CharCaption.NameClicked += M_CharCaption_NameClicked;
-                    m_CharCaption.AlgClicked += M_CharCaption_AlgClicked;
-                    m_CharCaption.ClassClicked += M_CharCaption_ClassClicked;
-                    m_CharCaption.RaceClicked += M_CharCaption_RaceClicked;
-                    m_CharCaption.LevelClicked += M_CharCaption_LevelClicked;
-                }
-            }
-        }
 
-        private void M_CharCaption_NameClicked(object sender, EventArgs e)
-        {
-            EditName();
-        }
-
-        // **************************************************************************************
-        private void M_CharCaption_LevelClicked(object sender, EventArgs e)
-        {
-            EditLevel();
-        }
-
-        private void M_CharCaption_RaceClicked(object sender, EventArgs e)
-        {
-            EditRace();
-        }
-        private void M_CharCaption_ClassClicked(object sender, EventArgs e)
-        {
-            EditClass();
-        }
-
-        private void M_CharCaption_AlgClicked(object sender, EventArgs e)
-        {
-            EditAlg();
-        }
-
-        // **************************************************************************************
-        #endregion
 
         #region AGE
         private WizByteEdit m_WizAge = null;
@@ -583,7 +427,6 @@ namespace WizFCEdit
                 m_ItemList = value;
                 if (m_ItemList != null)
                 {
-                    m_ItemList.ItemClicked += M_ItemList_ItemClicked;
                     m_ItemList.IndClicked += M_ItemList_IndClicked;
                     m_ItemList.CurseClicked += M_ItemList_CurseClicked;
                     m_ItemList.EquClicked += M_ItemList_EquClicked;
@@ -628,10 +471,6 @@ namespace WizFCEdit
             m_state.SetCharItemFromIndex(c_idx, i_idx, wi);
         }
 
-        private void M_ItemList_ItemClicked(object sender, EventArgs e)
-        {
-            EditItem(m_ItemList.SelectedIndex);
-        }
 
         #endregion
 
@@ -646,147 +485,15 @@ namespace WizFCEdit
                 m_WizStatus = value;
                 if (m_WizStatus != null)
                 {
-                    m_WizStatus.MouseDown += M_WizStatus_MouseDown;
+                    m_WizStatus.IsEdit = m_Limit.IsStatus;
                 }
             }
         }
-
-        private void M_WizStatus_MouseDown(object sender, MouseEventArgs e)
-        {
-            EditStatus();
-        }
         #endregion
 
-        // **************************************************************************************
-        public void EditAlg()
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if ((m_state == null) || (m_ListBox == null) || (m_CharCaption == null)) return;
-            if (m_Limit.IsAlg == false) return;
-            m_ListBox.Location = m_CharCaption.AlgPoint;
-            m_ListBox.Size = new Size(60, 50);
-            m_ListBox.Items.Clear();
-            m_ListBox.Items.Add("Good");
-            m_ListBox.Items.Add("Neut");
-            m_ListBox.Items.Add("Evil");
-            m_ListBox.SelectedIndex = (int)m_state.CharAlg;
-            SetMode(WizFormMode.ALG);
-            ListBoxShow(true);
-        }
-        // **************************************************************************************
-        public void EditClass()
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if ((m_state == null) || (m_ListBox == null) || (m_CharCaption == null)) return;
-            if (m_Limit.IsClass == false) return;
-
-            m_ListBox.Location = m_CharCaption.ClassPoint;
-            m_ListBox.Size = new Size(40, 150);
-            m_ListBox.Items.Clear();
-            //0:FIG, 1:MAG, 2:PRI, 3:THI, 4:BIS, 5:SAM, 6:LOR, 7:NIN
-            m_ListBox.Items.Add("FIG");
-            m_ListBox.Items.Add("MAG");
-            m_ListBox.Items.Add("PRI");
-            m_ListBox.Items.Add("THI");
-            m_ListBox.Items.Add("BIS");
-            m_ListBox.Items.Add("SAM");
-            m_ListBox.Items.Add("LOR");
-            m_ListBox.Items.Add("NIN");
-            m_ListBox.SelectedIndex = (int)m_state.CharClass;
-            SetMode(WizFormMode.CLASS);
-            ListBoxShow(true);
-        }
-        // **************************************************************************************
-        public void EditRace()
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if ((m_state == null) || (m_ListBox == null) || (m_CharCaption == null)) return;
-            if (m_Limit.IsRace == false) return;
-
-            m_ListBox.Location = m_CharCaption.RacePoint;
-            m_ListBox.Size = new Size(50, 100);
-            m_ListBox.Items.Clear();
-            m_ListBox.Items.Add("HUMAN");
-            m_ListBox.Items.Add("ELF");
-            m_ListBox.Items.Add("DWARF");
-            m_ListBox.Items.Add("GNOME");
-            m_ListBox.Items.Add("HOBIT");
-            m_ListBox.SelectedIndex = (int)m_state.CharRace;
-            SetMode(WizFormMode.RACE);
-            ListBoxShow(true);
-        }
- 
- 
        
-        // **************************************************************************************
-        public void EditStatus()
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if ((m_state == null) || (m_ListBox == null) || (m_WizStatus == null)) return;
-            if (m_Limit.IsStatus == false) return;
 
-            m_ListBox.Location = m_WizStatus.StatusPoint;
-            m_ListBox.Size = new Size(m_WizStatus.Width- m_WizStatus.CaptionWidth, 150);
-            m_ListBox.Items.Clear();
-            m_ListBox.Items.Add("OK");
-            m_ListBox.Items.Add("ねむっている");
-            m_ListBox.Items.Add("おそれている");
-            m_ListBox.Items.Add("まひしている");
-            m_ListBox.Items.Add("いしになった");
-            m_ListBox.Items.Add("しんでいる");
-            m_ListBox.Items.Add("はいになった");
-            m_ListBox.Items.Add("うしなわれた");
-            m_ListBox.SelectedIndex = (int)m_state.CharStatus;
-            SetMode(WizFormMode.Status);
-            ListBoxShow(true);
-        }
-        // **************************************************************************************
-        public void EditItem(int v)
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if ((m_state == null) || (m_ListBox == null) || (m_ItemList == null)) return;
-            if (m_Limit.IsItem == false) return;
-
-            m_ListBox.Location = m_ItemList.ItemLocation;
-            m_ListBox.Size = m_ItemList.ItemSize;
-            m_ListBox.Items.Clear();
-            m_ListBox.Items.AddRange(m_state.ItemList);
-            m_ListBox.SelectedIndex = (int)m_ItemList.ItemID;
-            SetMode(WizFormMode.Item);
-            ListBoxShow(true);
-        }
-        // **************************************************************************************
-        public void EditLevel()
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if ((m_state == null) || (m_CharCaption == null) || (m_ValueEditor == null)) return;
-            if (m_Limit.IsLevel == false) return;
-
-            m_ValueEditor.Caption = "Level";
-            m_ValueEditor.ValueMin = 0;
-            m_ValueEditor.ValueMax = 0xFFFF;
-            m_ValueEditor.Value = m_state.CharLevel;
-            SetMode(WizFormMode.Level);
-            ValueEditorShow(true);
-        }
-        // **************************************************************************************
-        public void EditName()
-        {
-            if (m_state == null) return;
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if (m_Limit.IsName == false) return;
-
-            m_Mode = WizFormMode.Name;
-            WizNameEdit dlg = new WizNameEdit();
-            dlg.SCN = m_state.SCN;
-            dlg.CharNameCode = m_state.CharNameCode;
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                m_state.CharNameCode = dlg.CharNameCode;
-            }
-            m_Mode = WizFormMode.CHARLIST;
-            this.Invalidate();
-        }
+  
         // **************************************************************************************
         public void EditSpellList()
         {
@@ -890,10 +597,6 @@ namespace WizFCEdit
                         else if ((keyData == Keys.Down) || (keyData == Keys.Z)) { m_state.CharCurrentDown(); }
                         break;
                     default:
-                        if(m_ValueEditor!=null)
-                        {
-                            m_ValueEditor.KeyExec(keyData);
-                        }
                         break;
                 }
             }
@@ -917,6 +620,8 @@ namespace WizFCEdit
         }
         private void EditChk()
         {
+            if (m_WizName != null) m_WizName.IsEdit = m_Limit.IsName;
+            if (m_WizLevel != null) m_WizLevel.IsEdit = m_Limit.IsLevel;
             if (m_WizGOLD != null) m_WizGOLD.IsEdit = m_Limit.IsGold;
             if (m_WizEP != null) m_WizEP.IsEdit = m_Limit.IsExp;
             if (m_WizHP != null) m_WizHP.IsEdit = m_Limit.IsHP;
@@ -924,12 +629,19 @@ namespace WizFCEdit
             if (m_WizAge!=null) m_WizAge.IsEdit = m_Limit.IsAge;
             if (m_WizWeek != null) m_WizWeek.IsEdit = m_Limit.IsWeek;
             if (m_WizAC != null) m_WizAC.IsEdit = m_Limit.IsAC;
-            if (m_WizStrength != null) m_WizStrength.IsEdit = m_Limit.IsStatus;
-            if (m_WizIQ != null) m_WizIQ.IsEdit = m_Limit.IsStatus;
-            if (m_WizPiety != null) m_WizPiety.IsEdit = m_Limit.IsStatus;
-            if (m_WizVitarity != null) m_WizVitarity.IsEdit = m_Limit.IsStatus;
-            if (m_WizAgility != null) m_WizAgility.IsEdit = m_Limit.IsStatus;
-            if (m_WizLuck != null) m_WizLuck.IsEdit = m_Limit.IsStatus;
+            if (m_WizStrength != null) m_WizStrength.IsEdit = m_Limit.IsParams;
+            if (m_WizIQ != null) m_WizIQ.IsEdit = m_Limit.IsParams;
+            if (m_WizPiety != null) m_WizPiety.IsEdit = m_Limit.IsParams;
+            if (m_WizVitarity != null) m_WizVitarity.IsEdit = m_Limit.IsParams;
+            if (m_WizAgility != null) m_WizAgility.IsEdit = m_Limit.IsParams;
+            if (m_WizLuck != null) m_WizLuck.IsEdit = m_Limit.IsParams;
+            if (m_WizCharClass != null)
+            {
+                m_WizCharClass.IsEditAlg = m_Limit.IsAlg;
+                m_WizCharClass.IsEditClass = m_Limit.IsClass;
+                m_WizCharClass.IsEditRace = m_Limit.IsRace;
+            }
+            if (m_WizStatus != null) m_WizStatus.IsEdit = m_Limit.IsStatus;
         }
         public void CharCurrentDataUp()
         {

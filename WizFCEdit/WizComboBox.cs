@@ -82,6 +82,11 @@ namespace WizFCEdit
 
         public WizComboBox()
         {
+            this.SetStyle(
+               ControlStyles.DoubleBuffer |
+               ControlStyles.UserPaint |
+               ControlStyles.AllPaintingInWmPaint,
+               true);
             this.ForeColor = Color.White;
             this.BackColor = Color.Black;
 

@@ -69,7 +69,8 @@ namespace BRY
             int rsult = WindowsShellAPI.SHGetImageList(currentshil, ref WindowsShellAPI.IID_IImageList, out imglist);
 
             IntPtr hicon = IntPtr.Zero;
-            imglist.GetIcon(shinfo.iIcon, (int)WindowsShellAPI.ImageListDrawItemConstants.ILD_TRANSPARENT, ref hicon);
+            //imglist.GetIcon(shinfo.iIcon, (int)WindowsShellAPI.ImageListDrawItemConstants.ILD_TRANSPARENT, ref hicon);
+            imglist.GetIcon(shinfo.iIcon, (int)WindowsShellAPI.ImageListDrawItemConstants.ILD_IMAGE, ref hicon);
 
             Icon myIcon = Icon.FromHandle(hicon);
             Bitmap buf = new Bitmap(128, 128);

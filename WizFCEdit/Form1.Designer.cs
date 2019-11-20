@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,15 +40,12 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wizNesState1 = new WizFCEdit.WizFCState();
             this.wizCharList1 = new WizFCEdit.WizCharList();
-            this.wizCharCaption1 = new WizFCEdit.WizCharCaption();
             this.wizStatus1 = new WizFCEdit.WizStatus();
             this.wizMP1 = new WizFCEdit.WizMP();
             this.wizConrol1 = new WizFCEdit.WizBoxControl();
             this.wizItemList1 = new WizFCEdit.WizItemList();
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.btnUp = new WizFCEdit.WizButton();
             this.btnDown = new WizFCEdit.WizButton();
-            this.wizValueEditor1 = new WizFCEdit.WizValueEditor();
             this.wizSpellList1 = new WizFCEdit.WizSpellList();
             this.btnSetting = new WizFCEdit.WizButton();
             this.wizPictureBox1 = new WizFCEdit.WizPictureBox();
@@ -66,6 +64,7 @@
             this.beLuck = new WizFCEdit.WizByteEdit();
             this.wizCharName1 = new WizFCEdit.WizCharName();
             this.wizCharClass1 = new WizFCEdit.WizCharClass();
+            this.leLevel = new WizFCEdit.WizLongEdit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -200,26 +199,6 @@
             this.wizCharList1.TopMargin = 5;
             this.wizCharList1.WizNesState = this.wizNesState1;
             // 
-            // wizCharCaption1
-            // 
-            this.wizCharCaption1.BackColor = System.Drawing.Color.Black;
-            this.wizCharCaption1.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.wizCharCaption1.ForeColor = System.Drawing.Color.White;
-            this.wizCharCaption1.IsDrawFrame = false;
-            this.wizCharCaption1.Location = new System.Drawing.Point(267, 100);
-            this.wizCharCaption1.Margin = new System.Windows.Forms.Padding(4);
-            this.wizCharCaption1.MinimumSize = new System.Drawing.Size(375, 0);
-            this.wizCharCaption1.Name = "wizCharCaption1";
-            this.wizCharCaption1.Size = new System.Drawing.Size(404, 30);
-            this.wizCharCaption1.TabIndex = 4;
-            this.wizCharCaption1.Text = "wizCharCaption1";
-            this.wizCharCaption1.WidthAlg = 40;
-            this.wizCharCaption1.WidthClass = 40;
-            this.wizCharCaption1.WidthLevel = 75;
-            this.wizCharCaption1.WidthName = 170;
-            this.wizCharCaption1.WidthRace = 50;
-            this.wizCharCaption1.WizNesState = this.wizNesState1;
-            // 
             // wizStatus1
             // 
             this.wizStatus1.CaptionWidth = 100;
@@ -279,20 +258,6 @@
             this.wizItemList1.Text = "wizItemList1";
             this.wizItemList1.WizNesState = this.wizNesState1;
             // 
-            // listBox1
-            // 
-            this.listBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.listBox1.BackColor = System.Drawing.Color.Black;
-            this.listBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.listBox1.ForeColor = System.Drawing.Color.White;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 16;
-            this.listBox1.Location = new System.Drawing.Point(110, 451);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(95, 66);
-            this.listBox1.TabIndex = 17;
-            this.listBox1.Visible = false;
-            // 
             // btnUp
             // 
             this.btnUp.BackColor = System.Drawing.Color.Black;
@@ -321,28 +286,6 @@
             this.btnDown.UseVisualStyleBackColor = false;
             this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
             // 
-            // wizValueEditor1
-            // 
-            this.wizValueEditor1.BackColor = System.Drawing.Color.Black;
-            this.wizValueEditor1.BottomMargin = 5;
-            this.wizValueEditor1.Caption = "";
-            this.wizValueEditor1.Corner = 5;
-            this.wizValueEditor1.ForeColor = System.Drawing.Color.White;
-            this.wizValueEditor1.LineWidth = 3;
-            this.wizValueEditor1.Location = new System.Drawing.Point(-45, 100);
-            this.wizValueEditor1.MaximumSize = new System.Drawing.Size(250, 310);
-            this.wizValueEditor1.MinimumSize = new System.Drawing.Size(250, 310);
-            this.wizValueEditor1.Name = "wizValueEditor1";
-            this.wizValueEditor1.SideMargin = 5;
-            this.wizValueEditor1.Size = new System.Drawing.Size(250, 310);
-            this.wizValueEditor1.TabIndex = 18;
-            this.wizValueEditor1.Text = "wizValueEditor1";
-            this.wizValueEditor1.TopMargin = 5;
-            this.wizValueEditor1.Value = ((long)(0));
-            this.wizValueEditor1.ValueMax = ((long)(281474976710655));
-            this.wizValueEditor1.ValueMin = ((long)(0));
-            this.wizValueEditor1.Visible = false;
-            // 
             // wizSpellList1
             // 
             this.wizSpellList1.BackColor = System.Drawing.Color.Black;
@@ -353,7 +296,7 @@
             this.wizSpellList1.LeftMgn = 30;
             this.wizSpellList1.LineHeight = 20;
             this.wizSpellList1.LineWidth = 3;
-            this.wizSpellList1.Location = new System.Drawing.Point(-169, 184);
+            this.wizSpellList1.Location = new System.Drawing.Point(49, 300);
             this.wizSpellList1.MaximumSize = new System.Drawing.Size(570, 250);
             this.wizSpellList1.MinimumSize = new System.Drawing.Size(570, 250);
             this.wizSpellList1.Name = "wizSpellList1";
@@ -634,10 +577,10 @@
             // 
             this.wizCharName1.BackColor = System.Drawing.Color.Black;
             this.wizCharName1.ForeColor = System.Drawing.Color.White;
-            this.wizCharName1.IsEditMode = false;
-            this.wizCharName1.Location = new System.Drawing.Point(263, 73);
+            this.wizCharName1.IsEdit = false;
+            this.wizCharName1.Location = new System.Drawing.Point(282, 100);
             this.wizCharName1.Name = "wizCharName1";
-            this.wizCharName1.Size = new System.Drawing.Size(159, 20);
+            this.wizCharName1.Size = new System.Drawing.Size(144, 20);
             this.wizCharName1.TabIndex = 37;
             this.wizCharName1.Text = "wizCharName1";
             this.wizCharName1.WizNesState = this.wizNesState1;
@@ -648,13 +591,30 @@
             this.wizCharClass1.BackColor = System.Drawing.Color.Black;
             this.wizCharClass1.ClassWidth = 35;
             this.wizCharClass1.ForeColor = System.Drawing.Color.White;
-            this.wizCharClass1.Location = new System.Drawing.Point(462, 386);
+            this.wizCharClass1.Location = new System.Drawing.Point(538, 99);
             this.wizCharClass1.Name = "wizCharClass1";
             this.wizCharClass1.RaceWidth = 50;
             this.wizCharClass1.Size = new System.Drawing.Size(118, 23);
             this.wizCharClass1.TabIndex = 38;
             this.wizCharClass1.Text = "wizCharClass1";
             this.wizCharClass1.WizNesState = this.wizNesState1;
+            // 
+            // leLevel
+            // 
+            this.leLevel.ArrowHeight = 5;
+            this.leLevel.BackColor = System.Drawing.Color.Black;
+            this.leLevel.ClearWidth = 10;
+            this.leLevel.ForeColor = System.Drawing.Color.White;
+            this.leLevel.IsEdit = false;
+            this.leLevel.Location = new System.Drawing.Point(432, 95);
+            this.leLevel.Mode = WizFCEdit.WizLongEditMode.Level;
+            this.leLevel.Name = "leLevel";
+            this.leLevel.NumWidth = 10;
+            this.leLevel.Size = new System.Drawing.Size(92, 30);
+            this.leLevel.TabIndex = 39;
+            this.leLevel.Text = "L";
+            this.leLevel.Value = ((ulong)(1ul));
+            this.leLevel.WizFCState = this.wizNesState1;
             // 
             // Form1
             // 
@@ -666,6 +626,7 @@
             this.BottomMgn = 15;
             this.CaptionWidth = 320;
             this.ClientSize = new System.Drawing.Size(719, 591);
+            this.Controls.Add(this.leLevel);
             this.Controls.Add(this.wizCharClass1);
             this.Controls.Add(this.wizSpellList1);
             this.Controls.Add(this.wizCharName1);
@@ -680,8 +641,6 @@
             this.Controls.Add(this.leHPMax);
             this.Controls.Add(this.leHP);
             this.Controls.Add(this.leExp);
-            this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.wizValueEditor1);
             this.Controls.Add(this.leGold);
             this.Controls.Add(this.beAC);
             this.Controls.Add(this.beWeek);
@@ -691,15 +650,14 @@
             this.Controls.Add(this.btnDown);
             this.Controls.Add(this.btnUp);
             this.Controls.Add(this.wizMP1);
-            this.Controls.Add(this.wizCharCaption1);
             this.Controls.Add(this.wizCharList1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.wizConrol1);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.ListBox = this.listBox1;
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(638, 606);
@@ -708,20 +666,22 @@
             this.WizAC = this.beAC;
             this.WizAge = this.beAge;
             this.WizAgility = this.beAgility;
-            this.WizCharCaption = this.wizCharCaption1;
+            this.WizCharClass = this.wizCharClass1;
             this.WizCharList = this.wizCharList1;
+            this.WizCharName = this.wizCharName1;
             this.WizEP = this.leExp;
             this.WizGold = this.leGold;
             this.WizHP = this.leHP;
             this.WizHPMax = this.leHPMax;
             this.WizIQ = this.beIQ;
             this.WizItemList = this.wizItemList1;
+            this.WizLevel = this.leLevel;
             this.WizLuck = this.beLuck;
+            this.WizName = this.wizCharName1;
             this.WizNesState = this.wizNesState1;
             this.WizPiety = this.bePiety;
             this.WizStatus = this.wizStatus1;
             this.WizStrength = this.beStrength;
-            this.WizValueEditor = this.wizValueEditor1;
             this.WizVitarity = this.beVitality;
             this.WizWeek = this.beWeek;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
@@ -748,15 +708,12 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private WizFCState wizNesState1;
         private WizCharList wizCharList1;
-        private WizCharCaption wizCharCaption1;
         private WizStatus wizStatus1;
         private WizMP wizMP1;
         private WizBoxControl wizConrol1;
         private WizItemList wizItemList1;
-        private System.Windows.Forms.ListBox listBox1;
         private WizButton btnUp;
         private WizButton btnDown;
-        private WizValueEditor wizValueEditor1;
         private WizSpellList wizSpellList1;
         private WizButton btnSetting;
         private WizPictureBox wizPictureBox1;
@@ -775,6 +732,7 @@
         private WizByteEdit beLuck;
         private WizCharName wizCharName1;
         private WizCharClass wizCharClass1;
+        private WizLongEdit leLevel;
     }
 }
 

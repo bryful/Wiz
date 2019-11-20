@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace WizFCEdit
 {
-    public partial class WizNameEdit : Form
+    public partial class WizCharNameEdit : Form
     {
         byte[] temp1 = new byte[] { 0x7B, 0x9B, 0x79, 0x01 };
         byte[] temp2 = new byte[] { 0x9B, 0xFD, 0x9C, 0x31 };
@@ -76,7 +76,7 @@ namespace WizFCEdit
 
 
         // *******************************************************************
-        public WizNameEdit()
+        public WizCharNameEdit()
         {
             this.SetStyle(
           ControlStyles.DoubleBuffer |

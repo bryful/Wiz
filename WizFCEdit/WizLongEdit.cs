@@ -16,7 +16,8 @@ namespace WizFCEdit
         Gold,
         Exp,
         HP,
-        HPMax
+        HPMax,
+        Level
     }
     public class WizLongEdit :Control
     {
@@ -43,6 +44,7 @@ namespace WizFCEdit
                             break;
                         case WizLongEditMode.HP:
                         case WizLongEditMode.HPMax:
+                        case WizLongEditMode.Level:
                             m_MaxValue = 0xFFFF; //65535
                             m_NumKeta = 5;
                             break;
@@ -202,6 +204,9 @@ namespace WizFCEdit
                 case WizLongEditMode.HPMax:
                     SetValue((ulong)m_state.CharHPMax);
                     break;
+                case WizLongEditMode.Level:
+                    SetValue((ulong)m_state.CharLevel);
+                    break;
             }
 
         }
@@ -222,6 +227,9 @@ namespace WizFCEdit
                     break;
                 case WizLongEditMode.HPMax:
                     m_state.CharHPMax = (ushort)m_Value;
+                    break;
+                case WizLongEditMode.Level:
+                    m_state.CharLevel = (ushort)m_Value;
                     break;
             }
 

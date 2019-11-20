@@ -702,6 +702,7 @@ namespace WizFCEdit
             }
             int adr = CharAdr(idx);
             if (m_stateBuf[adr] == 0) return;
+            if (v <= 0) v = 1;
 
             if (CharLevelFromIndex(idx) == v) return;
             switch (m_scn)

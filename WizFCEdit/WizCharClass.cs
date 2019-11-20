@@ -12,6 +12,10 @@ namespace WizFCEdit
 {
     public class WizCharClass :Control
     {
+        public bool IsEditAlg = true;
+        public bool IsEditClass = true;
+        public bool IsEditRace = true;
+
         private WIZALG m_Alg = WIZALG.GOOD;
         private WIZCLASS m_Class = WIZCLASS.FIG;
         private WIZRACE m_Race = WIZRACE.HUMAN;
@@ -98,9 +102,9 @@ namespace WizFCEdit
         private void SetInfo()
         {
             if (m_state == null) return;
-            m_state.CharAlg = m_Alg;
-            m_state.CharClass = m_Class;
-            m_state.CharRace = m_Race;
+            if (IsEditAlg) m_state.CharAlg = m_Alg;
+            if (IsEditClass) m_state.CharClass = m_Class;
+            if (IsEditRace) m_state.CharRace = m_Race;
         }
 
 
@@ -144,58 +148,67 @@ namespace WizFCEdit
             int x = e.X;
             if (x < m_AlgWidth)
             {
-                WizComboBox cmb = new WizComboBox();
-                int ox = cmb.OffsetPoint.X;
-                int oy = cmb.OffsetPoint.Y;
-                cmb.Name = "A";
-                cmb.Location = new Point(this.Left - ox, this.Top - oy);
-                cmb.Size = new Size(100, this.Height * 3);
-                for ( int i=0; i<WizFCState.AlgStr.Length;i++)
+                if (IsEditAlg)
                 {
-                    cmb.Add(WizFCState.AlgString((WIZALG)i));
+                    WizComboBox cmb = new WizComboBox();
+                    int ox = cmb.OffsetPoint.X;
+                    int oy = cmb.OffsetPoint.Y;
+                    cmb.Name = "A";
+                    cmb.Location = new Point(this.Left - ox, this.Top - oy);
+                    cmb.Size = new Size(100, this.Height * 3);
+                    for (int i = 0; i < WizFCState.AlgStr.Length; i++)
+                    {
+                        cmb.Add(WizFCState.AlgString((WIZALG)i));
+                    }
+                    cmb.SelectedIndex = (int)m_Alg;
+                    cmb.IsListMode = true;
+                    cmb.VisibleChanged += Cmb_VisibleChanged;
+                    this.Parent.Controls.Add(cmb);
+                    cmb.BringToFront();
+                    cmb.Visible = true;
                 }
-                cmb.SelectedIndex = (int)m_Alg;
-                cmb.IsListMode = true;
-                cmb.VisibleChanged += Cmb_VisibleChanged;
-                this.Parent.Controls.Add(cmb);
-                cmb.BringToFront();
-                cmb.Visible = true;
             }else if(x< (m_AlgWidth+ m_ClassWidth))
             {
-                WizComboBox cmb = new WizComboBox();
-                int ox = cmb.OffsetPoint.X;
-                int oy = cmb.OffsetPoint.Y;
-                cmb.Name = "A";
-                cmb.Location = new Point(this.Left - ox + m_AlgWidth, this.Top - oy);
-                cmb.Size = new Size(55, this.Height * 3);
-                for (int i = 0; i < WizFCState.ClassStr.Length; i++)
+                if (IsEditClass)
                 {
-                    cmb.Add(WizFCState.ClassString((WIZCLASS)i));
+                    WizComboBox cmb = new WizComboBox();
+                    int ox = cmb.OffsetPoint.X;
+                    int oy = cmb.OffsetPoint.Y;
+                    cmb.Name = "A";
+                    cmb.Location = new Point(this.Left - ox + m_AlgWidth, this.Top - oy);
+                    cmb.Size = new Size(55, this.Height * 3);
+                    for (int i = 0; i < WizFCState.ClassStr.Length; i++)
+                    {
+                        cmb.Add(WizFCState.ClassString((WIZCLASS)i));
+                    }
+                    cmb.SelectedIndex = (int)m_Class;
+                    cmb.IsListMode = true;
+                    cmb.VisibleChanged += Cmb_VisibleChanged2;
+                    this.Parent.Controls.Add(cmb);
+                    cmb.BringToFront();
+                    cmb.Visible = true;
                 }
-                cmb.SelectedIndex = (int)m_Class;
-                cmb.IsListMode = true;
-                cmb.VisibleChanged += Cmb_VisibleChanged2;
-                this.Parent.Controls.Add(cmb);
-                cmb.BringToFront();
-                cmb.Visible = true;
             }else if (x < (m_AlgWidth + m_ClassWidth+m_RaceWidth))
             {
-                WizComboBox cmb = new WizComboBox();
-                int ox = cmb.OffsetPoint.X;
-                int oy = cmb.OffsetPoint.Y;
-                cmb.Name = "A";
-                cmb.Location = new Point(this.Left - ox + m_AlgWidth+m_ClassWidth, this.Top - oy);
-                cmb.Size = new Size(70, this.Height * 5);
-                for (int i = 0; i < WizFCState.RaceStr.Length; i++)
+                if (IsEditRace)
                 {
-                    cmb.Add(WizFCState.RaceString((WIZRACE)i));
+                    WizComboBox cmb = new WizComboBox();
+                    int ox = cmb.OffsetPoint.X;
+                    int oy = cmb.OffsetPoint.Y;
+                    cmb.Name = "A";
+                    cmb.Location = new Point(this.Left - ox + m_AlgWidth + m_ClassWidth, this.Top - oy);
+                    cmb.Size = new Size(70, this.Height * 5);
+                    for (int i = 0; i < WizFCState.RaceStr.Length; i++)
+                    {
+                        cmb.Add(WizFCState.RaceString((WIZRACE)i));
+                    }
+                    cmb.SelectedIndex = (int)m_Race;
+                    cmb.IsListMode = true;
+                    cmb.VisibleChanged += Cmb_VisibleChanged3;
+                    this.Parent.Controls.Add(cmb);
+                    cmb.BringToFront();
+                    cmb.Visible = true;
                 }
-                cmb.SelectedIndex = (int)m_Race;
-                cmb.IsListMode = true;
-                cmb.VisibleChanged += Cmb_VisibleChanged3;
-                this.Parent.Controls.Add(cmb);
-                cmb.BringToFront();
-                cmb.Visible = true;
             }
 
         }
