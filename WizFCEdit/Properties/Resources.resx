@@ -118,6 +118,30 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="BIS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BIS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FIG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FIG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LOR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LOR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MAG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MAG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NIN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NIN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PRI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PRI.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SAM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SAM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="THI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\THI.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Wizardry1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Wizardry1.ss0;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -127,28 +151,43 @@
   <data name="Wizardry3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Wizardry3.ss0;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="_000" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\000.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="_None" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\_None.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="せんし１" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\せんし１.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="あ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\あ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="せんし２" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\せんし２.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="あいね" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\あいね.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="せんし３" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\せんし３.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ひびき" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ひびき.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="そうりょ１" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\そうりょ１.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="まいか" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\まいか.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="とうぞく１" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\とうぞく１.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="まひる" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\まひる.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="まほうつかい１" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\まほうつかい１.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="みお" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\みお.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="まほうつかい２" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\まほうつかい２.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ゆめ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ゆめ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="らき" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\らき.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="アリシア" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\アリシア.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="エルザ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\エルザ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="カレン" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\カレン.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ミライ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ミライ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

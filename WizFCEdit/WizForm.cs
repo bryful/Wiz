@@ -129,6 +129,8 @@ namespace WizFCEdit
             m_ValueEditor.Location = new Point(330, 160);
             m_ValueEditor.Enabled = b;
             m_ValueEditor.Visible = b;
+            m_ValueEditor.BringToFront();
+
             if (b == false)
             {
                 SetMode(WizFormMode.CHARLIST);
@@ -187,6 +189,7 @@ namespace WizFCEdit
             }
             ValueEditorShow(false);
         }
+
         private WizFCState m_state = null;
         public WizFCState WizNesState
         {
@@ -223,6 +226,7 @@ namespace WizFCEdit
             if (m_ListBox == null) return;
             m_ListBox.Enabled = b;
             m_ListBox.Visible = b;
+            m_ListBox.BringToFront();
             if(b==false)
             {
                 SetMode(WizFormMode.CHARLIST);
@@ -360,56 +364,100 @@ namespace WizFCEdit
         }
         #endregion
 
-        #region Bounus
-        private WizBonus m_WizBonus = null;
-        public WizBonus WizBonus
+        #region STRENGTH
+        private WizByteEdit m_WizStrength = null;
+        public WizByteEdit WizStrength
         {
-            get { return m_WizBonus; }
+            get { return m_WizStrength; }
             set
             {
-                m_WizBonus = value;
-                if (m_WizBonus != null)
+                m_WizStrength = value;
+                if (m_WizStrength != null)
                 {
-                    m_WizBonus.StrengthClicked += M_WizBonus_StrengthClicked;
-                    m_WizBonus.IQClicked += M_WizBonus_IQClicked;
-                    m_WizBonus.PietyClicked += M_WizBonus_PietyClicked;
-                    m_WizBonus.VitarityClicked += M_WizBonus_VitarityClicked;
-                    m_WizBonus.AgilityClicked += M_WizBonus_AgilityClicked;
-                    m_WizBonus.LuckClicked += M_WizBonus_LuckClicked;
+                    m_WizStrength.IsEdit = m_Limit.IsStatus;
                 }
             }
         }
+        #endregion
 
-        private void M_WizBonus_LuckClicked(object sender, EventArgs e)
+        #region IQ
+        private WizByteEdit m_WizIQ = null;
+        public WizByteEdit WizIQ
         {
-            EditLuck();
+            get { return m_WizIQ; }
+            set
+            {
+                m_WizIQ = value;
+                if (m_WizIQ != null)
+                {
+                    m_WizIQ.IsEdit = m_Limit.IsStatus;
+                }
+            }
         }
+        #endregion
 
-        private void M_WizBonus_AgilityClicked(object sender, EventArgs e)
+        #region Piety
+        private WizByteEdit m_WizPiety = null;
+        public WizByteEdit WizPiety
         {
-            EditAgility();
+            get { return m_WizPiety; }
+            set
+            {
+                m_WizPiety = value;
+                if (m_WizPiety != null)
+                {
+                    m_WizPiety.IsEdit = m_Limit.IsStatus;
+                }
+            }
         }
+        #endregion
 
-        private void M_WizBonus_VitarityClicked(object sender, EventArgs e)
+        #region Vitarity
+        private WizByteEdit m_WizVitarity = null;
+        public WizByteEdit WizVitarity
         {
-            EditVitarity();
+            get { return m_WizVitarity; }
+            set
+            {
+                m_WizVitarity = value;
+                if (m_WizVitarity != null)
+                {
+                    m_WizVitarity.IsEdit = m_Limit.IsStatus;
+                }
+            }
         }
+        #endregion
 
-        private void M_WizBonus_PietyClicked(object sender, EventArgs e)
+        #region Agility
+        private WizByteEdit m_WizAgility = null;
+        public WizByteEdit WizAgility
         {
-            EditPiety();
+            get { return m_WizAgility; }
+            set
+            {
+                m_WizAgility = value;
+                if (m_WizAgility != null)
+                {
+                    m_WizAgility.IsEdit = m_Limit.IsStatus;
+                }
+            }
         }
+        #endregion
 
-        private void M_WizBonus_IQClicked(object sender, EventArgs e)
+        #region Luck
+        private WizByteEdit m_WizLuck = null;
+        public WizByteEdit WizLuck
         {
-            EditIQ();
+            get { return m_WizLuck; }
+            set
+            {
+                m_WizLuck = value;
+                if (m_WizLuck != null)
+                {
+                    m_WizLuck.IsEdit = m_Limit.IsStatus;
+                }
+            }
         }
-
-        private void M_WizBonus_StrengthClicked(object sender, EventArgs e)
-        {
-            EditStrength();
-        }
-
         #endregion
 
         #region SepllList
@@ -669,119 +717,7 @@ namespace WizFCEdit
         }
  
  
-        // **************************************************************************************
-        public void EditHP()
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if ((m_state == null) || (m_WizHP == null) || (m_ValueEditor == null)) return;
-            if (m_Limit.IsHP == false) return;
-
-            m_ValueEditor.Caption = "HP";
-            m_ValueEditor.ValueMin = 0;
-            m_ValueEditor.ValueMax = m_state.CharHPMax;
-            m_ValueEditor.Value = m_state.CharHP;
-            SetMode(WizFormMode.HP);
-            ValueEditorShow(true);
-        }
-        // **************************************************************************************
-        public void EditHPMax()
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if ((m_state == null) || (m_WizHP == null) || (m_ValueEditor == null)) return;
-            if (m_Limit.IsHP == false) return;
-
-            m_ValueEditor.Caption = "HP Max";
-            m_ValueEditor.ValueMin = 0;
-            m_ValueEditor.ValueMax = 99999999;
-            m_ValueEditor.Value = m_state.CharHPMax;
-            SetMode(WizFormMode.HPMax);
-            ValueEditorShow(true);
-        }
-        // **************************************************************************************
-        public void EditStrength()
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if ((m_state == null) || (m_WizBonus == null) || (m_ValueEditor == null)) return;
-            if (m_Limit.IsParams == false) return;
-
-            m_ValueEditor.Caption = "ちから";
-            m_ValueEditor.ValueMin = 0;
-            m_ValueEditor.ValueMax = 30;
-            m_ValueEditor.Value = m_state.CharStrength;
-            SetMode(WizFormMode.Strength);
-            ValueEditorShow(true);
-        }
-        // **************************************************************************************
-        public void EditIQ()
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if ((m_state == null) || (m_WizBonus == null) || (m_ValueEditor == null)) return;
-            if (m_Limit.IsParams == false) return;
-
-            m_ValueEditor.Caption = "ちえ";
-            m_ValueEditor.ValueMin = 0;
-            m_ValueEditor.ValueMax = 30;
-            m_ValueEditor.Value = m_state.CharIQ;
-            SetMode(WizFormMode.IQ);
-            ValueEditorShow(true);
-        }
-        // **************************************************************************************
-        public void EditPiety()
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if ((m_state == null) || (m_WizBonus == null) || (m_ValueEditor == null)) return;
-            if (m_Limit.IsParams == false) return;
-
-            m_ValueEditor.Caption = "しんこうしん";
-            m_ValueEditor.ValueMin = 0;
-            m_ValueEditor.ValueMax = 30;
-            m_ValueEditor.Value = m_state.CharPiety;
-            SetMode(WizFormMode.Piety);
-            ValueEditorShow(true);
-        }
-        // **************************************************************************************
-        public void EditVitarity()
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if ((m_state == null) || (m_WizBonus == null) || (m_ValueEditor == null)) return;
-            if (m_Limit.IsParams == false) return;
-
-            m_ValueEditor.Caption = "せいめいりょく";
-            m_ValueEditor.ValueMin = 0;
-            m_ValueEditor.ValueMax = 30;
-            m_ValueEditor.Value = m_state.CharVitarity;
-            SetMode(WizFormMode.Vitarity);
-            ValueEditorShow(true);
-        }
-        // **************************************************************************************
-        public void EditAgility()
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if ((m_state == null) || (m_WizBonus == null) || (m_ValueEditor == null)) return;
-            if (m_Limit.IsParams == false) return;
-
-            m_ValueEditor.Caption = "すばやさ";
-            m_ValueEditor.ValueMin = 0;
-            m_ValueEditor.ValueMax = 30;
-            m_ValueEditor.Value = m_state.CharAgility;
-            SetMode(WizFormMode.Agility);
-            ValueEditorShow(true);
-        }
-        // **************************************************************************************
-        public void EditLuck()
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if ((m_state == null) || (m_WizBonus == null) || (m_ValueEditor == null)) return;
-            if (m_Limit.IsParams == false) return;
-
-            m_ValueEditor.Caption = "うんのつよさ";
-            m_ValueEditor.ValueMin = 0;
-            m_ValueEditor.ValueMax = 30;
-            m_ValueEditor.Value = m_state.CharLuck;
-            SetMode(WizFormMode.Luck);
-            ValueEditorShow(true);
-        }
-        
+       
         // **************************************************************************************
         public void EditStatus()
         {
@@ -981,13 +917,19 @@ namespace WizFCEdit
         }
         private void EditChk()
         {
-            if (m_WizAge!=null) m_WizAge.IsEdit = m_Limit.IsAge;
-            if (m_WizWeek != null) m_WizWeek.IsEdit = m_Limit.IsWeek;
-            if (m_WizAC != null) m_WizAC.IsEdit = m_Limit.IsAC;
             if (m_WizGOLD != null) m_WizGOLD.IsEdit = m_Limit.IsGold;
             if (m_WizEP != null) m_WizEP.IsEdit = m_Limit.IsExp;
             if (m_WizHP != null) m_WizHP.IsEdit = m_Limit.IsHP;
             if (m_WizHPMax != null) m_WizHPMax.IsEdit = m_Limit.IsHP;
+            if (m_WizAge!=null) m_WizAge.IsEdit = m_Limit.IsAge;
+            if (m_WizWeek != null) m_WizWeek.IsEdit = m_Limit.IsWeek;
+            if (m_WizAC != null) m_WizAC.IsEdit = m_Limit.IsAC;
+            if (m_WizStrength != null) m_WizStrength.IsEdit = m_Limit.IsStatus;
+            if (m_WizIQ != null) m_WizIQ.IsEdit = m_Limit.IsStatus;
+            if (m_WizPiety != null) m_WizPiety.IsEdit = m_Limit.IsStatus;
+            if (m_WizVitarity != null) m_WizVitarity.IsEdit = m_Limit.IsStatus;
+            if (m_WizAgility != null) m_WizAgility.IsEdit = m_Limit.IsStatus;
+            if (m_WizLuck != null) m_WizLuck.IsEdit = m_Limit.IsStatus;
         }
         public void CharCurrentDataUp()
         {

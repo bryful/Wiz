@@ -63,7 +63,9 @@
             this.bePiety = new WizFCEdit.WizByteEdit();
             this.beIQ = new WizFCEdit.WizByteEdit();
             this.beAgility = new WizFCEdit.WizByteEdit();
-            this.wizByteEdit1 = new WizFCEdit.WizByteEdit();
+            this.beLuck = new WizFCEdit.WizByteEdit();
+            this.wizCharName1 = new WizFCEdit.WizCharName();
+            this.wizCharClass1 = new WizFCEdit.WizCharClass();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -268,7 +270,7 @@
             this.wizItemList1.IsDrawFrame = false;
             this.wizItemList1.ItemID = 1;
             this.wizItemList1.LineHeight = 20;
-            this.wizItemList1.Location = new System.Drawing.Point(270, 391);
+            this.wizItemList1.Location = new System.Drawing.Point(267, 386);
             this.wizItemList1.MinimumSize = new System.Drawing.Size(0, 160);
             this.wizItemList1.Name = "wizItemList1";
             this.wizItemList1.Size = new System.Drawing.Size(389, 160);
@@ -327,7 +329,7 @@
             this.wizValueEditor1.Corner = 5;
             this.wizValueEditor1.ForeColor = System.Drawing.Color.White;
             this.wizValueEditor1.LineWidth = 3;
-            this.wizValueEditor1.Location = new System.Drawing.Point(-45, 166);
+            this.wizValueEditor1.Location = new System.Drawing.Point(-45, 100);
             this.wizValueEditor1.MaximumSize = new System.Drawing.Size(250, 310);
             this.wizValueEditor1.MinimumSize = new System.Drawing.Size(250, 310);
             this.wizValueEditor1.Name = "wizValueEditor1";
@@ -351,7 +353,7 @@
             this.wizSpellList1.LeftMgn = 30;
             this.wizSpellList1.LineHeight = 20;
             this.wizSpellList1.LineWidth = 3;
-            this.wizSpellList1.Location = new System.Drawing.Point(-448, 86);
+            this.wizSpellList1.Location = new System.Drawing.Point(-169, 184);
             this.wizSpellList1.MaximumSize = new System.Drawing.Size(570, 250);
             this.wizSpellList1.MinimumSize = new System.Drawing.Size(570, 250);
             this.wizSpellList1.Name = "wizSpellList1";
@@ -384,6 +386,10 @@
             this.wizPictureBox1.BackColor = System.Drawing.Color.Black;
             this.wizPictureBox1.BottomMargin = 5;
             this.wizPictureBox1.Corner = 5;
+            this.wizPictureBox1.Folder = new string[] {
+        "picture",
+        "pic",
+        "image"};
             this.wizPictureBox1.ForeColor = System.Drawing.Color.White;
             this.wizPictureBox1.LineWidth = 2;
             this.wizPictureBox1.Location = new System.Drawing.Point(263, 128);
@@ -606,23 +612,49 @@
             this.beAgility.Value = 8;
             this.beAgility.WizFCState = this.wizNesState1;
             // 
-            // wizByteEdit1
+            // beLuck
             // 
-            this.wizByteEdit1.ArrowWidth = 10;
-            this.wizByteEdit1.BackColor = System.Drawing.Color.Black;
-            this.wizByteEdit1.CaptionLeft = false;
-            this.wizByteEdit1.CaptionWidth = 100;
-            this.wizByteEdit1.Font = new System.Drawing.Font("ＭＳ ゴシック", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.wizByteEdit1.ForeColor = System.Drawing.Color.White;
-            this.wizByteEdit1.IsEdit = true;
-            this.wizByteEdit1.Location = new System.Drawing.Point(286, 360);
-            this.wizByteEdit1.Mode = WizFCEdit.WizByteEditMode.Luck;
-            this.wizByteEdit1.Name = "wizByteEdit1";
-            this.wizByteEdit1.Size = new System.Drawing.Size(147, 20);
-            this.wizByteEdit1.TabIndex = 36;
-            this.wizByteEdit1.Text = "うんのつよさ";
-            this.wizByteEdit1.Value = 9;
-            this.wizByteEdit1.WizFCState = this.wizNesState1;
+            this.beLuck.ArrowWidth = 10;
+            this.beLuck.BackColor = System.Drawing.Color.Black;
+            this.beLuck.CaptionLeft = false;
+            this.beLuck.CaptionWidth = 100;
+            this.beLuck.Font = new System.Drawing.Font("ＭＳ ゴシック", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.beLuck.ForeColor = System.Drawing.Color.White;
+            this.beLuck.IsEdit = true;
+            this.beLuck.Location = new System.Drawing.Point(286, 360);
+            this.beLuck.Mode = WizFCEdit.WizByteEditMode.Luck;
+            this.beLuck.Name = "beLuck";
+            this.beLuck.Size = new System.Drawing.Size(147, 20);
+            this.beLuck.TabIndex = 36;
+            this.beLuck.Text = "うんのつよさ";
+            this.beLuck.Value = 9;
+            this.beLuck.WizFCState = this.wizNesState1;
+            // 
+            // wizCharName1
+            // 
+            this.wizCharName1.BackColor = System.Drawing.Color.Black;
+            this.wizCharName1.ForeColor = System.Drawing.Color.White;
+            this.wizCharName1.IsEditMode = false;
+            this.wizCharName1.Location = new System.Drawing.Point(263, 73);
+            this.wizCharName1.Name = "wizCharName1";
+            this.wizCharName1.Size = new System.Drawing.Size(159, 20);
+            this.wizCharName1.TabIndex = 37;
+            this.wizCharName1.Text = "wizCharName1";
+            this.wizCharName1.WizNesState = this.wizNesState1;
+            // 
+            // wizCharClass1
+            // 
+            this.wizCharClass1.AlgWidth = 25;
+            this.wizCharClass1.BackColor = System.Drawing.Color.Black;
+            this.wizCharClass1.ClassWidth = 35;
+            this.wizCharClass1.ForeColor = System.Drawing.Color.White;
+            this.wizCharClass1.Location = new System.Drawing.Point(462, 386);
+            this.wizCharClass1.Name = "wizCharClass1";
+            this.wizCharClass1.RaceWidth = 50;
+            this.wizCharClass1.Size = new System.Drawing.Size(118, 23);
+            this.wizCharClass1.TabIndex = 38;
+            this.wizCharClass1.Text = "wizCharClass1";
+            this.wizCharClass1.WizNesState = this.wizNesState1;
             // 
             // Form1
             // 
@@ -634,7 +666,11 @@
             this.BottomMgn = 15;
             this.CaptionWidth = 320;
             this.ClientSize = new System.Drawing.Size(719, 591);
-            this.Controls.Add(this.wizByteEdit1);
+            this.Controls.Add(this.wizCharClass1);
+            this.Controls.Add(this.wizSpellList1);
+            this.Controls.Add(this.wizCharName1);
+            this.Controls.Add(this.wizItemList1);
+            this.Controls.Add(this.beLuck);
             this.Controls.Add(this.beAgility);
             this.Controls.Add(this.beIQ);
             this.Controls.Add(this.bePiety);
@@ -644,7 +680,6 @@
             this.Controls.Add(this.leHPMax);
             this.Controls.Add(this.leHP);
             this.Controls.Add(this.leExp);
-            this.Controls.Add(this.wizSpellList1);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.wizValueEditor1);
             this.Controls.Add(this.leGold);
@@ -659,7 +694,6 @@
             this.Controls.Add(this.wizCharCaption1);
             this.Controls.Add(this.wizCharList1);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.wizItemList1);
             this.Controls.Add(this.wizConrol1);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -673,16 +707,22 @@
             this.Text = "{X=0,Y=0,Width=903,Height=523}";
             this.WizAC = this.beAC;
             this.WizAge = this.beAge;
+            this.WizAgility = this.beAgility;
             this.WizCharCaption = this.wizCharCaption1;
             this.WizCharList = this.wizCharList1;
             this.WizEP = this.leExp;
             this.WizGold = this.leGold;
             this.WizHP = this.leHP;
             this.WizHPMax = this.leHPMax;
+            this.WizIQ = this.beIQ;
             this.WizItemList = this.wizItemList1;
+            this.WizLuck = this.beLuck;
             this.WizNesState = this.wizNesState1;
+            this.WizPiety = this.bePiety;
             this.WizStatus = this.wizStatus1;
+            this.WizStrength = this.beStrength;
             this.WizValueEditor = this.wizValueEditor1;
+            this.WizVitarity = this.beVitality;
             this.WizWeek = this.beWeek;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -732,7 +772,9 @@
         private WizByteEdit bePiety;
         private WizByteEdit beIQ;
         private WizByteEdit beAgility;
-        private WizByteEdit wizByteEdit1;
+        private WizByteEdit beLuck;
+        private WizCharName wizCharName1;
+        private WizCharClass wizCharClass1;
     }
 }
 

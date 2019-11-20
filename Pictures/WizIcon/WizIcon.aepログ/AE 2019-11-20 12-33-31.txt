@@ -1,0 +1,17 @@
+プロジェクトﾞWizIcon.aepﾞのAdobe After Effects v17.0 Windows 64レンダリングログ
+
+レンダリングは2019/11/20、 12:33:31に開始しました。
+
+  2019/11/20 12:33:31 : コンポジションﾞSAMﾞの開始
+
+  出力先 : C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\SAM_[#####].png    2019/11/20 12:33:31 : コンポジションﾞSAMﾞの終了
+
+
+  2019/11/20 12:33:31 : コンポジションﾞTHIﾞの開始
+
+  出力先 : C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\THI_[#####].png    2019/11/20 12:33:31 : コンポジションﾞTHIﾞの終了
+
+
+  合計経過時間 : 0 秒
+ログは2019/11/20、12:33:31に閉じられました。
+

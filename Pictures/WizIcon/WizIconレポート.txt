@@ -1,0 +1,75 @@
+レポート作成日 : 
+	2019/11/20	11:08:23
+
+プロジェクト名 : WizIcon.aep
+
+収集されたソースファイル先 : 
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\WizIcon
+
+収集されたソースファイル : すべて
+
+収集されたコンポジション :  
+	BIS
+	FIG
+	LOR
+	MAG
+	NIN
+	PRI
+	SAM
+	THI
+	_NoName
+	_None
+	あ
+	あいね
+	アリシア
+	エルザ
+	ひびき
+	まいか
+	みお
+	ミライ
+	ゆめ
+	らき
+	カレン
+	まひる
+	
+収集されたファイルの数 :  23
+
+収集されたファイルのサイズ :  501 KB
+
+収集されたソースファイル : 
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\CLASS\BIS.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\CLASS\FIG.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\CLASS\LOR.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\CLASS\MAG.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\CLASS\NIN.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\CLASS\PRI.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\CLASS\PRI2.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\CLASS\SAM.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\CLASS\THI.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\IK\_000.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\IK\None.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\IK\あ.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\IK\あいね.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\IK\ひびき.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\IK\まいか.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\IK\まひる.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\IK\みお.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\IK\ゆめ.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\IK\らき.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\IK\アリシア.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\IK\エルザ.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\IK\カレン.png
+	C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\Wiz\Pictures\IK\ミライ.png
+	
+レンダリングプラグイン:
+	CINEMA 4D
+	
+使用されたエフェクトの数 :  3
+
+エフェクト :  カラーエンボス
+	
+エフェクト :  ブラー (ガウス)
+	
+エフェクト :  モザイク
+	
+

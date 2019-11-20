@@ -182,5 +182,7 @@ namespace WizFCEdit
         {
             CharCurrentDataDown();
         }
+
+       
     }
 }

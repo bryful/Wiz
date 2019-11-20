@@ -34,6 +34,7 @@ namespace WizFCEdit
         FIG=0,
         MAG,
         PRI,
+        THI,
         BIS,
         SAM,
         LOR,
@@ -197,6 +198,13 @@ namespace WizFCEdit
             "GNOME",
             "HOBIT"
         };
+        static public string RaceString(WIZRACE r)
+        {
+            int v = (int)r;
+            if (v < 0) v = 0;
+            else if (v >= RaceStr.Length) v = 0;
+            return RaceStr[v];
+        }
         static public readonly string[] ClassStr = new string[]
         {
             "FIG",
@@ -208,12 +216,26 @@ namespace WizFCEdit
             "LOR",
             "NIN"
         };
+        static public string ClassString(WIZCLASS r)
+        {
+            int v = (int)r;
+            if (v < 0) v = 0;
+            else if (v >= ClassStr.Length) v = 0;
+            return ClassStr[v];
+        }
         static public readonly string[] AlgStr = new string[]
        {
             "Good",
             "Neutral",
             "Evil"
        };
+        static public string AlgString(WIZALG r)
+        {
+            int v = (int)r;
+            if (v < 0) v = 0;
+            else if (v >= AlgStr.Length) v = 0;
+            return AlgStr[v];
+        }
         static public readonly string[] StatusStr = new string[]
        {
            // 0:OK, 1:ASLEEP, 2:AFRAID, 3:PARALY, 4:STONED, 5:DEAD, 6:ASHED, 7:LOST
@@ -238,6 +260,13 @@ namespace WizFCEdit
             "はいになった",
             "うしなわれた"
        };
+        static public string StatusStringJ(WIZSTATUS r)
+        {
+            int v = (int)r;
+            if (v < 0) v = 0;
+            else if (v >= StatusStrJ.Length) v = 0;
+            return StatusStrJ[v];
+        }
         #endregion
         // ***********************************************************************
         /// <summary>

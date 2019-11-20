@@ -63,9 +63,89 @@ namespace WizFCEdit.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        public static System.Drawing.Bitmap _000 {
+        public static System.Drawing.Bitmap _None {
             get {
-                object obj = ResourceManager.GetObject("_000", resourceCulture);
+                object obj = ResourceManager.GetObject("_None", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        public static System.Drawing.Bitmap BIS {
+            get {
+                object obj = ResourceManager.GetObject("BIS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        public static System.Drawing.Bitmap FIG {
+            get {
+                object obj = ResourceManager.GetObject("FIG", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        public static System.Drawing.Bitmap LOR {
+            get {
+                object obj = ResourceManager.GetObject("LOR", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        public static System.Drawing.Bitmap MAG {
+            get {
+                object obj = ResourceManager.GetObject("MAG", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        public static System.Drawing.Bitmap NIN {
+            get {
+                object obj = ResourceManager.GetObject("NIN", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        public static System.Drawing.Bitmap PRI {
+            get {
+                object obj = ResourceManager.GetObject("PRI", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        public static System.Drawing.Bitmap SAM {
+            get {
+                object obj = ResourceManager.GetObject("SAM", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        public static System.Drawing.Bitmap THI {
+            get {
+                object obj = ResourceManager.GetObject("THI", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +183,9 @@ namespace WizFCEdit.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        public static System.Drawing.Bitmap せんし１ {
+        public static System.Drawing.Bitmap あ {
             get {
-                object obj = ResourceManager.GetObject("せんし１", resourceCulture);
+                object obj = ResourceManager.GetObject("あ", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +193,9 @@ namespace WizFCEdit.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        public static System.Drawing.Bitmap せんし２ {
+        public static System.Drawing.Bitmap あいね {
             get {
-                object obj = ResourceManager.GetObject("せんし２", resourceCulture);
+                object obj = ResourceManager.GetObject("あいね", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +203,9 @@ namespace WizFCEdit.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        public static System.Drawing.Bitmap せんし３ {
+        public static System.Drawing.Bitmap アリシア {
             get {
-                object obj = ResourceManager.GetObject("せんし３", resourceCulture);
+                object obj = ResourceManager.GetObject("アリシア", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +213,9 @@ namespace WizFCEdit.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        public static System.Drawing.Bitmap そうりょ１ {
+        public static System.Drawing.Bitmap エルザ {
             get {
-                object obj = ResourceManager.GetObject("そうりょ１", resourceCulture);
+                object obj = ResourceManager.GetObject("エルザ", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,9 +223,9 @@ namespace WizFCEdit.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        public static System.Drawing.Bitmap とうぞく１ {
+        public static System.Drawing.Bitmap カレン {
             get {
-                object obj = ResourceManager.GetObject("とうぞく１", resourceCulture);
+                object obj = ResourceManager.GetObject("カレン", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,9 +233,9 @@ namespace WizFCEdit.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        public static System.Drawing.Bitmap まほうつかい１ {
+        public static System.Drawing.Bitmap ひびき {
             get {
-                object obj = ResourceManager.GetObject("まほうつかい１", resourceCulture);
+                object obj = ResourceManager.GetObject("ひびき", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -163,9 +243,59 @@ namespace WizFCEdit.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        public static System.Drawing.Bitmap まほうつかい２ {
+        public static System.Drawing.Bitmap まいか {
             get {
-                object obj = ResourceManager.GetObject("まほうつかい２", resourceCulture);
+                object obj = ResourceManager.GetObject("まいか", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        public static System.Drawing.Bitmap まひる {
+            get {
+                object obj = ResourceManager.GetObject("まひる", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        public static System.Drawing.Bitmap みお {
+            get {
+                object obj = ResourceManager.GetObject("みお", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        public static System.Drawing.Bitmap ミライ {
+            get {
+                object obj = ResourceManager.GetObject("ミライ", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        public static System.Drawing.Bitmap ゆめ {
+            get {
+                object obj = ResourceManager.GetObject("ゆめ", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        public static System.Drawing.Bitmap らき {
+            get {
+                object obj = ResourceManager.GetObject("らき", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

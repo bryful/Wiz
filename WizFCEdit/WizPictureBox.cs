@@ -21,6 +21,17 @@ namespace WizFCEdit
     {
         private List<PicData> m_PicDatas = new List<PicData>();
 
+        private List<string>  m_Folder = new List<string>() { "picture" ,"pic","image"};
+        public string[] Folder
+        {
+            get { return m_Folder.ToArray(); }
+            set
+            {
+                m_Folder = value.ToList();
+            }
+        }
+
+
         private WizFCState m_state = null;
         public WizFCState WizNesState
         {
@@ -76,18 +87,48 @@ namespace WizFCEdit
             this.Invalidate();
         }
         //----------------------------------------------------
-        public int FindName(string nm)
+        public int FindNameSub(string nm)
         {
-            int ret = 0;
-            if (m_PicDatas.Count <= 0) return -1;
-            if (nm == "") return ret;
-
-            for (int i=1;i< m_PicDatas.Count;i++)
+            int ret = -1;
+            for (int i = 0; i < m_PicDatas.Count; i++)
             {
-                if(m_PicDatas[i].name==nm)
+                if (m_PicDatas[i].name == nm)
                 {
                     ret = i;
                     break;
+                }
+            }
+            return ret;
+        }
+        //----------------------------------------------------
+        public int FindName(string nm,WIZCLASS cls)
+        {
+
+            int ret = -1;
+            if (m_PicDatas.Count <= 0) return -1;
+            if ((nm == "-- NONE --")||(nm==""))
+            {
+                nm = "_None";
+            }
+            ret = FindNameSub(nm);
+            if (ret == -1)
+            {
+                switch (cls)
+                {
+                    case WIZCLASS.FIG: nm = "FIG"; break;
+                    case WIZCLASS.MAG: nm = "MAG"; break;
+                    case WIZCLASS.PRI: nm = "PRI"; break;
+                    case WIZCLASS.THI: nm = "THI"; break;
+                    case WIZCLASS.BIS: nm = "BIS"; break;
+                    case WIZCLASS.SAM: nm = "SAM"; break;
+                    case WIZCLASS.LOR: nm = "LOR"; break;
+                    case WIZCLASS.NIN: nm = "NIN"; break;
+                }
+                ret = FindNameSub(nm);
+                if (ret == -1)
+                {
+                    nm = "_None";
+                    ret = FindNameSub(nm);
                 }
             }
 
@@ -99,7 +140,7 @@ namespace WizFCEdit
             base.OnPaint(e);
             if(m_state!=null)
             {
-                int i = FindName(m_state.CharName);
+                int i = FindName(m_state.CharName,m_state.CharClass);
                 if(i>=0)
                 {
                     e.Graphics.DrawImage(m_PicDatas[i].bmp, 10, 10);
@@ -107,27 +148,30 @@ namespace WizFCEdit
             }
 
         }
+        // *****************************************************************************************************
         public void ListupFiles()
         {
             m_PicDatas.Clear();
 
-            m_PicDatas.Add(LoadResPicData(Properties.Resources._000, "_000"));
-            m_PicDatas.Add(LoadResPicData(Properties.Resources.せんし１, "せんし１"));
-            m_PicDatas.Add(LoadResPicData(Properties.Resources.せんし２, "せんし２"));
-            m_PicDatas.Add(LoadResPicData(Properties.Resources.せんし３, "せんし３"));
-            m_PicDatas.Add(LoadResPicData(Properties.Resources.そうりょ１, "そうりょ１"));
-            m_PicDatas.Add(LoadResPicData(Properties.Resources.とうぞく１, "とうそ゛く１"));
-            m_PicDatas.Add(LoadResPicData(Properties.Resources.まほうつかい１, "まほうつかい１"));
-            m_PicDatas.Add(LoadResPicData(Properties.Resources.まほうつかい２, "まほうつかい２"));
+ 
             try
             {
+                //画像フォルダがあるか確認なければ作る
                 string path = Path.GetDirectoryName(Application.ExecutablePath);
 
-                path = Path.Combine(path, "pic");
-                if (Directory.Exists(path) == false)
+                int idx =0;
+                do
                 {
-                    Directory.CreateDirectory(path);
-                }
+                    path = Path.Combine(path, m_Folder[idx]);
+                    if (idx >= m_Folder.Count-1)
+                    {
+                        idx = 0;
+                        path = Path.Combine(path, m_Folder[idx]);
+                        Directory.CreateDirectory(path);
+                    }
+                    idx++;
+                } while (Directory.Exists(path) == false);
+                //検索して画像のリストアップ
                 string[] files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
                 foreach (string s in files)
                 {
@@ -142,6 +186,27 @@ namespace WizFCEdit
 
                     }
                 }
+                m_PicDatas.Add(LoadResPicData(Properties.Resources._None, "_None"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.FIG, "FIG"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.MAG, "MAG"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.PRI, "PRI"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.BIS, "BIS"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.LOR, "LOR"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.SAM, "SAM"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.THI, "THI"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.NIN, "NIN"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.あ, "あ"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.あいね, "あいね"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.ひびき, "ひひ゛き"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.まいか, "まいか"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.まひる, "まひる"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.みお, "みお"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.ゆめ, "ゆめ"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.らき, "らき"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.アリシア, "アリシア"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.エルザ, "エルサ゛"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.カレン, "カレン"));
+                m_PicDatas.Add(LoadResPicData(Properties.Resources.ミライ, "ミライ"));
             }
             catch
             {
