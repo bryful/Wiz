@@ -14,27 +14,6 @@ namespace WizFCEdit
     {
         NONE = -1,
         CHARLIST = 0,
-        ALG,
-        CLASS,
-        RACE,
-        GOLD,
-        EP,
-        HP,
-        HPMax,
-        Strength,
-        IQ,
-        Piety,
-        Vitarity,
-        Agility,
-        Luck,
-        Age,
-        AC,
-        Week,
-        Status,
-        Item,
-        Level,
-        Name,
-        Spell,
         COUNT
     }
 
@@ -53,7 +32,7 @@ namespace WizFCEdit
                 }
             }
         }
-        private WizFormMode m_Mode = WizFormMode.CHARLIST;
+        //private WizFormMode m_Mode = WizFormMode.CHARLIST;
         private WizBox wb = new WizBox();
         private WizBox wbCap = new WizBox();
 
@@ -101,19 +80,26 @@ namespace WizFCEdit
 
 
         private WizFCState m_state = null;
-        public WizFCState WizNesState
+        public WizFCState WizFCState
         {
             get { return m_state; }
             set { m_state = value; }
         }
 
+        #region List
         private WizCharList m_CharList = null;
         public WizCharList WizCharList
         {
             get { return m_CharList; }
-            set { m_CharList = value; }
+            set {
+                m_CharList = value;
+                if(m_CharList != null)
+                {
+                    m_CharList.IsEditSort = m_Limit.IsSort;
+                }
+            }
         }
-
+        #endregion
 
         #region Name
         // **************************************************************************************
@@ -350,17 +336,18 @@ namespace WizFCEdit
         }
         #endregion
 
-        #region SepllList
-        private WizSpellList m_SpellList = null;
-        public WizSpellList WizSpellList
+        #region MP
+        private WizMPList m_MPList = null;
+        public WizMPList WizMPlList
         {
-            get { return m_SpellList; }
+            get { return m_MPList; }
             set
             {
-                m_SpellList = value;
-                if(m_SpellList!=null)
+                m_MPList = value;
+                if(m_MPList != null)
                 {
-
+                    m_MPList.IsEdit = m_Limit.IsMagicPoint;
+                    m_MPList.IsEditSpell = m_Limit.IsSpell;
                 }
             }
         }
@@ -427,49 +414,14 @@ namespace WizFCEdit
                 m_ItemList = value;
                 if (m_ItemList != null)
                 {
-                    m_ItemList.IndClicked += M_ItemList_IndClicked;
-                    m_ItemList.CurseClicked += M_ItemList_CurseClicked;
-                    m_ItemList.EquClicked += M_ItemList_EquClicked;
-
+                    m_ItemList.IsEditID = m_Limit.IsItem;
+                    m_ItemList.IsEditInd = m_Limit.IsItemInd;
+                    m_ItemList.IsEditCurse = m_Limit.IsItemCur;
+                    m_ItemList.IsEditEqu = m_Limit.IsItemEqip;
                 }
             }
         }
 
-        private void M_ItemList_EquClicked(object sender, EventArgs e)
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if (m_Limit.IsItemEqip == false) return;
-            int c_idx = m_state.CharCurrent;
-            int i_idx = m_ItemList.SelectedIndex;
-
-            WizItem wi = m_state.CharItemFromIndex(c_idx, i_idx);
-            wi.Equipment = !wi.Equipment;
-            m_state.SetCharItemFromIndex(c_idx, i_idx, wi);
-        }
-
-        private void M_ItemList_CurseClicked(object sender, EventArgs e)
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if (m_Limit.IsItemCur == false) return;
-            int c_idx = m_state.CharCurrent;
-            int i_idx = m_ItemList.SelectedIndex;
-
-            WizItem wi = m_state.CharItemFromIndex(c_idx, i_idx);
-            wi.Curse = !wi.Curse;
-            m_state.SetCharItemFromIndex(c_idx, i_idx, wi);
-        }
-
-        private void M_ItemList_IndClicked(object sender, EventArgs e)
-        {
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if (m_Limit.IsItemInd == false) return;
-            int c_idx = m_state.CharCurrent;
-            int i_idx = m_ItemList.SelectedIndex;
-
-            WizItem wi = m_state.CharItemFromIndex(c_idx, i_idx);
-            wi.Indeterminate = !wi.Indeterminate;
-            m_state.SetCharItemFromIndex(c_idx, i_idx, wi);
-        }
 
 
         #endregion
@@ -494,20 +446,7 @@ namespace WizFCEdit
        
 
   
-        // **************************************************************************************
-        public void EditSpellList()
-        {
-            if (m_state == null) return;
-            if (m_SpellList == null) return;
-            if (m_Mode != WizFormMode.CHARLIST) return;
-            if (m_Limit.IsSpell == false) return;
-
-            m_Mode = WizFormMode.Spell;
-            m_SpellList.Location = new Point(70, 200);
-            m_SpellList.Visible = true;
-            m_SpellList.Enabled = true;
-
-        }
+  
         // **************************************************************************************
         /// <summary>
         /// 
@@ -540,25 +479,17 @@ namespace WizFCEdit
             wbCap.Top = wb.Top + wb.TopMargin - wbCap.Height/2;
         }
         // *****************************************************************************
-        public void SetMode(WizFormMode m)
-        {
-            m_Mode = m;
-            if (m_CharList != null)
-            {
-                m_CharList.IsActive = (m_Mode == WizFormMode.CHARLIST);
-            }
-        }
         // *****************************************************************************
         protected override void OnPaint(PaintEventArgs e)
         {
             wb.Graphics = e.Graphics;
-            wb.Back = this.BackColor;
-            wb.Fore = this.ForeColor;
+            wb.BackColor = this.BackColor;
+            wb.ForeColor = this.ForeColor;
             wb.DrawFrame();
 
             wbCap.Graphics = e.Graphics;
-            wbCap.Back = this.BackColor;
-            wbCap.Fore = this.ForeColor;
+            wbCap.BackColor = this.BackColor;
+            wbCap.ForeColor = this.ForeColor;
             wbCap.DrawFrame();
 
             SolidBrush sb = new SolidBrush(this.ForeColor);
@@ -587,25 +518,16 @@ namespace WizFCEdit
         // *****************************************************************************
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            this.Text = keyData.ToString() + " / Pro";
             if ((m_state != null) && (m_CharList != null))
             {
-                switch (m_Mode)
-                {
-                    case WizFormMode.CHARLIST:
-                        if ((keyData == Keys.Up) || (keyData == Keys.A)) { m_state.CharCurrentUp(); }
-                        else if ((keyData == Keys.Down) || (keyData == Keys.Z)) { m_state.CharCurrentDown(); }
-                        break;
-                    default:
-                        break;
-                }
+                if ((keyData == Keys.Up) || (keyData == Keys.A)) { m_state.CharCurrentUp(); }
+                else if ((keyData == Keys.Down) || (keyData == Keys.Z)) { m_state.CharCurrentDown(); }
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
         // *****************************************************************************
         public void ShowSettings()
         {
-            if (m_Mode != WizFormMode.CHARLIST) return;
             WizSettingDialog dlg = new WizSettingDialog();
             dlg.StartPosition = FormStartPosition.CenterParent;
             dlg.WizLimit = m_Limit;
@@ -642,16 +564,28 @@ namespace WizFCEdit
                 m_WizCharClass.IsEditRace = m_Limit.IsRace;
             }
             if (m_WizStatus != null) m_WizStatus.IsEdit = m_Limit.IsStatus;
+            if (m_ItemList != null) m_ItemList.IsEditID = m_Limit.IsItem;
+            if (m_ItemList != null) m_ItemList.IsEditInd = m_Limit.IsItemInd;
+            if (m_ItemList != null) m_ItemList.IsEditCurse = m_Limit.IsItemCur;
+            if (m_ItemList != null) m_ItemList.IsEditEqu = m_Limit.IsItemEqip;
+            if (m_MPList != null)
+            {
+                m_MPList.IsEdit = m_Limit.IsMagicPoint;
+                m_MPList.IsEditSpell = m_Limit.IsSpell;
+            }
+            if (m_CharList != null)
+            {
+                m_CharList.IsEditSort = m_Limit.IsSort;
+            }
+
         }
         public void CharCurrentDataUp()
         {
-            if (m_Mode != WizFormMode.CHARLIST) return;
             if (m_Limit.IsSort == false) return;
             m_state.CurrentDataUp();
         }
         public void CharCurrentDataDown()
         {
-            if (m_Mode != WizFormMode.CHARLIST) return;
             if (m_Limit.IsSort == false) return;
             m_state.CurrentDataDown();
         }

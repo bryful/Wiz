@@ -13,7 +13,23 @@ namespace WizFCEdit
 {
     public class WizCharList : WizBoxControl
     {
- 
+
+        private bool m_IsEditSort = true;
+        public bool IsEditSort
+        {
+            get { return m_IsEditSort; }
+            set
+            {
+                if(m_IsEditSort!=value)
+                {
+                    m_IsEditSort = value;
+                }
+                m_btnUP.Enabled = value;
+                m_btnDown.Enabled = value;
+            }
+        }
+
+
 
         private bool m_IsActive = true;
         public bool IsActive
@@ -67,7 +83,7 @@ namespace WizFCEdit
         }
 
 
-        private int m_ListTopMgn = 30;
+        private int m_ListTopMgn = 40;
         public int ListTopMgn
         {
             get { return m_ListTopMgn; }
@@ -91,6 +107,10 @@ namespace WizFCEdit
             get { return m_ListRightMgn; }
             set { m_ListRightMgn = value; if (m_ListRightMgn < 0) m_ListRightMgn = 0; this.Invalidate(); }
         }
+
+        private WizButton m_btnUP = new WizButton();
+        private WizButton m_btnDown = new WizButton();
+
         // ****************************************************************************
         public WizCharList()
         {
@@ -101,7 +121,43 @@ namespace WizFCEdit
            true);
             int x = this.MinimumSize.Width;
             this.MinimumSize = new Size(x, m_LineHeight * m_LineCount + this.TopMargin + this.BottomMargin);
+
+            m_btnUP.Name = "Up";
+            m_btnUP.Text = "Up";
+            m_btnUP.Location = new Point(30, 18);
+            m_btnUP.Size = new Size(60, 20);
+            m_btnUP.Font = new Font(this.Font.FontFamily, 9);
+            m_btnUP.IsDrawWaku = false;
+            m_btnUP.Click += M_btnUP_Click;
+
+            m_btnDown.Name = "Down";
+            m_btnDown.Text = "Down";
+            m_btnDown.Location = new Point(100, 18);
+            m_btnDown.Size = new Size(70, 20);
+            m_btnDown.Font = new Font(this.Font.FontFamily, 9);
+            m_btnDown.IsDrawWaku = false;
+            m_btnDown.Click += M_btnDown_Click;
+
+            this.Controls.Add(m_btnUP);
+            this.Controls.Add(m_btnDown);
         }
+
+        private void M_btnDown_Click(object sender, EventArgs e)
+        {
+            if ((m_state != null)&&(m_IsEditSort==true))
+            {
+                m_state.CurrentDataDown();
+            }
+        }
+
+        private void M_btnUP_Click(object sender, EventArgs e)
+        {
+            if ((m_state != null) && (m_IsEditSort == true))
+            {
+                m_state.CurrentDataUp();
+            }
+        }
+
         // ****************************************************************************
         protected override void InitLayout()
         {

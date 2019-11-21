@@ -157,7 +157,7 @@
     <Compile Include="WizLongEdit.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WizMP.cs">
+    <Compile Include="WizMPList.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WizCharNameEdit.cs">
@@ -168,6 +168,9 @@
     </Compile>
     <Compile Include="WizFCState.cs" />
     <Compile Include="WizFCString.cs" />
+    <Compile Include="WizMPEdit.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WizPictureBox.cs" />
     <Compile Include="WizSettingDialog.cs">
       <SubType>Form</SubType>
@@ -175,11 +178,11 @@
     <Compile Include="WizSettingDialog.Designer.cs">
       <DependentUpon>WizSettingDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="WizSpellEdit.cs">
+    <Compile Include="WizSpellEditDialogcs.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WizSpellEdit.Designer.cs">
-      <DependentUpon>WizSpellEdit.cs</DependentUpon>
+    <Compile Include="WizSpellEditDialogcs.Designer.cs">
+      <DependentUpon>WizSpellEditDialogcs.cs</DependentUpon>
     </Compile>
     <Compile Include="WizSpellList.cs">
       <SubType>Component</SubType>
@@ -211,8 +214,8 @@
     <EmbeddedResource Include="WizSettingDialog.resx">
       <DependentUpon>WizSettingDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WizSpellEdit.resx">
-      <DependentUpon>WizSpellEdit.cs</DependentUpon>
+    <EmbeddedResource Include="WizSpellEditDialogcs.resx">
+      <DependentUpon>WizSpellEditDialogcs.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

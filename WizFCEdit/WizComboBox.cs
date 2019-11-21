@@ -13,11 +13,6 @@ namespace WizFCEdit
 {
     public class WizComboBox :Control
     {
-        public event EventHandler Confirmed;
-        protected virtual void OnConfirmed(EventArgs e)
-        {
-            Confirmed?.Invoke(this, e);
-        }
         private bool m_IsListMode = false;
         public bool IsListMode
         {

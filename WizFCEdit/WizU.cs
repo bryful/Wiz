@@ -21,8 +21,8 @@ namespace WizFCEdit
         public int Corner = 5;
         public int LineWidth = 3;
 
-        public Color Back = Color.Black;
-        public Color Fore = Color.White;
+        public Color BackColor = Color.Black;
+        public Color ForeColor = Color.White;
 
         public Graphics Graphics = null;
         public int Left = 0;
@@ -55,19 +55,47 @@ namespace WizFCEdit
         {
 
         }
+        public void FillFrame()
+        {
+            if (Graphics == null) return;
+            if ((Width <= 0) || (Height <= 0)) return;
+            SolidBrush sb = new SolidBrush(BackColor);
+
+            try
+            {
+                Graphics.FillRectangle(sb, new Rectangle(Left, Top, Width, Height));
+                /*
+                Point[] ps = {
+                    new Point(Left + LeftMargin, Top + TopMargin+Corner),
+                    new Point(Left + LeftMargin+Corner, Top + TopMargin),
+                    new Point(Left + Width - RightMargin - Corner, Top + TopMargin),
+                    new Point(Left + Width - RightMargin , Top + TopMargin+Corner),
+                    new Point(Left + Width - RightMargin , Top + Height-BottomMargin-Corner),
+                    new Point(Left + Width - LeftMargin - Corner, Top + Height - BottomMargin),
+                    new Point(Left + LeftMargin + Corner, Top + Height -  BottomMargin),
+                    new Point(Left + LeftMargin , Top + Height - BottomMargin - Corner)
+                    };
+                Graphics.FillPolygon(sb,ps);
+                */
+            }
+            finally
+            {
+                sb.Dispose();
+            }
+        }
         public void DrawFrame()
         {
             if (Graphics == null) return;
             if ((Width <= 0) || (Height <= 0)) return;
-            SolidBrush sb = new SolidBrush(Back);
-            Pen pn = new Pen(Fore);
+            SolidBrush sb = new SolidBrush(BackColor);
+            Pen pn = new Pen(ForeColor);
             pn.Width = LineWidth;
             pn.LineJoin = LineJoin.Round;
 
             try
             {
                 //塗りつぶし
-                Graphics.FillRectangle(sb, new Rectangle(Left,Top,Width,Height));
+                Graphics.FillRectangle(sb, new Rectangle(Left, Top, Width, Height));
                 if (LineWidth > 0)
                 {
                     Point[] ps = {
@@ -82,7 +110,7 @@ namespace WizFCEdit
                         };
                     Graphics.DrawPolygon(pn, ps);
                 }
-                
+
             }
             finally
             {

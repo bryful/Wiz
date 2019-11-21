@@ -13,10 +13,58 @@ namespace WizFCEdit
 {
     public class WizSpellList : WizBoxControl
     {
-        private byte[] m_spell = new byte[0];
+        private byte[] m_spell = new byte[7];
+        public byte[] Spell
+        {
+            get { return m_spell; }
+            set
+            {
 
-        private WizButton btnSpellAll = new WizButton();
-        private WizButton btnSpellForget = new WizButton();
+                if((value.Length==7)||(value.Length == 14))
+                {
+                    bool b = false;
+                    if(value.Length== m_spell.Length)
+                    {
+                        for ( int i=0; i< m_spell.Length;i++)
+                        {
+                            if(value[i]!=m_spell[i])
+                            {
+                                b = true;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        b = true;
+
+                    }
+                    if(b)
+                    {
+                        m_spell = value;
+                        if(m_spell.Length==7)
+                        {
+                            m_scn = WIZ_SCN.S1;
+                        }
+                        this.Invalidate();
+                    }
+
+                }
+            }
+        }
+        private WIZ_SCN m_scn = WIZ_SCN.S1;
+        public WIZ_SCN SCN
+        {
+            get { return m_scn; }
+            set
+            {
+                if(m_scn!=value)
+                {
+                    m_scn = value;
+                    this.Invalidate();
+                }
+            }
+        }
 
         #region prop
         private int m_TopMgn = 40;
@@ -32,13 +80,13 @@ namespace WizFCEdit
             set { m_LeftMgn = value; this.Invalidate(); }
         }
 
-        private int m_LineHeight = 20;
+        private int m_LineHeight = 24;
         public int LineHeight
         {
             get { return m_LineHeight; }
             set { m_LineHeight = value; this.Invalidate(); }
         }
-        private int m_SpellWidth = 75;
+        private int m_SpellWidth = 100;
         public int SpellWidth
         {
             get { return m_SpellWidth; }
@@ -47,41 +95,6 @@ namespace WizFCEdit
         #endregion
 
         // **********************************************************************
-
-        #region state
-        private WizFCState m_state = null;
-        public WizFCState WizNesState
-        {
-            get { return m_state; }
-            set
-            {
-                m_state = value;
-                if (m_state != null)
-                {
-                    m_state.CurrentCharChanged += M_state_ChangeCurrentChar;
-                    m_state.LoadFileFinished += M_state_FinishedLoadFile;
-                    m_state.ValueChanged += M_state_FinishedLoadFile;
-                }
-                GetInfo();
-            }
-        }
-        private void M_state_FinishedLoadFile(object sender, EventArgs e)
-        {
-            GetInfo();
-        }
-
-        private void M_state_ChangeCurrentChar(object sender, CurrentCharEventArgs e)
-        {
-            GetInfo();
-        }
-        // *************************************************************************
-        public void GetInfo()
-        {
-            m_spell = m_state.CharSpell;
-            this.Invalidate();
-
-        }
-        #endregion
 
         // **********************************************************************
 
@@ -150,44 +163,12 @@ namespace WizFCEdit
             this.ForeColor = Color.White;
             this.BackColor = Color.Black;
 
-            this.Font = new Font(this.Font.FontFamily, 8);
+            this.Font = new Font(this.Font.FontFamily, 12);
 
-            this.Size = new Size(570, 250);
-            this.MinimumSize = this.Size;
-            this.MaximumSize = this.Size;
+            this.Size = new Size(700, 300);
+            //this.MinimumSize = this.Size;
+            //this.MaximumSize = this.Size;
 
-            #region btn
-            btnSpellAll.Name = "btnSpellAll";
-            btnSpellForget.Name = "btnSpellForget";
-
-            btnSpellAll.FlatStyle = FlatStyle.Flat;
-            btnSpellForget.FlatStyle = FlatStyle.Flat;
-
-            btnSpellAll.Font = this.Font;
-            btnSpellForget.Font = this.Font;
-
-            btnSpellAll.BackColor = this.BackColor;
-            btnSpellForget.BackColor = this.BackColor;
-
-            btnSpellAll.ForeColor = this.ForeColor;
-            btnSpellForget.ForeColor = this.ForeColor;
-
-
-            btnSpellAll.Size = new Size(80, 20);
-            btnSpellForget.Size = new Size(80, 20);
-
-            btnSpellAll.Text = "すべて覚える";
-            btnSpellForget.Text = "すべて忘れる";
-
-            btnSpellAll.Location = new Point(20, 15);
-            btnSpellForget.Location = new Point(105, 15);
-
-            this.Controls.Add(btnSpellAll);
-            this.Controls.Add(btnSpellForget);
-
-            btnSpellAll.Click += BtnSpellAll_Click;
-            btnSpellForget.Click += BtnSpellForget_Click;
-            #endregion
             this.SetStyle(
            ControlStyles.DoubleBuffer |
            ControlStyles.UserPaint |
@@ -195,48 +176,12 @@ namespace WizFCEdit
            true);
 
         }
-
-        // **********************************************************************
-        private void BtnSpellForget_Click(object sender, EventArgs e)
-        {
-            if (m_state != null)
-            {
-                if (m_spell.Length > 0)
-                {
-                    for (int i = 0; i < m_spell.Length; i++)
-                    {
-                        m_spell[i] = 0x00;
-                    }
-                }
-                m_state.CharSpell = m_spell;
-                this.Invalidate();
-            }
-        }
-
-        // **********************************************************************
-        private void BtnSpellAll_Click(object sender, EventArgs e)
-        {
-            if (m_state != null)
-            {
-                if (m_spell.Length > 0)
-                {
-                    for (int i = 0; i < m_spell.Length; i++)
-                    {
-                        m_spell[i] = 0xFF;
-                    }
-                }
-                m_state.CharSpell = m_spell;
-                this.Invalidate();
-            }
-
-        }
-
         // **********************************************************************
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
 
-            if (m_state == null) return;
+            //if (m_state == null) return;
 
             if (m_spell.Length <= 0) return;
 
@@ -248,7 +193,7 @@ namespace WizFCEdit
 
             try
             {
-                switch (m_state.SCN)
+                switch (m_scn)
                 {
                     case WIZ_SCN.S1:
                         DrawSpell1(g, sb, sf);
@@ -451,14 +396,13 @@ namespace WizFCEdit
             if ((y < 0) || (y >= 10)) return;
 
             int cnt = 0;
-            switch (m_state.SCN)
+            switch (m_scn)
             {
                 case WIZ_SCN.S1:
                     cnt = Wiz1Spell[x].Length;
                     if (y >= cnt) return;
                     byte a = (byte)(0x01 << y);
                     m_spell[x] = (byte)(m_spell[x] ^ a);
-                    m_state.CharSpell = m_spell;
                     this.Invalidate();
                     break;
                 case WIZ_SCN.S2:
@@ -469,7 +413,6 @@ namespace WizFCEdit
                         {
                             byte a2 = (byte)(0x01 << y);
                             m_spell[x] = (byte)(m_spell[x] ^ a2);
-                            m_state.CharSpell = m_spell;
                             this.Invalidate();
                         }
                     }
@@ -481,7 +424,6 @@ namespace WizFCEdit
                         {
                             byte a2 = (byte)(0x01 << y);
                             m_spell[x+7] = (byte)(m_spell[x+7] ^ a2);
-                            m_state.CharSpell = m_spell;
                             this.Invalidate();
                         }
                     }
@@ -494,7 +436,6 @@ namespace WizFCEdit
                         {
                             byte a2 = (byte)(0x01 << y);
                             m_spell[x] = (byte)(m_spell[x] ^ a2);
-                            m_state.CharSpell = m_spell;
                             this.Invalidate();
                         }
                     }
@@ -506,7 +447,6 @@ namespace WizFCEdit
                         {
                             byte a2 = (byte)(0x01 << y);
                             m_spell[x + 7] = (byte)(m_spell[x + 7] ^ a2);
-                            m_state.CharSpell = m_spell;
                             this.Invalidate();
                         }
                     }
@@ -514,5 +454,21 @@ namespace WizFCEdit
             }
         }
         // **********************************************************************
+        public void GetALL()
+        {
+            for (int i=0; i<m_spell.Length;i++)
+            {
+                m_spell[i] = 0xFF;
+            }
+            this.Invalidate();
+        }
+        public void ForgetALL()
+        {
+            for (int i = 0; i < m_spell.Length; i++)
+            {
+                m_spell[i] = 0;
+            }
+            this.Invalidate();
+        }
     }
 }

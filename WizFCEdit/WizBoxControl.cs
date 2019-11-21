@@ -91,8 +91,8 @@ namespace WizFCEdit
             base.OnPaint(e);
             wb.Graphics = e.Graphics;
             wb.Size = this.ClientSize;
-            wb.Back = this.BackColor;
-            wb.Fore = this.ForeColor;
+            wb.BackColor = this.BackColor;
+            wb.ForeColor = this.ForeColor;
             wb.DrawFrame();
 
         }

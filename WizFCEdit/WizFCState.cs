@@ -1720,9 +1720,38 @@ namespace WizFCEdit
 
         }
         // ************************************************************************
+        public void SetCharMagicFromIndex(int idx, MagicPoint mp)
+        {
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            int adr = CharAdr(idx);
+            if (m_stateBuf[adr] == 0) return;
+
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    SetCode(adr + 0x29, mp.NowP);
+                    SetCode(adr + 0x37, mp.MaxP);
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    byte[] aa = new byte[7];
+                    for (int i = 0; i < 7; i++)
+                    {
+                        aa[i] = (byte)((byte)((byte)(mp.NowP[i]) & 0x0F) << 4 + (byte)((byte)(mp.MaxP[i]) & 0x0F));
+                    }
+                    SetCode(adr + 0x27, aa);
+                    break;
+            }
+
+        }        
+        // ************************************************************************
         public MagicPoint CharMagic
         {
             get { return CharMagicFromIndex(m_CharCurrent); }
+            set { SetCharMagicFromIndex(m_CharCurrent, value); }
         }
         // ************************************************************************
         public MagicPoint CharPriestFromIndex(int idx)
@@ -1758,9 +1787,38 @@ namespace WizFCEdit
 
         }
         // ************************************************************************
+        public void SetCharPriestFromIndex(int idx, MagicPoint mp)
+        {
+            if ((idx < 0) || (idx >= m_CharCount))
+            {
+                return;
+            }
+            int adr = CharAdr(idx);
+            if (m_stateBuf[adr] == 0) return;
+
+            switch (m_scn)
+            {
+                case WIZ_SCN.S1:
+                    SetCode(adr + 0x30, mp.NowP);
+                    SetCode(adr + 0x3E, mp.MaxP);
+                    break;
+                case WIZ_SCN.S2:
+                case WIZ_SCN.S3:
+                    byte[] aa = new byte[7];
+                    for (int i = 0; i < 7; i++)
+                    {
+                        aa[i] = (byte)((byte)((byte)(mp.NowP[i]) & 0x0F) << 4 + (byte)((byte)(mp.MaxP[i]) & 0x0F));
+                    }
+                    SetCode(adr + 0x2E, aa);
+                    break;
+            }
+
+        }
+        // ************************************************************************
         public MagicPoint CharPriest
         {
             get { return CharPriestFromIndex(m_CharCurrent); }
+            set { SetCharPriestFromIndex(m_CharCurrent, value); }
         }
         // ************************************************************************
         public WizItem CharItemFromIndex(int c_idx,int i_idx)
@@ -2208,6 +2266,75 @@ namespace WizFCEdit
             return ret;
         }
         // ************************************************************************
+        public bool Save()
+        {
+            if(m_statePath!="")
+            {
+                return SaveFile(m_statePath);
+            }
+            else
+            {
+                return SaveAs();
+            }
+        }
+        // ************************************************************************
+        public bool SaveAs()
+        {
+            bool ret = false;
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = 
+                "Johnファイル(*.jn*)|*.jn0;*.jn1;*.jn2;*.jn3;*.jn4;*.jn5;"+
+                "|NNNesterJファイル(*.ss*)|*.ss*;" +
+                "|すべてのファイル(*.*)|*.*";
+            dlg.Title = "保存先のファイルを選択してください";
+            dlg.RestoreDirectory = true;
+            if (m_statePath!="")
+            {
+                dlg.FileName = Path.GetFileName(m_statePath);
+                dlg.InitialDirectory = Path.GetDirectoryName(m_statePath);
+            }
+
+            //ダイアログを表示する
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                ret = SaveFile(dlg.FileName);
+            }
+            return ret;
+        }
+        public bool LoadFile()
+        {
+            bool ret = false;
+            OpenFileDialog dlg = new OpenFileDialog();
+            if (m_statePath != "")
+            {
+                dlg.FileName = Path.GetFileName(m_statePath);
+                dlg.InitialDirectory = Path.GetDirectoryName(m_statePath);
+            }
+            dlg.Filter =
+                 "Johnファイル(*.jn*)|*.jn0;*.jn1;*.jn2;*.jn3;*.jn4;*.jn5;" +
+                 "|NNNesterJファイル(*.ss*)|*.ss*;" +
+                 "|すべてのファイル(*.*)|*.*";
+            dlg.Title = "ファイルを選択してください";
+            dlg.RestoreDirectory = true;
+            //ダイアログを表示する
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                ret = LoadFile(dlg.FileName);
+            }
+            return ret;
+        }
+        public void Reload()
+        {
+            if(m_statePath!="")
+            {
+                LoadFile(m_statePath);
+            }
+        }
+        public bool IsReload
+        {
+            get { return (m_statePath != ""); }
+        }
+        // ************************************************************************
         private WIZ_SCN m_res_scn = WIZ_SCN.S1;
         public WIZ_SCN RES_SCN
         {
@@ -2301,5 +2428,6 @@ namespace WizFCEdit
             m_CharCurrent++;
             OnValueChanged(new EventArgs());
         }
+
     }
 }

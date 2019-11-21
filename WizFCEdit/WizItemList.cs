@@ -13,12 +13,10 @@ namespace WizFCEdit
 {
     public class WizItemList : Control
     {
-        private WizLimit m_Limit = new WizLimit();
-
-        public void SetWizLimit(WizLimit wl)
-        {
-            m_Limit.CopyFrom(wl);
-        }
+        public bool IsEditID = true;
+        public bool IsEditInd = true;
+        public bool IsEditCurse = true;
+        public bool IsEditEqu = true;
 
         public event EventHandler ItemClicked;
         protected virtual void OnItemClicked(EventArgs e) { ItemClicked?.Invoke(this, e); }
@@ -43,10 +41,10 @@ namespace WizFCEdit
             this.ForeColor = Color.White;
             this.BackColor = Color.Black;
             this.SetStyle(
-         ControlStyles.DoubleBuffer |
-         ControlStyles.UserPaint |
-         ControlStyles.AllPaintingInWmPaint,
-         true);
+             ControlStyles.DoubleBuffer |
+             ControlStyles.UserPaint |
+             ControlStyles.AllPaintingInWmPaint,
+             true);
         }
 
         WizItem[] m_items = new WizItem[0];
@@ -56,7 +54,7 @@ namespace WizFCEdit
             get { return m_IsDrawFrame; }
             set { m_IsDrawFrame = value; this.Invalidate(); }
         }
-        private int m_LineHeight = 18;
+        private int m_LineHeight = 24;
         public int LineHeight
         {
             get { return m_LineHeight; }
@@ -130,6 +128,46 @@ namespace WizFCEdit
             GetInfo();
         }
         #endregion
+
+        // *************************************************************************
+        private void SetItemID(byte v)
+        {
+            if(m_SelectedIndex>=0)
+            {
+                if (m_items[m_SelectedIndex].ID!=v)
+                {
+                    m_items[m_SelectedIndex].ID = v;
+                    m_state.SetCharItemFromIndex(m_state.CharCurrent, m_SelectedIndex, m_items[m_SelectedIndex]);
+                }
+            }
+        }
+        // *************************************************************************
+        private void ChangeItemInd()
+        {
+            if (m_SelectedIndex >= 0)
+            {
+                m_items[m_SelectedIndex].Indeterminate = !m_items[m_SelectedIndex].Indeterminate;
+                m_state.SetCharItemFromIndex(m_state.CharCurrent, m_SelectedIndex, m_items[m_SelectedIndex]);
+            }
+        }
+        // *************************************************************************
+        private void ChangeItemCurse()
+        {
+            if (m_SelectedIndex >= 0)
+            {
+                m_items[m_SelectedIndex].Curse = !m_items[m_SelectedIndex].Curse;
+                m_state.SetCharItemFromIndex(m_state.CharCurrent, m_SelectedIndex, m_items[m_SelectedIndex]);
+            }
+        }
+        // *************************************************************************
+        private void ChangeItemEquipment()
+        {
+            if (m_SelectedIndex >= 0)
+            {
+                m_items[m_SelectedIndex].Equipment = !m_items[m_SelectedIndex].Equipment;
+                m_state.SetCharItemFromIndex(m_state.CharCurrent, m_SelectedIndex, m_items[m_SelectedIndex]);
+            }
+        }
         // *************************************************************************
         public void GetInfo()
         {
@@ -225,19 +263,31 @@ namespace WizFCEdit
                         int x = e.X / m_StWidth;
                         if (x >= 3)
                         {
-                            OnItemClicked(new EventArgs());
+                            if(IsEditID)
+                            {
+                                ShowItemSelect();
+                            }
                         }
                         else if(x==0)
                         {
-                           OnIndClicked(new EventArgs());
+                            if (IsEditInd)
+                            {
+                                ChangeItemInd();
+                            }
                         }
                         else if (x == 1)
                         {
-                            OnCurseClicked(new EventArgs());
+                            if (IsEditCurse)
+                            {
+                                ChangeItemCurse();
+                            }
                         }
                         else if (x == 2)
                         {
-                            OnEquClicked(new EventArgs());
+                            if (IsEditEqu)
+                            {
+                                ChangeItemEquipment();
+                            }
                         }
 
                     }
@@ -256,6 +306,7 @@ namespace WizFCEdit
                 return new Point(m_StWidth * 3 +this.Left, this.Top);
             }
         }
+        // *****************************************************************************
         public Size ItemSize
         {
             get
@@ -263,5 +314,39 @@ namespace WizFCEdit
                 return new Size(this.Width , this.Height);
             }
         }
+        // *****************************************************************************
+        public void ShowItemSelect()
+        {
+            if (m_state == null) return;
+            if (m_items.Length <= 0) return;
+            if (IsEditID == false) return;
+            if((m_SelectedIndex>=0)&&(m_SelectedIndex < m_items.Length))
+            {
+                int cp = m_StWidth * 3;
+                WizItemSelect ise = new WizItemSelect();
+                ise.Name = "A";
+                ise.Items.AddRange(m_items[m_SelectedIndex].ItemNames);
+                ise.Location = new Point(this.Left + cp, this.Top + m_LineHeight * m_SelectedIndex);
+                ise.Size = new Size(this.Width - cp, m_LineHeight);
+                ise.ItemID = m_items[m_SelectedIndex].ID;
+                ise.IsListMode = true;
+                ise.VisibleChanged += Ise_VisibleChanged;
+                this.Parent.Controls.Add(ise);
+                ise.BringToFront();
+                ise.DroppedDown = true;
+                ise.Visible = true;
+            }
+        }
+
+        private void Ise_VisibleChanged(object sender, EventArgs e)
+        {
+            WizItemSelect ise = (WizItemSelect)sender;
+            if (ise.ItemID >= 0)
+            {
+                SetItemID((byte)ise.ItemID);
+            }
+            WizItemSelect.MeDelete(this.Parent.Controls, ise);
+        }
+        // *****************************************************************************
     }
 }

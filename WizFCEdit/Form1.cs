@@ -180,6 +180,33 @@ namespace WizFCEdit
             CharCurrentDataDown();
         }
 
-       
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(WizFCState!=null)
+            {
+                WizFCState.LoadFile();
+            }
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (WizFCState != null)
+            {
+                WizFCState.Save();
+            }
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (WizFCState != null)
+            {
+                WizFCState.SaveAs();
+            }
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.ShowSettings();
+        }
     }
 }
