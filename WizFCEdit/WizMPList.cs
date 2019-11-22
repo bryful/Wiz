@@ -27,6 +27,8 @@ namespace WizFCEdit
                     m_mag[i].IsEdit = value;
                     m_pri[i].IsEdit = value;
                 }
+                m_MP9.Enabled = value;
+                m_MP9.Visible = value;
             }
         }
         public bool IsEditSpell
@@ -35,6 +37,7 @@ namespace WizFCEdit
             set
             {
                 m_Edit.Enabled = value;
+                m_Edit.Visible = value;
             }
         }
 
@@ -49,6 +52,7 @@ namespace WizFCEdit
 
 
         WizButton m_Edit = new WizButton();
+        WizButton m_MP9 = new WizButton();
 
         #region state
         private WizFCState m_state = null;
@@ -126,13 +130,21 @@ namespace WizFCEdit
                 l += w;
                 m_pri[i].Size = new Size(w, 20);
                 m_pri[i].Tag = i;
+                m_pri[i].ValueChanged += MPValueChanged;
             }
             m_Edit.Name ="Edit";
             m_Edit.Text = ">>Edit Spell";
             m_Edit.Location = new Point(5, 42);
-            m_Edit.Size = new Size(100, 20);
+            m_Edit.Size = new Size(70, 20);
             m_Edit.IsDrawWaku = false;
             m_Edit.Click += M_Edit_Click;
+
+            m_MP9.Name = "MPALL9";
+            m_MP9.Text = "MPALL9";
+            m_MP9.Location = new Point(80, 42);
+            m_MP9.Size = new Size(60, 20);
+            m_MP9.IsDrawWaku = false;
+            m_MP9.Click += M_MP9_Click;
 
 
             this.Controls.Add(m_lbMag);
@@ -146,8 +158,21 @@ namespace WizFCEdit
                 this.Controls.Add(m_pri[i]);
             }
             this.Controls.Add(m_Edit);
+            this.Controls.Add(m_MP9);
         }
 
+        private void M_MP9_Click(object sender, EventArgs e)
+        {
+            if (m_state != null)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    m_mag[i].Value = 9;
+                    m_pri[i].Value = 9;
+                }
+                SetInfo();
+            }
+        }
         private void M_Edit_Click(object sender, EventArgs e)
         {
             if (m_state == null) return;

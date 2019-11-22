@@ -15,9 +15,9 @@ namespace WizFCEdit
         private WizLimit m_Limit = new WizLimit();
         private CheckBox[] m_cb = new CheckBox[(int)WizLimit.P.Count];
 
-        public WIZ_SCN SCN
+        public WIZSCN SCN
         {
-            get { return (WIZ_SCN)(cmbSCN.SelectedIndex + 1); }
+            get { return (WIZSCN)(cmbSCN.SelectedIndex + 1); }
             set { cmbSCN.SelectedIndex = (int)value - 1; }
         }
 

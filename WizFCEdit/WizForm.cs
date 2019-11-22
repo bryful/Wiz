@@ -70,7 +70,7 @@ namespace WizFCEdit
             set { wbCap.Height = value; CapSize(); this.Invalidate(); }
         }
 
-        private string m_Caption = "Wizardry(FC) State File Editor";
+        private string m_Caption = "Wizardry (FC) Editor";
         public string Caption
         {
             get { return m_Caption; }

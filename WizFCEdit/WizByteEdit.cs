@@ -270,7 +270,7 @@ namespace WizFCEdit
                     m_state.CharStrength = (byte)m_Value;
                     break;
                 case WizByteEditMode.IQ:
-                    m_state.CharStrength = (byte)m_Value;
+                    m_state.CharIQ = (byte)m_Value;
                     break;
                 case WizByteEditMode.Piety:
                     m_state.CharPiety = (byte)m_Value;

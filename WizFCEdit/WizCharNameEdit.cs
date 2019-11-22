@@ -47,8 +47,8 @@ namespace WizFCEdit
             }
         }
 
-        private WIZ_SCN m_scn = WIZ_SCN.S1;
-        public WIZ_SCN SCN
+        private WIZSCN m_scn = WIZSCN.S1;
+        public WIZSCN SCN
         {
             get { return m_scn; }
             set { m_scn = value; SizeChk(); this.Invalidate(); }
@@ -108,7 +108,7 @@ namespace WizFCEdit
             int h = 0;
             int t = 0;
             int linc = 0;
-            if (m_scn== WIZ_SCN.S1)
+            if (m_scn== WIZSCN.S1)
             {
                 linc = 10;
             }
@@ -206,7 +206,7 @@ namespace WizFCEdit
 
                 int target = 0;
 
-                if (m_scn==WIZ_SCN.S1)
+                if (m_scn==WIZSCN.S1)
                 {
                     target = WizFCString.Wiz1StringStart;
                     y = m_TopM;
@@ -273,7 +273,7 @@ namespace WizFCEdit
             int x = (e.X - m_LeftM) / m_MWidth;
             int y = (e.Y - m_TopM) / m_MHeight;
             int lc = 0;
-            if(m_scn== WIZ_SCN.S1)
+            if(m_scn== WIZSCN.S1)
             {
                 lc = 10;
             }
@@ -284,7 +284,7 @@ namespace WizFCEdit
             if ((x >= 0) && (x < 0x10) && (y >= 0) && (y < lc))
             {
                 int idx = x + y * 0x10;
-                if (m_scn != WIZ_SCN.S1)
+                if (m_scn != WIZSCN.S1)
                 {
                     idx += WizFCString.Wiz2StringStart;
                 }

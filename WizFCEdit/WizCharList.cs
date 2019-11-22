@@ -26,6 +26,8 @@ namespace WizFCEdit
                 }
                 m_btnUP.Enabled = value;
                 m_btnDown.Enabled = value;
+                m_btnUP.Visible = value;
+                m_btnDown.Visible = value;
             }
         }
 

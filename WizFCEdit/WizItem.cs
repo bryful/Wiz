@@ -8,8 +8,8 @@ namespace WizFCEdit
 {
     public class WizItem
     {
-        private WIZ_SCN m_scn = WIZ_SCN.NO; 
-        public WIZ_SCN SCN
+        private WIZSCN m_scn = WIZSCN.NO; 
+        public WIZSCN SCN
         {
             get { return m_scn; }
             set { m_scn = value; }
@@ -71,7 +71,7 @@ namespace WizFCEdit
                 }
             }
         }
-        public WizItem(WIZ_SCN scn = WIZ_SCN.S1)
+        public WizItem(WIZSCN scn = WIZSCN.S1)
         {
             m_scn = scn;
         }
@@ -81,11 +81,11 @@ namespace WizFCEdit
             {
                 switch (m_scn)
                 {
-                    case WIZ_SCN.S1:
+                    case WIZSCN.S1:
                         return m_ItemNames1[m_ID];
-                    case WIZ_SCN.S2:
+                    case WIZSCN.S2:
                         return m_ItemNames2[m_ID];
-                    case WIZ_SCN.S3:
+                    case WIZSCN.S3:
                         return m_ItemNames3[m_ID];
                     default:
                         return "";
@@ -116,11 +116,11 @@ namespace WizFCEdit
             {
                 switch (m_scn)
                 {
-                    case WIZ_SCN.S1:
+                    case WIZSCN.S1:
                         return m_ItemNames1;
-                    case WIZ_SCN.S2:
+                    case WIZSCN.S2:
                         return m_ItemNames2;
-                    case WIZ_SCN.S3:
+                    case WIZSCN.S3:
                         return m_ItemNames3;
                     default:
                         return new string[0];
@@ -134,11 +134,11 @@ namespace WizFCEdit
             {
                 switch (m_scn)
                 {
-                    case WIZ_SCN.S1:
+                    case WIZSCN.S1:
                         return m_ItemNames1.Length;
-                    case WIZ_SCN.S2:
+                    case WIZSCN.S2:
                         return m_ItemNames2.Length;
-                    case WIZ_SCN.S3:
+                    case WIZSCN.S3:
                         return m_ItemNames3.Length;
                     default:
                         return 0;

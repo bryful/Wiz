@@ -15,12 +15,11 @@ using Codeplex.Data;
 /// <summary>
 /// 基本となるアプリのスケルトン
 /// </summary>
-namespace WizFCEdit
+namespace WizChecksum
 {
-    public partial class Form1 : WizForm
+    public partial class Form1 : Form
     {
-        public string TTitle = "Wizardry (FC) Editor";
- 
+        private byte[] m_buf = new byte[0];
         //-------------------------------------------------------------
         /// <summary>
         /// コンストラクタ
@@ -28,24 +27,7 @@ namespace WizFCEdit
         public Form1()
         {
             InitializeComponent();
-
-            this.KeyPreview = true;
-            this.Text = TTitle;
         }
-
-
-
-        // ***************************************************************
-        private void M_state_FinishedLoadFile(object sender, EventArgs e)
-        {
-        }
-        // ***************************************************************
-        private void M_state_ChangeCurrentChar(object sender, CurrentCharEventArgs e)
-        {
-            //combWizAlg1.Alg =
-        }
-        // ***************************************************************
-
         /// <summary>
         /// コントロールの初期化はこっちでやる
         /// </summary>
@@ -66,21 +48,12 @@ namespace WizFCEdit
             if (pref.Load())
             {
                 bool ok = false;
+                Size sz = pref.GetSize("Size", out ok);
+                if (ok) this.Size = sz;
                 Point p = pref.GetPoint("Point", out ok);
                 if (ok) this.Location = p;
-                bool[] wl = pref.GetBoolArray("WizLimit",out ok);
-                this.LimitValues = wl;
-                string s = pref.GetString("PictureFolder", out ok);
-                if(ok)
-                {
-                    if (System.IO.Directory.Exists(s)==true)
-                    {
-                        wizPictureBox1.PicureFolderPath = s;
-                    }
-                }
-
             }
-           // this.Text = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
+            this.Text = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
         }
         //-------------------------------------------------------------
         /// <summary>
@@ -92,9 +65,10 @@ namespace WizFCEdit
         {
             //設定ファイルの保存
             JsonPref pref = new JsonPref();
+            pref.SetSize("Size", this.Size);
             pref.SetPoint("Point", this.Location);
-            pref.SetBoolArray("WizLimit", this.LimitValues);
-            pref.SetString("PictureFolder", wizPictureBox1.PicureFolderPath);
+
+            pref.SetIntArray("IntArray", new int[] { 8, 9, 7 });
             pref.Save();
 
         }
@@ -137,8 +111,11 @@ namespace WizFCEdit
             {
                 foreach (string s in cmd)
                 {
-                    if (LoadFile(s) == true) break;
-                }                
+                    if(LoadSav(s)==true)
+                    {
+                        break;
+                    }
+                }
             }
         }
         /// <summary>
@@ -156,106 +133,106 @@ namespace WizFCEdit
         {
             AppInfoDialog.ShowAppInfoDialog();
         }
+        private void button1_Click(object sender, EventArgs e)
+        {
 
-        /// <summary>
-        /// Stateファイルを読み込む
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        public bool LoadFile(string p)
-        {
-            return wizNesState1.LoadFile(p);
-        }
-        public void OpenSelectDialog()
-        {
-        }
- 
-        private void wizNameBox1_Click(object sender, EventArgs e)
-        {
-            OpenSelectDialog();
-        }
+            JsonPref j = new JsonPref();
 
-        private void btnSetting_Click(object sender, EventArgs e)
-        {
-            this.ShowSettings();
-        }
+            int[] aaa = new int[] { 78, 9, 12 };
+            double[] bbb = new double[] { 0.7, 0.01, 0.12 };
+            string[] ccc = new string[] { "eee", "sfskjbF", "13" };
+            j.SetIntArray("aa", aaa);
+            j.SetDoubleArray("bb", bbb);
+            j.SetStringArray("cc", ccc);
 
-        private void btnUp_Click(object sender, EventArgs e)
-        {
-            CharCurrentDataUp();
-        }
+            MessageBox.Show(j.ToJson());
 
-        private void btnDown_Click(object sender, EventArgs e)
-        {
-            CharCurrentDataDown();
         }
-
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        public bool LoadSav(string p)
         {
-            if(WizFCState!=null)
+            bool ret = false;
+            FileStream fs = new FileStream(p, FileMode.Open, FileAccess.Read);
+
+            try
             {
-                if (WizFCState.LoadFile()==true)
+                m_buf = new byte[fs.Length];
+                int sz = fs.Read(m_buf, 0, m_buf.Length);
+                ret = (sz == m_buf.Length);
+                if (ret == false)
                 {
-                    this.Text = WizFCState.StatePath;
+                    m_buf = new byte[0];
+                }
+                else
+                {
+                    DispSav();
                 }
             }
-        }
-
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (WizFCState != null)
+            catch
             {
-                if (WizFCState.Save())
-                {
-                    this.Text = WizFCState.StatePath;
-                }
+                m_buf = new byte[0];
             }
-        }
-
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (WizFCState != null)
+            finally
             {
-                if (WizFCState.Save())
-                {
-                    this.Text = WizFCState.StatePath;
-                }
-            }
-        }
+                fs.Close();
 
-        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.ShowSettings();
-        }
-
-        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (WizFCState != null)
-            {
-                if(WizFCState.StatePath!="")
-                {
-                    WizFCState.Reload();
-                }
-            }
-        }
-
-        private void pctureFolderToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string p = wizPictureBox1.PicureFolderPath;
-
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-
-            fbd.Description = "キャラクタアイコンのあるフォルダを指定してください。";
-            if (p != "")
-            {
-                fbd.SelectedPath = p;
             }
 
-            //ダイアログを表示する
-            if (fbd.ShowDialog(this) == DialogResult.OK)
+            return ret;
+        }
+        public void DispSav()
+
+        {
+            listBox1.Items.Clear();
+            if (m_buf.Length < 0x100) return;
+
+            for (int i=0; i<0x100;i++)
             {
-                wizPictureBox1.PicureFolderPath = fbd.SelectedPath;
+                string s = String.Format("0x{0:X2}: {1:X2}", i, m_buf[i]);
+                listBox1.Items.Add(s);
             }
+
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            byte[] a = new byte[0x100];
+
+            for ( int i=0;i<0x80;i++)
+            {
+                a[i] = m_buf[i];
+            }
+
+
+            ushort v =  CRC16.Calc(a, 0x7e, 0xFFFF);
+            a[0x80 - 2] = (byte)((v & 0xFF00) >> 8);
+            a[0x80 - 1] = (byte)((v & 0xFF));
+
+            for (int i = 0; i < 0x80; i++)
+            {
+                byte jj = (byte)(a[i] ^ 0xFF);
+                jj = (byte)(((jj & 0xF) << 4) | ((jj & 0xF0) >> 4));
+                a[0x100 - i - 1] = jj;
+            }
+            listBox1.Items.Clear();
+
+            for (int i = 0; i < 0x100; i++)
+            {
+                string s = String.Format("0x{0:X2}: {1:X2} {2:X2} {3}", i, m_buf[i],a[i], (m_buf[i]== a[i]));
+                listBox1.Items.Add(s);
+            }
+
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            int v = 0;
+            for (int i = 0; i < 0x8; i++)
+            {
+                v += (m_buf[i]+1);
+            }
+            textBox1.Text = String.Format("{0:X2}", v);
         }
     }
 }

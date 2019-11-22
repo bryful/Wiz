@@ -397,8 +397,10 @@ namespace WizFCEdit
             {
                 if (m_TagetKeta >= m_NumKeta)
                 {
-                    m_Value = 0;
-                    this.Invalidate();
+                    if (SetValue(0))
+                    {
+                        this.Invalidate();
+                    }
                 }
                 else if (m_TagetKeta >= 0)
                 {

@@ -21,13 +21,15 @@ namespace WizFCEdit
     {
         private List<PicData> m_PicDatas = new List<PicData>();
 
-        private List<string>  m_Folder = new List<string>() { "picture" ,"pic","image"};
-        public string[] Folder
+        private string  m_PictureFolder = "";
+        public string PicureFolderPath
         {
-            get { return m_Folder.ToArray(); }
+            get { return m_PictureFolder; }
             set
             {
-                m_Folder = value.ToList();
+                m_PictureFolder = value;
+                ListupFiles();
+                this.Invalidate();
             }
         }
 
@@ -152,41 +154,34 @@ namespace WizFCEdit
         public void ListupFiles()
         {
             m_PicDatas.Clear();
-
- 
             try
             {
                 //画像フォルダがあるか確認なければ作る
-                string path = Path.GetDirectoryName(Application.ExecutablePath);
-
-                int idx =0;
-                do
+                if (m_PictureFolder != "")
                 {
-                    path = Path.Combine(path, m_Folder[idx]);
-                    if (idx >= m_Folder.Count-1)
+                    //検索して画像のリストアップ
+                    string[] files = Directory.GetFiles(m_PictureFolder, "*.*", SearchOption.AllDirectories);
+                    foreach (string s in files)
                     {
-                        idx = 0;
-                        path = Path.Combine(path, m_Folder[idx]);
-                        Directory.CreateDirectory(path);
-                    }
-                    idx++;
-                } while (Directory.Exists(path) == false);
-                //検索して画像のリストアップ
-                string[] files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
-                foreach (string s in files)
-                {
-                    string e = Path.GetExtension(s).ToLower();
-                    if ((e == ".jpg") || (e == ".png") || (e == ".bmp"))
-                    {
-                        PicData pd = LoadPicData(s);
-                        if (pd.name != "")
+                        string e = Path.GetExtension(s).ToLower();
+                        if ((e == ".jpg") || (e == ".png") || (e == ".bmp"))
                         {
-                            m_PicDatas.Add(pd);
-                        }
+                            PicData pd = LoadPicData(s);
+                            if (pd.name != "")
+                            {
+                                m_PicDatas.Add(pd);
+                                if (m_PicDatas.Count > 30) break;
+                            }
 
+                        }
                     }
                 }
-                m_PicDatas.Add(LoadResPicData(Properties.Resources._None, "_None"));
+            }
+            catch
+            {
+
+            }
+            m_PicDatas.Add(LoadResPicData(Properties.Resources._None, "_None"));
                 m_PicDatas.Add(LoadResPicData(Properties.Resources.FIG, "FIG"));
                 m_PicDatas.Add(LoadResPicData(Properties.Resources.MAG, "MAG"));
                 m_PicDatas.Add(LoadResPicData(Properties.Resources.PRI, "PRI"));
@@ -207,11 +202,7 @@ namespace WizFCEdit
                 m_PicDatas.Add(LoadResPicData(Properties.Resources.エルザ, "エルサ゛"));
                 m_PicDatas.Add(LoadResPicData(Properties.Resources.カレン, "カレン"));
                 m_PicDatas.Add(LoadResPicData(Properties.Resources.ミライ, "ミライ"));
-            }
-            catch
-            {
-
-            }
+           
         }
         public string NameChk(string s)
         {

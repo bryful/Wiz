@@ -55,13 +55,13 @@ namespace WizFCEdit
       /*F0*/"み",/*F1*/"む",/*F2*/"め",/*F3*/"も",/*F4*/"や",/*F5*/"ゆ",/*F6*/"よ",/*F7*/"ら",/*F8*/"り",/*F9*/"る",/*FA*/"れ",/*FB*/"ろ",/*FC*/"わ",/*FD*/"ん",/*FE*/"゛",/*FF*/"゜"
       };
 
-        static public String CodeToString(WIZ_SCN scn,byte value)
+        static public String CodeToString(WIZSCN scn,byte value)
         {
             string ret = "";
-            if (scn == WIZ_SCN.NO) return ret;
+            if (scn == WIZSCN.NO) return ret;
             if ((value>=0)&&(value<0xFF))
             {
-                if (scn == WIZ_SCN.S1)
+                if (scn == WIZSCN.S1)
                 {
                     ret = Wiz1Strings[(int)value];
                 }
@@ -72,10 +72,10 @@ namespace WizFCEdit
             }
             return ret;
         }
-        static public String CodeToString(WIZ_SCN scn, byte [] values)
+        static public String CodeToString(WIZSCN scn, byte [] values)
         {
             string ret = "";
-            if (scn == WIZ_SCN.NO) return ret;
+            if (scn == WIZSCN.NO) return ret;
             if (values.Length <= 0) return ret;
             for ( int i=0; i<values.Length;i++)
             {

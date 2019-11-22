@@ -44,7 +44,7 @@ namespace WizFCEdit
                         m_spell = value;
                         if(m_spell.Length==7)
                         {
-                            m_scn = WIZ_SCN.S1;
+                            m_scn = WIZSCN.S1;
                         }
                         this.Invalidate();
                     }
@@ -52,8 +52,8 @@ namespace WizFCEdit
                 }
             }
         }
-        private WIZ_SCN m_scn = WIZ_SCN.S1;
-        public WIZ_SCN SCN
+        private WIZSCN m_scn = WIZSCN.S1;
+        public WIZSCN SCN
         {
             get { return m_scn; }
             set
@@ -195,13 +195,13 @@ namespace WizFCEdit
             {
                 switch (m_scn)
                 {
-                    case WIZ_SCN.S1:
+                    case WIZSCN.S1:
                         DrawSpell1(g, sb, sf);
                         break;
-                    case WIZ_SCN.S2:
+                    case WIZSCN.S2:
                         DrawSpell2(g, sb, sf);
                         break;
-                    case WIZ_SCN.S3:
+                    case WIZSCN.S3:
                         DrawSpell3(g, sb, sf);
                         break;
                 }
@@ -372,7 +372,7 @@ namespace WizFCEdit
 
                     if ((b & 0x01) == 1)
                     {
-                        sb.Color = this.ForeColor;
+                        sb.Color =Color.Yellow;
                     }
                     else
                     {
@@ -398,14 +398,14 @@ namespace WizFCEdit
             int cnt = 0;
             switch (m_scn)
             {
-                case WIZ_SCN.S1:
+                case WIZSCN.S1:
                     cnt = Wiz1Spell[x].Length;
                     if (y >= cnt) return;
                     byte a = (byte)(0x01 << y);
                     m_spell[x] = (byte)(m_spell[x] ^ a);
                     this.Invalidate();
                     break;
-                case WIZ_SCN.S2:
+                case WIZSCN.S2:
                     if(y<4)
                     {
                         cnt = Wiz2SpellM[x].Length;
@@ -428,7 +428,7 @@ namespace WizFCEdit
                         }
                     }
                     break;
-                case WIZ_SCN.S3:
+                case WIZSCN.S3:
                     if (y < 4)
                     {
                         cnt = Wiz3SpellM[x].Length;

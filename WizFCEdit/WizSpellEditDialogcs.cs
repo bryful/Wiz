@@ -17,7 +17,7 @@ namespace WizFCEdit
             get { return wizSpellList1.Spell; }
             set { wizSpellList1.Spell = value; }
         }
-        public WIZ_SCN SCN
+        public WIZSCN SCN
         {
             get { return wizSpellList1.SCN; }
             set { wizSpellList1.SCN = value; }

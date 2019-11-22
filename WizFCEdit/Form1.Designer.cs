@@ -34,11 +34,13 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pctureFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wizNesState1 = new WizFCEdit.WizFCState();
@@ -86,6 +88,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
+            this.reloadToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
             this.quitToolStripMenuItem});
@@ -96,35 +99,47 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // reloadToolStripMenuItem
+            // 
+            this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
+            this.reloadToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.reloadToolStripMenuItem.Text = "Reload";
+            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.saveAsToolStripMenuItem.Text = "SaveAs";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.quitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.settingsToolStripMenuItem});
+            this.settingsToolStripMenuItem,
+            this.pctureFolderToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "Edit";
@@ -132,9 +147,17 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.settingsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.K)));
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // pctureFolderToolStripMenuItem
+            // 
+            this.pctureFolderToolStripMenuItem.Name = "pctureFolderToolStripMenuItem";
+            this.pctureFolderToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
+            this.pctureFolderToolStripMenuItem.Text = "キャラクタアイコンのフォルダを指定";
+            this.pctureFolderToolStripMenuItem.Click += new System.EventHandler(this.pctureFolderToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -187,7 +210,7 @@
             this.wizNesState1.CharStrength = ((byte)(8));
             this.wizNesState1.CharVitarity = ((byte)(8));
             this.wizNesState1.CharWeek = ((byte)(24));
-            this.wizNesState1.RES_SCN = WizFCEdit.WIZ_SCN.S1;
+            this.wizNesState1.RES_SCN = WizFCEdit.WIZSCN.S1;
             // 
             // wizCharList1
             // 
@@ -197,7 +220,7 @@
             this.wizCharList1.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.wizCharList1.ForeColor = System.Drawing.Color.White;
             this.wizCharList1.IsActive = true;
-            this.wizCharList1.IsEditSort = true;
+            this.wizCharList1.IsEditSort = false;
             this.wizCharList1.LineHeight = 18;
             this.wizCharList1.LineWidth = 3;
             this.wizCharList1.ListBottomMgn = 5;
@@ -209,7 +232,7 @@
             this.wizCharList1.MinimumSize = new System.Drawing.Size(0, 370);
             this.wizCharList1.Name = "wizCharList1";
             this.wizCharList1.SideMargin = 5;
-            this.wizCharList1.Size = new System.Drawing.Size(205, 451);
+            this.wizCharList1.Size = new System.Drawing.Size(205, 466);
             this.wizCharList1.TabIndex = 0;
             this.wizCharList1.Text = "wizCharList1";
             this.wizCharList1.TopMargin = 5;
@@ -237,7 +260,7 @@
             this.wizConrol1.Location = new System.Drawing.Point(249, 86);
             this.wizConrol1.Name = "wizConrol1";
             this.wizConrol1.SideMargin = 5;
-            this.wizConrol1.Size = new System.Drawing.Size(436, 482);
+            this.wizConrol1.Size = new System.Drawing.Size(436, 466);
             this.wizConrol1.TabIndex = 3;
             this.wizConrol1.Text = "wizConrol1";
             this.wizConrol1.TopMargin = 5;
@@ -263,11 +286,13 @@
             this.btnSetting.BackColor = System.Drawing.Color.Black;
             this.btnSetting.Font = new System.Drawing.Font("ＭＳ ゴシック", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.btnSetting.ForeColor = System.Drawing.Color.White;
-            this.btnSetting.Location = new System.Drawing.Point(593, 522);
+            this.btnSetting.IsDrawWaku = true;
+            this.btnSetting.Location = new System.Drawing.Point(593, 505);
             this.btnSetting.Name = "btnSetting";
             this.btnSetting.Size = new System.Drawing.Size(78, 32);
             this.btnSetting.TabIndex = 24;
             this.btnSetting.Text = "Setting";
+            this.btnSetting.UseVisualStyleBackColor = false;
             this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
             // 
             // wizPictureBox1
@@ -275,16 +300,13 @@
             this.wizPictureBox1.BackColor = System.Drawing.Color.Black;
             this.wizPictureBox1.BottomMargin = 5;
             this.wizPictureBox1.Corner = 5;
-            this.wizPictureBox1.Folder = new string[] {
-        "picture",
-        "pic",
-        "image"};
             this.wizPictureBox1.ForeColor = System.Drawing.Color.White;
             this.wizPictureBox1.LineWidth = 2;
             this.wizPictureBox1.Location = new System.Drawing.Point(263, 128);
             this.wizPictureBox1.MaximumSize = new System.Drawing.Size(120, 120);
             this.wizPictureBox1.MinimumSize = new System.Drawing.Size(120, 120);
             this.wizPictureBox1.Name = "wizPictureBox1";
+            this.wizPictureBox1.PicureFolderPath = "";
             this.wizPictureBox1.SideMargin = 5;
             this.wizPictureBox1.Size = new System.Drawing.Size(120, 120);
             this.wizPictureBox1.TabIndex = 7;
@@ -596,8 +618,9 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Black;
             this.BottomMgn = 15;
+            this.Caption = "Wizardry (FC) Editor";
             this.CaptionWidth = 320;
-            this.ClientSize = new System.Drawing.Size(716, 591);
+            this.ClientSize = new System.Drawing.Size(716, 572);
             this.Controls.Add(this.wizMPList1);
             this.Controls.Add(this.wizItemSelect1);
             this.Controls.Add(this.leLevel);
@@ -632,7 +655,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(638, 606);
             this.Name = "Form1";
-            this.Text = "{X=0,Y=0,Width=903,Height=523}";
+            this.Text = "Wizaedry (FC) Editor";
             this.WizAC = this.beAC;
             this.WizAge = this.beAge;
             this.WizAgility = this.beAgility;
@@ -703,6 +726,8 @@
         private WizItemSelect wizItemSelect1;
         private WizMPList wizMPList1;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pctureFolderToolStripMenuItem;
     }
 }
 
