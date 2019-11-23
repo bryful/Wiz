@@ -83,6 +83,6 @@ twitter:[bryful](https://twitter.com/bryful)
 bryful@gmail.com  
 
 # References
-Wizardry(NES) ‰ğÍ https://taotao54321.github.io/appsouko/work/Game/Wiz1_NES/
-Wizardry1/Apple/‰ğÍƒƒ‚ https://wiliki.zukeran.org/index.cgi?Wizardry1%2FApple%2F%B2%F2%C0%CF%A5%E1%A5%E2
-Welcome to Wizardry Institute of Analysis(•Â½) http://marin69.hp.infoseek.co.jp
+Wizardry(NES) ‰ğÍ https://taotao54321.github.io/appsouko/work/Game/Wiz1_NES/  
+Wizardry1/Apple/‰ğÍƒƒ‚ https://wiliki.zukeran.org/index.cgi?Wizardry1%2FApple%2F%B2%F2%C0%CF%A5%E1%A5%E2  
+Welcome to Wizardry Institute of Analysis(•Â½) http://marin69.hp.infoseek.co.jp  
