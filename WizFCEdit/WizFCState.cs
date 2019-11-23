@@ -2568,8 +2568,11 @@ namespace WizFCEdit
                     int v = 8;
                     for (int j = 0; j < 8; j++)
                     {
-                        int v2 = v + a[8 * k + j];
-                        v = (v2 & 0xFF) + ((v2 >> 8) & 0xFF);
+                        v = v + a[8 * k + j];
+                    }
+                    if ((v >> 8) != 0)
+                    {
+                        v = (v & 0xFF) + 1;
                     }
                     a[0x70 + k] = (byte)v;
                 }
