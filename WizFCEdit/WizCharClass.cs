@@ -162,7 +162,7 @@ namespace WizFCEdit
                     }
                     cmb.SelectedIndex = (int)m_Alg;
                     cmb.IsListMode = true;
-                    cmb.VisibleChanged += Cmb_VisibleChanged;
+                    cmb.VisibleChanged += CmbAlg_VisibleChanged;
                     this.Parent.Controls.Add(cmb);
                     cmb.BringToFront();
                     cmb.Visible = true;
@@ -183,7 +183,7 @@ namespace WizFCEdit
                     }
                     cmb.SelectedIndex = (int)m_Class;
                     cmb.IsListMode = true;
-                    cmb.VisibleChanged += Cmb_VisibleChanged2;
+                    cmb.VisibleChanged += CmbClass_VisibleChanged;
                     this.Parent.Controls.Add(cmb);
                     cmb.BringToFront();
                     cmb.Visible = true;
@@ -204,7 +204,7 @@ namespace WizFCEdit
                     }
                     cmb.SelectedIndex = (int)m_Race;
                     cmb.IsListMode = true;
-                    cmb.VisibleChanged += Cmb_VisibleChanged3;
+                    cmb.VisibleChanged += CmbRace_VisibleChanged;
                     this.Parent.Controls.Add(cmb);
                     cmb.BringToFront();
                     cmb.Visible = true;
@@ -213,7 +213,7 @@ namespace WizFCEdit
 
         }
 
-        private void Cmb_VisibleChanged(object sender, EventArgs e)
+        private void CmbAlg_VisibleChanged(object sender, EventArgs e)
         {
             WizComboBox w = (WizComboBox)sender;
             if (w.SelectedIndex >= 0) {
@@ -227,7 +227,7 @@ namespace WizFCEdit
             }
             WizComboBox.MeDelete(this.Parent.Controls, w);
         }
-        private void Cmb_VisibleChanged2(object sender, EventArgs e)
+        private void CmbClass_VisibleChanged(object sender, EventArgs e)
         {
             WizComboBox w = (WizComboBox)sender;
             if (w.SelectedIndex >= 0)
@@ -242,7 +242,7 @@ namespace WizFCEdit
             }
             WizComboBox.MeDelete(this.Parent.Controls, w);
         }
-        private void Cmb_VisibleChanged3(object sender, EventArgs e)
+        private void CmbRace_VisibleChanged(object sender, EventArgs e)
         {
             WizComboBox w = (WizComboBox)sender;
             if (w.SelectedIndex >= 0)

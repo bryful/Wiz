@@ -528,7 +528,9 @@ namespace WizFCEdit
                 case WIZSCN.S2:
                 case WIZSCN.S3:
                     adr += 0x0A;
-                    m_buf[adr] = (byte)(((byte)r & 0x07) << 5);
+                    byte v = m_buf[adr];
+                    v = (byte)((v & 0x1F) + (((byte)r & 0x07) << 5));
+                    m_buf[adr] = v;
                     OnValueChanged(new EventArgs());
                     break;
             }
@@ -2303,6 +2305,10 @@ namespace WizFCEdit
                 {
                     ChecksumWiz1();
                 }
+                else if((m_scn== WIZSCN.S2)|| (m_scn == WIZSCN.S3))
+                {
+                    ChecksumWiz2();
+                }
                 else
                 {
                     return false;
@@ -2524,36 +2530,29 @@ namespace WizFCEdit
         }
         #endregion
         // ************************************************************************
-        private void Checksum()
+        private void ChecksumWiz2()
         {
-            int adrCS = 0;
-            switch (m_scn)
-            {
-                case WIZSCN.S1:
-                    adrCS =  0x080;
-                    break;
-                case WIZSCN.S2:
-                    adrCS = 0x0060;
-                    break;
-                case WIZSCN.S3:
-                    adrCS = 0x0060;
-                    break;
-                default:
-                    return;
-            }
-
+            int chrSz = 0x60;
             for ( int i=0;i<m_CharCount;i++)
             {
                 int adr = CharAdr(i);
-                byte[] a = GetCode(adr, adrCS);
-                ushort crc = CRC16.Calc(a, (ushort)a.Length, 0xFFFF);
-                if(crc!=0)
+                byte[] a = GetCode(adr, chrSz);
+                if (a[0] != 0)
                 {
-                    crc = CRC16.Calc(a, (ushort)(a.Length - 2), 0xFFFF);
-                    m_buf[adr + adrCS] = (byte)((crc >> 8) & 0xFF);
-                    m_buf[adr + adrCS+1] = (byte)(crc & 0xFF);
+                    ushort crc = CRC16.Calc(a, (ushort)a.Length, 0xFFFF);
+                    if (crc != 0)
+                    {
+                        crc = CRC16.Calc(a, (ushort)(a.Length - 2), 0xFFFF);
+                        a[chrSz - 2] = (byte)((crc >> 8) & 0xFF);
+                        a[chrSz - 1] = (byte)(crc & 0xFF);
+                        m_buf[adr + 0x60 - 2] = a[chrSz - 2];
+                        m_buf[adr + 0x60 - 1] = a[chrSz - 1];
+
+                    }
                 }
             }
+            byte [] bb = GetCode(0x400, chrSz* m_CharCount);
+            SetCode(0x1800, bb);
         }
         private void ChecksumWiz1()
         {
