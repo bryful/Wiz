@@ -39,7 +39,34 @@ Editメニューの「キャラクタアイコンのフォルダを指定」で適当なフォルダを選びキャラ
 「゛」とか「゜」は別文字扱いなので注意してください。基本的に全角のみです。
 「゛」とか「゜」はここのテキストからコピー＆ペーストするのが確実です。
 
+# 解析
+キャラデータの解析は「Welcome to Wizardry Institute of Analysis」の情報を使わせてもらいました。ただ現在は閉鎖されています。
+今回、過去にDelphiで作成したものソースから情報を獲得しています。
 
+sampleフォルダにdelphiのソースを入れておきました。
+
+
+#Stateファイル
+Jone nesとnnnesterJに対応していますが、その他のエミュレータは独自の圧縮かかっていたので解析していません。
+バイナリ中のSRAMという文字列の後にSRAMデータが入っています。
+
+# Saveファイルのチェックサム。
+シナリオ1のセーブデータキャラクタのチェックサムを解析しました。
+キャラデータサイズは0x100byteで0x70から0xE個に先頭から8Byteごとのチェックサムが、0x7E,0x7Fに0x00-0x7Dまでのチェックサムが入ります。
+
+0x80以降は0x00-0x7Fの値を0xFFとxorして上位bitと下位bitを入れ替えた値が逆順に収納されています。
+
+0x70に入るチェックサムは基本的に加算式
+0x00-0x07を対象に まず0x08を初期値で加算、加算後0xFFを超えたときは適当に丸め込みします。
+
+v = v + nowA;
+v = (v && 0xFF) + ( (v>>8) && 0xFF):
+
+0x70-0x7Dに上記のように8Byteごとのチェックサムの値が入ります。
+
+7E,0x7Fに CRC-8-CCITTで初期値0xFFFFの値が入ります。
+
+シナリオ２と３は解析してません。というかよくわからないです。
 
 # Dependency
 Visual studio 2017 C#
@@ -58,3 +85,4 @@ bryful@gmail.com
 # References
 Wizardry(NES) 解析 https://taotao54321.github.io/appsouko/work/Game/Wiz1_NES/
 Wizardry1/Apple/解析メモ https://wiliki.zukeran.org/index.cgi?Wizardry1%2FApple%2F%B2%F2%C0%CF%A5%E1%A5%E2
+Welcome to Wizardry Institute of Analysis(閉鎖) http://marin69.hp.infoseek.co.jp
