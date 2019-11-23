@@ -230,8 +230,9 @@ namespace WizChecksum
             int v = 0;
             for (int i = 0; i < 0x8; i++)
             {
-                v += (m_buf[i]+1);
+                v = (v +(m_buf[i]^0xFF))&0xFF;
             }
+            v = (v^0xFF);
             textBox1.Text = String.Format("{0:X2}", v);
         }
     }
