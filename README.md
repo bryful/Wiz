@@ -51,24 +51,25 @@ Jone nes‚ÆnnnesterJ‚É‘Î‰ž‚µ‚Ä‚¢‚Ü‚·‚ªA‚»‚Ì‘¼‚ÌƒGƒ~ƒ…ƒŒ[ƒ^‚Í“ÆŽ©‚Ìˆ³k‚©‚©‚Á‚Ä‚
 ƒoƒCƒiƒŠ’†‚ÌSRAM‚Æ‚¢‚¤•¶Žš—ñ‚ÌŒã‚ÉSRAMƒf[ƒ^‚ª“ü‚Á‚Ä‚¢‚Ü‚·B
 
 # Saveƒtƒ@ƒCƒ‹‚Ìƒ`ƒFƒbƒNƒTƒ€B
-ƒVƒiƒŠƒI1‚ÌƒZ[ƒuƒf[ƒ^ƒLƒƒƒ‰ƒNƒ^‚Ìƒ`ƒFƒbƒNƒTƒ€‚ð‰ðÍ‚µ‚Ü‚µ‚½B
-ƒLƒƒƒ‰ƒf[ƒ^ƒTƒCƒY‚Í0x100byte‚Å0x70‚©‚ç0xEŒÂ‚Éæ“ª‚©‚ç8Byte‚²‚Æ‚Ìƒ`ƒFƒbƒNƒTƒ€‚ªA0x7E,0x7F‚É0x00-0x7D‚Ü‚Å‚Ìƒ`ƒFƒbƒNƒTƒ€‚ª“ü‚è‚Ü‚·B
+ƒVƒiƒŠƒI1‚ÌƒZ[ƒuƒf[ƒ^ƒLƒƒƒ‰ƒNƒ^‚Ìƒ`ƒFƒbƒNƒTƒ€‚ð‰ðÍ‚µ‚Ü‚µ‚½B  
+ƒLƒƒƒ‰ƒf[ƒ^ƒTƒCƒY‚Í0x100byte‚Å0x70‚©‚ç0xEŒÂ‚Éæ“ª‚©‚ç8Byte‚²‚Æ‚Ìƒ`ƒFƒbƒNƒTƒ€‚ªA0x7E,0x7F‚É0x00-0x7D‚Ü‚Å‚Ìƒ`ƒFƒbƒNƒTƒ€‚ª“ü‚è‚Ü‚·B  
 
 0x80ˆÈ~‚Í0x00-0x7F‚Ì’l‚ð0xFF‚Æxor‚µ‚ÄãˆÊbit‚Æ‰ºˆÊbit‚ð“ü‚ê‘Ö‚¦‚½’l‚ª‹t‡‚ÉŽû”[‚³‚ê‚Ä‚¢‚Ü‚·B
 
-0x70‚É“ü‚éƒ`ƒFƒbƒNƒTƒ€‚ÍŠî–{“I‚É‰ÁŽZŽ®
+0x70‚É“ü‚éƒ`ƒFƒbƒNƒTƒ€‚ÍŠî–{“I‚É‰ÁŽZŽ®  
 0x00-0x07‚ð‘ÎÛ‚É ‚Ü‚¸0x08‚ð‰Šú’l‚Å‰ÁŽZA‰ÁŽZŒã0xFF‚ð’´‚¦‚½‚Æ‚«‚Í“K“–‚ÉŠÛ‚ßž‚Ý‚µ‚Ü‚·B
   
- //v ‚Í‰ÁŽZŒã‚ÌŒ‹‰Ê unsigned short
- if( (v>>8) != 0) {
-     v = (v && 0xFF) + 0x1; //’Pƒ‚É‚P‚ð‘«‚·
- }
+ //v ‚Í‰ÁŽZŒã‚ÌŒ‹‰Ê unsigned short  
+ if( (v>>8) != 0) {  
+     v = (v && 0xFF) + 0x1; //’Pƒ‚É‚P‚ð‘«‚·  
+ }  
 
-0x70-0x7D‚Éã‹L‚Ì‚æ‚¤‚É8Byte‚²‚Æ‚Ìƒ`ƒFƒbƒNƒTƒ€‚Ì’l‚ª“ü‚è‚Ü‚·B
+0x70-0x7D‚Éã‹L‚Ì‚æ‚¤‚É8Byte‚²‚Æ(0x00-0x7D‚ð8•ªŠ„‚µ‚½)‚Ìƒ`ƒFƒbƒNƒTƒ€‚Ì’l‚ª“ü‚è‚Ü‚·B
 
 0x70ˆÈ~‚Ìƒ`ƒFƒbƒNƒTƒ€ŒvŽZ‚ªI‚í‚Á‚½ŒãA0x7E,0x7F‚É 0x00-0x7D‚ÌCRC-8-CCITT‚Å‰Šú’l0xFFFF‚Ì’l‚ª“ü‚è‚Ü‚·B
 
-ƒVƒiƒŠƒI‚Q‚Æ‚R‚Í‰ðÍ‚µ‚Ä‚Ü‚¹‚ñB‚Æ‚¢‚¤‚©‚æ‚­‚í‚©‚ç‚È‚¢‚Å‚·B
+ƒVƒiƒŠƒI‚Q‚Æ‚R‚Í‰ðÍ‚µ‚Ä‚Ü‚¹‚ñB  
+‚Æ‚¢‚¤‚©‚æ‚­‚í‚©‚ç‚È‚¢‚Å‚·B  
 
 # Dependency
 Visual studio 2017 C#
