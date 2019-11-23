@@ -216,7 +216,7 @@ namespace WizFCEdit
         {
             if (WizFCState != null)
             {
-                if (WizFCState.Save())
+                if (WizFCState.SaveAs())
                 {
                     this.Text = WizFCState.StatePath;
                 }

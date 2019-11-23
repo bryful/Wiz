@@ -2299,8 +2299,14 @@ namespace WizFCEdit
 
             if(m_FileMode==FILEMODE.SAVE)
             {
-
-                return false;
+                if(m_scn == WIZSCN.S1)
+                {
+                    ChecksumWiz1();
+                }
+                else
+                {
+                    return false;
+                }
             }
 
 
@@ -2346,6 +2352,7 @@ namespace WizFCEdit
             dlg.Filter =
                  "Johnファイル(*.jn*)|*.jn*;" +
                  "|NNNesterJファイル(*.ss*)|*.ss*;" +
+                 "|Savファイル(*.ss*)|*.Sav;" +
                  "|すべてのファイル(*.*)|*.*";
             dlg.Title = "保存先のファイルを選択してください";
             dlg.RestoreDirectory = true;
@@ -2376,11 +2383,12 @@ namespace WizFCEdit
                 dlg.FileName = "";
 
             }
-            /*dlg.Filter =
-                 "Johnファイル(*.jn*)|*.jn*;" +
-                 "|NNNesterJファイル(*.ss*)|*.ss*;" +
-                 "|すべてのファイル(*.*)|*.*";
-            dlg.Title = "ファイルを選択してください";*/
+            dlg.Filter =
+       "Johnファイル(*.jn*)|*.jn*;" +
+       "|NNNesterJファイル(*.ss*)|*.ss*;" +
+       "|Savファイル(*.ss*)|*.Sav;" +
+       "|すべてのファイル(*.*)|*.*";
+            dlg.Title = "保存先のファイルを選択してください";
             dlg.RestoreDirectory = true;
             //ダイアログを表示する
             if (dlg.ShowDialog() == DialogResult.OK)
@@ -2554,9 +2562,22 @@ namespace WizFCEdit
             {
                 int adr = CharAdr(i);
                 byte[] a = GetCode(adr, chrSz);
-                ushort crc = CRC16.Calc(m_buf, adr,chrSz-2, 0xFFFF);
-                a[chrSz - 2] = m_buf[adr + chrSz - 2] = (byte)((crc >> 8) & 0xFF);
-                a[chrSz - 1] = m_buf[adr + chrSz - 1] = (byte)(crc & 0xFF);
+
+                for(int k=0;k<14; k++)
+                {
+                    int v = 8;
+                    for (int j = 0; j < 8; j++)
+                    {
+                        int v2 = v + a[8 * k + j];
+                        v = (v2 & 0xFF) + ((v2 >> 8) & 0xFF);
+                    }
+                    a[0x70 + k] = (byte)v;
+                }
+                ushort crc = CRC16.Calc(a, 0,chrSz-2, 0xFFFF);
+                a[chrSz - 2] =  (byte)((crc >> 8) & 0xFF);
+                a[chrSz - 1] =  (byte)(crc & 0xFF);
+
+                SetCode(adr, a);
 
                 byte[] b = new byte[chrSz];
                 for ( int j=0; j< chrSz; j++)

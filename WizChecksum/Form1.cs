@@ -164,7 +164,10 @@ namespace WizChecksum
                 }
                 else
                 {
-                    DispSav();
+                    DispSav2();
+                    DispSav2();
+                    DispSav2();
+                    DispSav2();
                 }
             }
             catch
@@ -179,7 +182,7 @@ namespace WizChecksum
 
             return ret;
         }
-        public void DispSav()
+        public void DispSav1()
 
         {
             listBox1.Items.Clear();
@@ -193,7 +196,21 @@ namespace WizChecksum
 
 
         }
+        public void DispSav2()
 
+        {
+            listBox1.Items.Clear();
+            if (m_buf.Length < 0x2000) return;
+
+            int adr = 0x400;
+            for (int i = 0; i < 0x60; i++)
+            {
+                string s = String.Format("0x{0:X2}: {1:X2}", i, m_buf[i+adr]);
+                listBox1.Items.Add(s);
+            }
+
+
+        }
         private void button1_Click_1(object sender, EventArgs e)
         {
             byte[] a = new byte[0x100];
@@ -227,13 +244,53 @@ namespace WizChecksum
 
         private void button2_Click(object sender, EventArgs e)
         {
-            int v = 0;
-            for (int i = 0; i < 0x8; i++)
+
+            byte[] a = new byte[0x100];
+
+            for (int i = 0; i < 0x80; i++)
             {
-                v = (v +(m_buf[i]^0xFF))&0xFF;
+                a[i] = m_buf[i];
             }
-            v = (v^0xFF);
-            textBox1.Text = String.Format("{0:X2}", v);
+
+
+            
+            for (int k = 0; k < 14; k++)
+            {
+                int v = 8;
+                for (int i = 0; i < 0x8; i++)
+                {
+                    int v2 = v + a[k*8+i];
+                    v = (v2 & 0xFF) + (v2 >> 8);
+                }
+                a[0x70+k] = (byte)v;
+            
+            }
+            ushort crc = CRC16.Calc(a, 0x7e, 0xFFFF);
+            a[0x80 - 2] = (byte)((crc >> 8) & 0xff);
+            a[0x80 - 1] = (byte)(crc  & 0xFF);
+
+            listBox1.Items.Clear();
+
+            for (int i = 0; i < 0x80; i++)
+            {
+                string s = String.Format("0x{0:X2}: {1:X2} {2:X2} {3}", i, m_buf[i], a[i], (m_buf[i] == a[i]));
+                listBox1.Items.Add(s);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            byte[] a = new byte[0x60];
+
+            for (int i = 0; i < 0x60; i++)
+            {
+                a[i] = m_buf[i + 0x400];
+            }
+
+
+            ushort v = CRC16.Calc(a, 0x5e, 0xFFFF);
+
+            textBox1.Text = String.Format("{0:X4}",v);
         }
     }
 }
