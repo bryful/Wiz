@@ -2312,44 +2312,37 @@ namespace WizFCEdit
             bool isrom = ((m_buf[0] == 0x4E) && (m_buf[1] == 0x45) && (m_buf[2] == 0x53));
             if (isrom == false) return ret;
 
-            byte[] ary1 = GetCode(Wiz1Start, 6);
-            byte[] wiz1 = new byte[] { 0x01, 0x04, 0x7B, 0x9B, 0x79, 0x01 };
-            if (CompareCode(ary1, wiz1) == true)
+            int idx = FindString("WIZARDRY", 0);
+            switch (idx)
             {
-                m_scn = WIZSCN.S1;
-                m_FileMode = FILEMODE.ROM;
-            }
-            else
-            {
-                byte[] ary2 = GetCode(Wiz2Start, 6);
-                byte[] wiz2 = new byte[] { 0x03, 0x04, 0x9E, 0xFD, 0x9C, 0x31 };
-                if (CompareCode(ary2, wiz2) == true)
-                {
+                case 0x3FF8:
+                    m_scn = WIZSCN.S1;
+                    m_FileMode = FILEMODE.ROM;
+                    break;
+                case 0x9033:
                     m_scn = WIZSCN.S2;
                     m_FileMode = FILEMODE.ROM;
-
-                }
-                else
-                {
-                    byte[] ary3 = GetCode(Wiz3Start, 6);
-                    byte[] wiz3 = new byte[] { 0x02, 0x04, 0x9E, 0xFD, 0x9C, 0x31 };
-                    if (CompareCode(ary3, wiz3) == true)
-                    {
-                        m_scn = WIZSCN.S3;
-                        m_FileMode = FILEMODE.ROM;
-                    }
-                }
+                    break;
+                case 0x9102:
+                    m_scn = WIZSCN.S3;
+                    m_FileMode = FILEMODE.ROM;
+                    break;
             }
+
+
+
             ret = (m_scn != WIZSCN.NO);
 
             if (ret == false)
             {
                 m_buf = new byte[0];
+                m_scn = WIZSCN.NO;
             }
             else
             {
                 CharCurrent = 0;
                 m_sramAdr = 0;
+
             }
 
             return ret;
