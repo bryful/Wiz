@@ -24,7 +24,8 @@ namespace WizFCEdit
     public enum FILEMODE
     {
         STATE =0,
-        SAVE
+        SAVE,
+        ROM
     }
 
 
@@ -144,6 +145,10 @@ namespace WizFCEdit
         /// </summary>
         public int SRAM_SIZE { get { return 0x1FFF; } }
 
+        private const int Wiz1Start = 0x17310;
+        private const int Wiz2Start = 0x97C8;
+        private const int Wiz3Start = 0x97A6;
+
         private WIZSCN m_scn = WIZSCN.NO;
         /// <summary>
         /// 読み込んだステートファイルのシナリオ
@@ -151,13 +156,25 @@ namespace WizFCEdit
         public WIZSCN SCN { get { return m_scn; } }
 
         private FILEMODE m_FileMode = FILEMODE.STATE;
-        public FILEMODE FileMOde
+        public FILEMODE FileMode
         {
             get { return m_FileMode; }
         }
 
-        private readonly int m_CharCount = 20;
-        public int  CharCount { get { return m_CharCount; } }
+        public int  CharCount
+        {
+            get
+            {
+                if (m_FileMode == FILEMODE.ROM)
+                {
+                    return 6;
+                }
+                else
+                {
+                    return 20;
+                }
+            }
+        }
 
         private int m_CharCurrent = -1;
         public int CharCurrent
@@ -165,7 +182,7 @@ namespace WizFCEdit
             get { return m_CharCurrent; }
             set
             {
-                if ((value >= 0) && (value < m_CharCount))
+                if ((value >= 0) && (value < CharCount))
                 {
                     m_CharCurrent = value;
                 }
@@ -188,7 +205,7 @@ namespace WizFCEdit
         }
         public void CharCurrentDown()
         {
-            if ((m_CharCurrent < m_CharCount -1))
+            if ((m_CharCurrent < CharCount -1))
             {
                 CharCurrent = m_CharCurrent + 1;
             }
@@ -295,8 +312,9 @@ namespace WizFCEdit
         {
             get
             {
-                if (m_FileMode == FILEMODE.STATE)
+                switch (m_FileMode)
                 {
+                    case FILEMODE.STATE:
                     switch (m_scn)
                     {
                         case WIZSCN.S1:
@@ -308,21 +326,34 @@ namespace WizFCEdit
                         default:
                             return 0;
                     }
-                }
-                else
-                {
-                    switch (m_scn)
-                    {
-                        case WIZSCN.S1:
-                            return 0x0000;
-                        case WIZSCN.S2:
-                            return 0x0400;
-                        case WIZSCN.S3:
-                            return 0x0400;
-                        default:
-                            return 0;
+                    case FILEMODE.SAVE:
+                        switch (m_scn)
+                        {
+                            case WIZSCN.S1:
+                                return 0x0000;
+                            case WIZSCN.S2:
+                                return 0x0400;
+                            case WIZSCN.S3:
+                                return 0x0400;
+                            default:
+                                return 0;
 
-                    }
+                        }
+                    case FILEMODE.ROM:
+                        switch (m_scn)
+                        {
+                            case WIZSCN.S1:
+                                return Wiz1Start;
+                            case WIZSCN.S2:
+                                return Wiz2Start;
+                            case WIZSCN.S3:
+                                return Wiz3Start;
+                            default:
+                                return 0;
+
+                        }
+                    default:
+                        return 0;
                 }
             }
         }
@@ -335,7 +366,14 @@ namespace WizFCEdit
                 switch (m_scn)
                 {
                     case WIZSCN.S1:
-                        return 0x0100;
+                        if (m_FileMode == FILEMODE.ROM)
+                        {
+                            return 0x080;
+                        }
+                        else
+                        {
+                            return 0x0100;
+                        }
                     case WIZSCN.S2:
                         return 0x0060;
                     case WIZSCN.S3:
@@ -428,8 +466,8 @@ namespace WizFCEdit
         {
             get
             {
-                string[] ret = new string[m_CharCount-1];
-                for ( int i=0; i<m_CharCount-1;i++)
+                string[] ret = new string[CharCount-1];
+                for ( int i=0; i< CharCount - 1;i++)
                 {
                     if (i != m_CharCurrent)
                     {
@@ -443,8 +481,8 @@ namespace WizFCEdit
         {
             get
             {
-                string[] ret = new string[m_CharCount];
-                for (int i = 0; i < m_CharCount; i++)
+                string[] ret = new string[CharCount];
+                for (int i = 0; i < CharCount; i++)
                 {
                     ret[i] = CharNameFromIndex(i);
                 }
@@ -458,7 +496,7 @@ namespace WizFCEdit
             string[] ns = CharNamesWithOutCurrent;
             int idx = -1;
 
-            for (int i=0; i<m_CharCount;i++)
+            for (int i=0; i<CharCount;i++)
             {
                 if(s == ns[i])
                 {
@@ -478,7 +516,7 @@ namespace WizFCEdit
         public WIZRACE CharRaceFromIndex(int idx)
         {
             WIZRACE ret = WIZRACE.HUMAN;
-            if ((idx<0)||(idx>=m_CharCount))
+            if ((idx<0)||(idx>=CharCount))
             {
                 return ret;
             }
@@ -511,7 +549,7 @@ namespace WizFCEdit
 	        Wiz2Gnome	=	$60;	//01100000 ノーム
 	        Wiz2Hobit	=	$80;	//10000000 ホビット
              */
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -562,7 +600,7 @@ namespace WizFCEdit
         public WIZCLASS CharClassFromIndex(int idx)
         {
             WIZCLASS ret = WIZCLASS.FIG;
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -598,7 +636,7 @@ namespace WizFCEdit
 	        Wiz2Ninja		= $1C;	//00011100ニンジャ
 
              */
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -648,7 +686,7 @@ namespace WizFCEdit
         public WIZALG CharAlgFromIndex(int idx)
         {
             WIZALG ret = WIZALG.GOOD;
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -683,7 +721,7 @@ namespace WizFCEdit
 	        Wiz2Evil		=02;	//00000010 Ｅ
 	        Wiz2Etc			=03;	//00000011 ？ (？はどの属性とも組めるが、全ての装備が呪われるし、転職ができない。魔物？)
     */
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -732,7 +770,7 @@ namespace WizFCEdit
         public ushort CharLevelFromIndex(int idx)
         {
             ushort ret = 1;
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -757,7 +795,7 @@ namespace WizFCEdit
         // ************************************************************************
         public void SetCharLevelFromIndex(int idx,ushort v)
         {
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -794,7 +832,7 @@ namespace WizFCEdit
         public long CharGoldFromIndex(int idx)
         {
             long ret = 0;
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -819,7 +857,7 @@ namespace WizFCEdit
         // ************************************************************************
         public void  SetCharGoldFromIndex(int idx,long v)
         {
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -859,7 +897,7 @@ namespace WizFCEdit
         public long CharExpFromIndex(int idx)
         {
             long ret = 1;
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -884,7 +922,7 @@ namespace WizFCEdit
         // ************************************************************************
         public void SetCharExpFromIndex(int idx,long v)
         {
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -920,7 +958,7 @@ namespace WizFCEdit
         public sbyte CharAgeFromIndex(int idx)
         {
             sbyte ret = 0;
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -944,7 +982,7 @@ namespace WizFCEdit
         }
         public void SetCharAgeFromIndex(int idx, sbyte v)
         {
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -983,7 +1021,7 @@ namespace WizFCEdit
         public byte CharWeekFromIndex(int idx)
         {
             byte ret = 1;
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -1007,7 +1045,7 @@ namespace WizFCEdit
         }
         public void SetCharWeekFromIndex(int idx,byte v)
         {
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -1042,7 +1080,7 @@ namespace WizFCEdit
         public sbyte CharACFromIndex(int idx)
         {
             sbyte ret = 0;
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -1066,7 +1104,7 @@ namespace WizFCEdit
         }
         public void SetCharACFromIndex(int idx, sbyte v)
         {
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -1104,7 +1142,7 @@ namespace WizFCEdit
         public byte CharStrengthFromIndex(int idx)
         {
             byte ret = 0;
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -1128,7 +1166,7 @@ namespace WizFCEdit
         // ************************************************************************
         public void SetCharStrengthFromIndex(int idx,byte v)
         {
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -1161,7 +1199,7 @@ namespace WizFCEdit
         public byte CharIQFromIndex(int idx)
         {
             byte ret = 0;
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -1185,7 +1223,7 @@ namespace WizFCEdit
         // ************************************************************************
         public void SetCharIQFromIndex(int idx, byte v)
         {
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -1221,7 +1259,7 @@ namespace WizFCEdit
         public byte CharPietyFromIndex(int idx)
         {
             byte ret = 0;
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -1245,7 +1283,7 @@ namespace WizFCEdit
         // ************************************************************************
         public void SetCharPietyFromIndex(int idx, byte v)
         {
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -1281,7 +1319,7 @@ namespace WizFCEdit
         public byte CharVitarityFromIndex(int idx)
         {
             byte ret = 0;
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -1305,7 +1343,7 @@ namespace WizFCEdit
         // ************************************************************************
         public void SetCharVitarityFromIndex(int idx, byte v)
         {
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -1341,7 +1379,7 @@ namespace WizFCEdit
         public byte CharAgilityFromIndex(int idx)
         {
             byte ret = 0;
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -1365,7 +1403,7 @@ namespace WizFCEdit
         // ************************************************************************
         public void SetCharAgilityFromIndex(int idx, byte v)
         {
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -1402,7 +1440,7 @@ namespace WizFCEdit
         public byte CharLuckFromIndex(int idx)
         {
             byte ret = 0;
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -1426,7 +1464,7 @@ namespace WizFCEdit
         // ************************************************************************
         public void SetCharLuckFromIndex(int idx, byte v)
         {
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -1465,7 +1503,7 @@ namespace WizFCEdit
         {
             ushort ret = 0;
 
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -1490,7 +1528,7 @@ namespace WizFCEdit
         // ************************************************************************
         public void SetCharHPFromIndex(int idx,ushort v)
         {
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -1530,7 +1568,7 @@ namespace WizFCEdit
         {
             ushort ret = 0;
 
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -1556,7 +1594,7 @@ namespace WizFCEdit
         // ************************************************************************
         public void SetCharHPMaxFromIndex(int idx, ushort v)
         {
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -1594,7 +1632,7 @@ namespace WizFCEdit
         {
             WIZSTATUS ret = WIZSTATUS.OK;
 
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -1621,7 +1659,7 @@ namespace WizFCEdit
         // ************************************************************************
         public void SetCharStatusFromIndex(int idx, WIZSTATUS v)
         {
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -1665,7 +1703,7 @@ namespace WizFCEdit
             int sz = CharSize;
             byte[] ret = new byte[sz];
             if (sz <= 0) return ret;
-            if ((idx < 0) || (idx >= m_CharCount)) return ret;
+            if ((idx < 0) || (idx >= CharCount)) return ret;
 
             return GetCode(CharAdr(idx), sz);
 
@@ -1673,7 +1711,7 @@ namespace WizFCEdit
         // ************************************************************************
         public void SetCharDataFromIndex(int idx,byte[] a)
         {
-            if ((idx < 0) || (idx >= m_CharCount)) return;
+            if ((idx < 0) || (idx >= CharCount)) return;
             if(a.Length != CharSize)
             {
                 return;
@@ -1687,7 +1725,7 @@ namespace WizFCEdit
         {
             MagicPoint ret = new MagicPoint();
 
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -1718,7 +1756,7 @@ namespace WizFCEdit
         // ************************************************************************
         public void SetCharMagicFromIndex(int idx, MagicPoint mp)
         {
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -1754,7 +1792,7 @@ namespace WizFCEdit
         {
             MagicPoint ret = new MagicPoint();
 
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -1785,7 +1823,7 @@ namespace WizFCEdit
         // ************************************************************************
         public void SetCharPriestFromIndex(int idx, MagicPoint mp)
         {
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -1820,7 +1858,7 @@ namespace WizFCEdit
         public WizItem CharItemFromIndex(int c_idx,int i_idx)
         {
             WizItem ret = new WizItem(m_scn);
-            if ((c_idx < 0) || (c_idx >= m_CharCount))
+            if ((c_idx < 0) || (c_idx >= CharCount))
             {
                 return ret;
             }
@@ -1858,7 +1896,7 @@ namespace WizFCEdit
         // ************************************************************************
         public void  SetCharItemFromIndex(int c_idx, int i_idx,WizItem wi)
         {
-            if ((c_idx < 0) || (c_idx >= m_CharCount))
+            if ((c_idx < 0) || (c_idx >= CharCount))
             {
                 return;
             }
@@ -1921,7 +1959,7 @@ namespace WizFCEdit
         public byte [] CharSpellFromIndex(int idx)
         {
             byte[] ret = new byte[0];
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -1947,7 +1985,7 @@ namespace WizFCEdit
         // ************************************************************************
         public void SetCharSpellFromIndex(int idx, byte[] a)
         {
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return;
             }
@@ -1984,7 +2022,7 @@ namespace WizFCEdit
         public WizItem [] CharItemsFromIndex(int idx)
         {
             WizItem[] ret = new WizItem[0];
-            if ((idx < 0) || (idx >= m_CharCount))
+            if ((idx < 0) || (idx >= CharCount))
             {
                 return ret;
             }
@@ -2135,6 +2173,23 @@ namespace WizFCEdit
             }
 
         }
+        private bool CompareCode(byte[] a, byte[] b)
+        {
+            bool ret = false;
+            if (a.Length == b.Length)
+            {
+                ret = true;
+                for (int i = 0; i < a.Length; i++)
+                {
+                    if (a[i] != b[i])
+                    {
+                        ret = false;
+                        break;
+                    }
+                }
+            }
+            return ret;
+        }
         // ************************************************************************
         /// <summary>
         /// 読み込んだデータがStateファイルでWiz Nesか確認
@@ -2195,7 +2250,8 @@ namespace WizFCEdit
 
             //サイズチェック
             if (m_buf.Length < 8192) return ret;
-
+            bool isrom = ((m_buf[0] == 0x4E) && (m_buf[1] == 0x45) && (m_buf[2] == 0x53));
+            if (isrom == true) return ret;
 
             int idx = -1;
             idx = FindString("YAJIMAK.CROSS", 0x1FE0);
@@ -2244,6 +2300,60 @@ namespace WizFCEdit
 
             return ret;
         }
+        private bool ChkROM()
+        {
+            bool ret = false;
+            m_scn = WIZSCN.NO;
+            m_sramAdr = 0;
+            m_CharCurrent = 0;
+
+            //サイズチェック
+            if (m_buf.Length < 262160 ) return ret;
+            bool isrom = ((m_buf[0] == 0x4E) && (m_buf[1] == 0x45) && (m_buf[2] == 0x53));
+            if (isrom == false) return ret;
+
+            byte[] ary1 = GetCode(Wiz1Start, 6);
+            byte[] wiz1 = new byte[] { 0x01, 0x04, 0x7B, 0x9B, 0x79, 0x01 };
+            if (CompareCode(ary1, wiz1) == true)
+            {
+                m_scn = WIZSCN.S1;
+                m_FileMode = FILEMODE.ROM;
+            }
+            else
+            {
+                byte[] ary2 = GetCode(Wiz2Start, 6);
+                byte[] wiz2 = new byte[] { 0x03, 0x04, 0x9E, 0xFD, 0x9C, 0x31 };
+                if (CompareCode(ary2, wiz2) == true)
+                {
+                    m_scn = WIZSCN.S2;
+                    m_FileMode = FILEMODE.ROM;
+
+                }
+                else
+                {
+                    byte[] ary3 = GetCode(Wiz3Start, 6);
+                    byte[] wiz3 = new byte[] { 0x02, 0x04, 0x9E, 0xFD, 0x9C, 0x31 };
+                    if (CompareCode(ary3, wiz3) == true)
+                    {
+                        m_scn = WIZSCN.S3;
+                        m_FileMode = FILEMODE.ROM;
+                    }
+                }
+            }
+            ret = (m_scn != WIZSCN.NO);
+
+            if (ret == false)
+            {
+                m_buf = new byte[0];
+            }
+            else
+            {
+                CharCurrent = 0;
+                m_sramAdr = 0;
+            }
+
+            return ret;
+        }
 
         // ************************************************************************
         /// <summary>
@@ -2257,7 +2367,7 @@ namespace WizFCEdit
             bool ret = false;
             m_statePath = "";
             if (File.Exists(p) == false) return ret;
-            FileStream fs = new FileStream(p, FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream(p, System.IO.FileMode.Open, FileAccess.Read);
             try
             {
                 int fsize = (int)fs.Length;
@@ -2269,6 +2379,11 @@ namespace WizFCEdit
                     if(ret==false)
                     {
                         ret = ChkSave();
+                        if (ret == false)
+                        {
+                            ret = ChkROM();
+                        }
+
                     }
                 }
             }
@@ -2299,6 +2414,23 @@ namespace WizFCEdit
             if (m_buf.Length <= 0) return ret;
 
 
+            if(m_FileMode==FILEMODE.ROM)
+            {
+                if(m_statePath == p)
+                {
+                    MessageBox.Show("ROMモードの時は上書き禁止です。必ず別名保存してくださいA");
+                    return ret;
+                }
+                else
+                if (File.Exists(p) == true)
+                {
+                    MessageBox.Show("ROMモードの時は上書き禁止です。必ず別名保存してくださいB");
+                    return ret;
+                }
+            }
+
+
+
             if(m_FileMode==FILEMODE.SAVE)
             {
                 if(m_scn == WIZSCN.S1)
@@ -2313,10 +2445,13 @@ namespace WizFCEdit
                 {
                     return false;
                 }
+            }else if (m_FileMode == FILEMODE.ROM)
+            {
+                ChecksumROM();
             }
 
 
-            FileStream fs = new FileStream(p,FileMode.Create,FileAccess.Write);
+            FileStream fs = new FileStream(p, System.IO.FileMode.Create, FileAccess.Write);
             try
             {
                 fs.Write(m_buf, 0, m_buf.Length);
@@ -2356,9 +2491,8 @@ namespace WizFCEdit
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.Filter =
             dlg.Filter =
-                 "Johnファイル(*.jn*)|*.jn*;" +
-                 "|NNNesterJファイル(*.ss*)|*.ss*;" +
-                 "|Savファイル(*.ss*)|*.Sav;" +
+                 "stateファイル(*.jn*;*.ss*)|*.jn*;*.ss*;" +
+                 "|savファイル(*.sav)|*.sav;" +
                  "|すべてのファイル(*.*)|*.*";
             dlg.Title = "保存先のファイルを選択してください";
             dlg.RestoreDirectory = true;
@@ -2371,6 +2505,14 @@ namespace WizFCEdit
             //ダイアログを表示する
             if (dlg.ShowDialog() == DialogResult.OK)
             {
+                if(m_FileMode==FILEMODE.ROM)
+                {
+                    if (dlg.FileName == m_statePath)
+                    {
+                        MessageBox.Show("ROMモードの時は上書き禁止です。必ず別名保存してください");
+                        return ret;
+                    }
+                }
                 ret = SaveFile(dlg.FileName);
             }
             return ret;
@@ -2390,10 +2532,9 @@ namespace WizFCEdit
 
             }
             dlg.Filter =
-       "Johnファイル(*.jn*)|*.jn*;" +
-       "|NNNesterJファイル(*.ss*)|*.ss*;" +
-       "|Savファイル(*.ss*)|*.Sav;" +
-       "|すべてのファイル(*.*)|*.*";
+                 "stateファイル(*.jn*;*.ss*)|*.jn*;*.ss*;" +
+                 "|savファイル(*.sav)|*.sav;" +
+                 "|すべてのファイル(*.*)|*.*";
             dlg.Title = "保存先のファイルを選択してください";
             dlg.RestoreDirectory = true;
             //ダイアログを表示する
@@ -2494,8 +2635,8 @@ namespace WizFCEdit
         /// <param name="idx1"></param>
         public void SwapChar(int idx0,int idx1)
         {
-            if ((idx0 < 0) || (idx0 >= m_CharCount)) return;
-            if ((idx1 < 0) || (idx1 >= m_CharCount)) return;
+            if ((idx0 < 0) || (idx0 >= CharCount)) return;
+            if ((idx1 < 0) || (idx1 >= CharCount)) return;
             if (idx0 == idx1) return;
 
             int sz = CharSize;
@@ -2513,7 +2654,7 @@ namespace WizFCEdit
         /// </summary>
         public void CurrentDataUp()
         {
-            if ((m_CharCurrent <= 0)||(m_CharCurrent >= m_CharCount)) return;
+            if ((m_CharCurrent <= 0)||(m_CharCurrent >= CharCount)) return;
             SwapChar(m_CharCurrent - 1, m_CharCurrent);
             m_CharCurrent--;
             OnValueChanged(new EventArgs());
@@ -2523,7 +2664,7 @@ namespace WizFCEdit
         /// </summary>
         public void CurrentDataDown()
         {
-            if ((m_CharCurrent < 0) || (m_CharCurrent >= m_CharCount-1)) return;
+            if ((m_CharCurrent < 0) || (m_CharCurrent >= CharCount-1)) return;
             SwapChar(m_CharCurrent, m_CharCurrent+1);
             m_CharCurrent++;
             OnValueChanged(new EventArgs());
@@ -2533,7 +2674,7 @@ namespace WizFCEdit
         private void ChecksumWiz2()
         {
             int chrSz = 0x60;
-            for ( int i=0;i<m_CharCount;i++)
+            for ( int i=0;i<CharCount;i++)
             {
                 int adr = CharAdr(i);
                 byte[] a = GetCode(adr, chrSz);
@@ -2551,13 +2692,13 @@ namespace WizFCEdit
                     }
                 }
             }
-            byte [] bb = GetCode(0x400, chrSz* m_CharCount);
+            byte [] bb = GetCode(0x400, chrSz* CharCount);
             SetCode(0x1800, bb);
         }
         private void ChecksumWiz1()
         {
             int chrSz = 0x80;
-            for (int i = 0; i < m_CharCount; i++)
+            for (int i = 0; i < CharCount; i++)
             {
                 int adr = CharAdr(i);
                 byte[] a = GetCode(adr, chrSz);
@@ -2593,5 +2734,18 @@ namespace WizFCEdit
 
             }
         }
+
+        private void ChecksumROM()
+        {
+            for (int i = 0; i < CharCount; i++)
+            {
+                int adr = CharAdr(i);
+                int sz = CharSize;
+                ushort crc = CRC16.Calc(m_buf, adr, sz - 2, 0xFFFF);
+                m_buf[adr + sz - 2] = (byte)((crc & 0xFF00) >> 8);
+                m_buf[adr + sz - 1] = (byte)(crc & 0xFF);
+            }
+        }
+        // ****************************************************************
     }
 }

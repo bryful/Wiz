@@ -205,6 +205,15 @@ namespace WizFCEdit
         {
             if (WizFCState != null)
             {
+                if (WizFCState.FileMode==FILEMODE.ROM)
+                {
+                    if(File.Exists(WizFCState.StatePath)==true)
+                    {
+                        MessageBox.Show("ROMモードの時は上書き禁止です。必ず別名保存してくださいC");
+                        return;
+                    }
+                }
+
                 if (WizFCState.Save())
                 {
                     this.Text = WizFCState.StatePath;
