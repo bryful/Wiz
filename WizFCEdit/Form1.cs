@@ -15,7 +15,7 @@ using Codeplex.Data;
 /// <summary>
 /// 基本となるアプリのスケルトン
 /// </summary>
-namespace WizFCEdit
+namespace WizEdit
 {
     public partial class Form1 : WizForm
     {
@@ -196,7 +196,7 @@ namespace WizFCEdit
             {
                 if (WizFCState.LoadFile()==true)
                 {
-                    this.Text = WizFCState.StatePath;
+                    this.Text = WizFCState.DataPath;
                 }
             }
         }
@@ -207,7 +207,7 @@ namespace WizFCEdit
             {
                 if (WizFCState.FileMode==FILEMODE.ROM)
                 {
-                    if(File.Exists(WizFCState.StatePath)==true)
+                    if(File.Exists(WizFCState.DataPath)==true)
                     {
                         MessageBox.Show("ROMモードの時は上書き禁止です。必ず別名保存してくださいC");
                         return;
@@ -216,7 +216,7 @@ namespace WizFCEdit
 
                 if (WizFCState.Save())
                 {
-                    this.Text = WizFCState.StatePath;
+                    this.Text = WizFCState.DataPath;
                 }
             }
         }
@@ -227,7 +227,7 @@ namespace WizFCEdit
             {
                 if (WizFCState.SaveAs())
                 {
-                    this.Text = WizFCState.StatePath;
+                    this.Text = WizFCState.DataPath;
                 }
             }
         }
@@ -241,7 +241,7 @@ namespace WizFCEdit
         {
             if (WizFCState != null)
             {
-                if(WizFCState.StatePath!="")
+                if(WizFCState.DataPath!="")
                 {
                     WizFCState.Reload();
                 }

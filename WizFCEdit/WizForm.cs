@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WizFCEdit
+namespace WizEdit
 {
     public enum WizFormMode
     {
@@ -79,8 +79,8 @@ namespace WizFCEdit
         #endregion
 
 
-        private WizFCState m_state = null;
-        public WizFCState WizFCState
+        private WizData m_state = null;
+        public WizData WizFCState
         {
             get { return m_state; }
             set { m_state = value; }

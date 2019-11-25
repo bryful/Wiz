@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 
-namespace WizFCEdit
+namespace WizEdit
 {
     public class WizSpellList : WizBoxControl
     {
@@ -44,7 +44,7 @@ namespace WizFCEdit
                         m_spell = value;
                         if(m_spell.Length==7)
                         {
-                            m_scn = WIZSCN.S1;
+                            m_scn = WIZSCN.FC1;
                         }
                         this.Invalidate();
                     }
@@ -52,7 +52,7 @@ namespace WizFCEdit
                 }
             }
         }
-        private WIZSCN m_scn = WIZSCN.S1;
+        private WIZSCN m_scn = WIZSCN.FC1;
         public WIZSCN SCN
         {
             get { return m_scn; }
@@ -195,13 +195,13 @@ namespace WizFCEdit
             {
                 switch (m_scn)
                 {
-                    case WIZSCN.S1:
+                    case WIZSCN.FC1:
                         DrawSpell1(g, sb, sf);
                         break;
-                    case WIZSCN.S2:
+                    case WIZSCN.FC2:
                         DrawSpell2(g, sb, sf);
                         break;
-                    case WIZSCN.S3:
+                    case WIZSCN.FC3:
                         DrawSpell3(g, sb, sf);
                         break;
                 }
@@ -398,14 +398,14 @@ namespace WizFCEdit
             int cnt = 0;
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     cnt = Wiz1Spell[x].Length;
                     if (y >= cnt) return;
                     byte a = (byte)(0x01 << y);
                     m_spell[x] = (byte)(m_spell[x] ^ a);
                     this.Invalidate();
                     break;
-                case WIZSCN.S2:
+                case WIZSCN.FC2:
                     if(y<4)
                     {
                         cnt = Wiz2SpellM[x].Length;
@@ -428,7 +428,7 @@ namespace WizFCEdit
                         }
                     }
                     break;
-                case WIZSCN.S3:
+                case WIZSCN.FC3:
                     if (y < 4)
                     {
                         cnt = Wiz3SpellM[x].Length;

@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 using Microsoft.VisualBasic.ApplicationServices;
 
-namespace WizFCEdit
+namespace WizEdit
 {
     public class MyApp : WindowsFormsApplicationBase
     {

@@ -1,4 +1,4 @@
-﻿namespace WizFCEdit
+﻿namespace WizEdit
 {
     partial class WizSettingDialog
     {
@@ -54,7 +54,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.cb18 = new System.Windows.Forms.CheckBox();
             this.cb19 = new System.Windows.Forms.CheckBox();
-            this.wizBoxControl1 = new WizFCEdit.WizBoxControl();
+            this.wizBoxControl1 = new WizEdit.WizBoxControl();
             this.SuspendLayout();
             // 
             // cbLevelInit

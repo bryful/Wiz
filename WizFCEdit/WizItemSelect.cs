@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 
 
-namespace WizFCEdit
+namespace WizEdit
 {
     public class WizItemSelect : ComboBox
     {

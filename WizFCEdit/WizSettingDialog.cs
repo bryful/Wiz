@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WizFCEdit
+namespace WizEdit
 {
     public partial class WizSettingDialog : Form
     {

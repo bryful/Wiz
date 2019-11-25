@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WizFCEdit
+namespace WizEdit
 {
     public class WizItem
     {
@@ -71,7 +71,7 @@ namespace WizFCEdit
                 }
             }
         }
-        public WizItem(WIZSCN scn = WIZSCN.S1)
+        public WizItem(WIZSCN scn = WIZSCN.FC1)
         {
             m_scn = scn;
         }
@@ -81,11 +81,11 @@ namespace WizFCEdit
             {
                 switch (m_scn)
                 {
-                    case WIZSCN.S1:
+                    case WIZSCN.FC1:
                         return m_WizFCItemNames1[m_ID];
-                    case WIZSCN.S2:
+                    case WIZSCN.FC2:
                         return m_WizFCItemNames2[m_ID];
-                    case WIZSCN.S3:
+                    case WIZSCN.FC3:
                         return m_WizFCItemNames3[m_ID];
                     default:
                         return "";
@@ -116,11 +116,11 @@ namespace WizFCEdit
             {
                 switch (m_scn)
                 {
-                    case WIZSCN.S1:
+                    case WIZSCN.FC1:
                         return m_WizFCItemNames1;
-                    case WIZSCN.S2:
+                    case WIZSCN.FC2:
                         return m_WizFCItemNames2;
-                    case WIZSCN.S3:
+                    case WIZSCN.FC3:
                         return m_WizFCItemNames3;
                     default:
                         return new string[0];
@@ -134,11 +134,11 @@ namespace WizFCEdit
             {
                 switch (m_scn)
                 {
-                    case WIZSCN.S1:
+                    case WIZSCN.FC1:
                         return m_WizFCItemNames1.Length;
-                    case WIZSCN.S2:
+                    case WIZSCN.FC2:
                         return m_WizFCItemNames2.Length;
-                    case WIZSCN.S3:
+                    case WIZSCN.FC3:
                         return m_WizFCItemNames3.Length;
                     default:
                         return 0;

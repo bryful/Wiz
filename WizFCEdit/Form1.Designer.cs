@@ -1,4 +1,4 @@
-﻿namespace WizFCEdit
+﻿namespace WizEdit
 {
     partial class Form1
     {
@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            WizFCEdit.MagicPoint magicPoint1 = new WizFCEdit.MagicPoint();
-            WizFCEdit.MagicPoint magicPoint2 = new WizFCEdit.MagicPoint();
+            WizEdit.MagicPoint magicPoint1 = new WizEdit.MagicPoint();
+            WizEdit.MagicPoint magicPoint2 = new WizEdit.MagicPoint();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,31 +43,31 @@
             this.pctureFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.wizNesState1 = new WizFCEdit.WizFCState();
-            this.wizCharList1 = new WizFCEdit.WizCharList();
-            this.wizStatus1 = new WizFCEdit.WizStatus();
-            this.wizConrol1 = new WizFCEdit.WizBoxControl();
-            this.wizItemList1 = new WizFCEdit.WizItemList();
-            this.btnSetting = new WizFCEdit.WizButton();
-            this.wizPictureBox1 = new WizFCEdit.WizPictureBox();
-            this.beAge = new WizFCEdit.WizByteEdit();
-            this.beWeek = new WizFCEdit.WizByteEdit();
-            this.beAC = new WizFCEdit.WizByteEdit();
-            this.leGold = new WizFCEdit.WizLongEdit();
-            this.leExp = new WizFCEdit.WizLongEdit();
-            this.leHP = new WizFCEdit.WizLongEdit();
-            this.leHPMax = new WizFCEdit.WizLongEdit();
-            this.beVitality = new WizFCEdit.WizByteEdit();
-            this.beStrength = new WizFCEdit.WizByteEdit();
-            this.bePiety = new WizFCEdit.WizByteEdit();
-            this.beIQ = new WizFCEdit.WizByteEdit();
-            this.beAgility = new WizFCEdit.WizByteEdit();
-            this.beLuck = new WizFCEdit.WizByteEdit();
-            this.wizCharName1 = new WizFCEdit.WizCharName();
-            this.wizCharClass1 = new WizFCEdit.WizCharClass();
-            this.leLevel = new WizFCEdit.WizLongEdit();
-            this.wizItemSelect1 = new WizFCEdit.WizItemSelect();
-            this.wizMPList1 = new WizFCEdit.WizMPList();
+            this.wizNesState1 = new WizEdit.WizData();
+            this.wizCharList1 = new WizEdit.WizCharList();
+            this.wizStatus1 = new WizEdit.WizStatus();
+            this.wizConrol1 = new WizEdit.WizBoxControl();
+            this.wizItemList1 = new WizEdit.WizItemList();
+            this.btnSetting = new WizEdit.WizButton();
+            this.wizPictureBox1 = new WizEdit.WizPictureBox();
+            this.beAge = new WizEdit.WizByteEdit();
+            this.beWeek = new WizEdit.WizByteEdit();
+            this.beAC = new WizEdit.WizByteEdit();
+            this.leGold = new WizEdit.WizLongEdit();
+            this.leExp = new WizEdit.WizLongEdit();
+            this.leHP = new WizEdit.WizLongEdit();
+            this.leHPMax = new WizEdit.WizLongEdit();
+            this.beVitality = new WizEdit.WizByteEdit();
+            this.beStrength = new WizEdit.WizByteEdit();
+            this.bePiety = new WizEdit.WizByteEdit();
+            this.beIQ = new WizEdit.WizByteEdit();
+            this.beAgility = new WizEdit.WizByteEdit();
+            this.beLuck = new WizEdit.WizByteEdit();
+            this.wizCharName1 = new WizEdit.WizCharName();
+            this.wizCharClass1 = new WizEdit.WizCharClass();
+            this.leLevel = new WizEdit.WizLongEdit();
+            this.wizItemSelect1 = new WizEdit.WizItemSelect();
+            this.wizMPList1 = new WizEdit.WizMPList();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -179,8 +179,8 @@
             this.wizNesState1.CharAC = ((sbyte)(4));
             this.wizNesState1.CharAge = ((sbyte)(16));
             this.wizNesState1.CharAgility = ((byte)(8));
-            this.wizNesState1.CharAlg = WizFCEdit.WIZALG.GOOD;
-            this.wizNesState1.CharClass = WizFCEdit.WIZCLASS.FIG;
+            this.wizNesState1.CharAlg = WizEdit.WIZALG.GOOD;
+            this.wizNesState1.CharClass = WizEdit.WIZCLASS.FIG;
             this.wizNesState1.CharCurrent = 0;
             this.wizNesState1.CharExp = ((long)(0));
             this.wizNesState1.CharGold = ((long)(0));
@@ -197,7 +197,7 @@
         ((byte)(1))};
             this.wizNesState1.CharPiety = ((byte)(7));
             this.wizNesState1.CharPriest = magicPoint2;
-            this.wizNesState1.CharRace = WizFCEdit.WIZRACE.HUMAN;
+            this.wizNesState1.CharRace = WizEdit.WIZRACE.HUMAN;
             this.wizNesState1.CharSpell = new byte[] {
         ((byte)(0)),
         ((byte)(0)),
@@ -206,11 +206,11 @@
         ((byte)(0)),
         ((byte)(0)),
         ((byte)(0))};
-            this.wizNesState1.CharStatus = WizFCEdit.WIZSTATUS.OK;
+            this.wizNesState1.CharStatus = WizEdit.WIZSTATUS.OK;
             this.wizNesState1.CharStrength = ((byte)(8));
             this.wizNesState1.CharVitarity = ((byte)(8));
             this.wizNesState1.CharWeek = ((byte)(24));
-            this.wizNesState1.RES_SCN = WizFCEdit.WIZSCN.S1;
+            this.wizNesState1.RES_SCN = WizEdit.WIZSCN.FC1;
             // 
             // wizCharList1
             // 
@@ -323,7 +323,7 @@
             this.beAge.ForeColor = System.Drawing.Color.White;
             this.beAge.IsEdit = true;
             this.beAge.Location = new System.Drawing.Point(393, 226);
-            this.beAge.Mode = WizFCEdit.WizByteEditMode.Age;
+            this.beAge.Mode = WizEdit.WizByteEditMode.Age;
             this.beAge.Name = "beAge";
             this.beAge.Size = new System.Drawing.Size(101, 23);
             this.beAge.TabIndex = 12;
@@ -340,7 +340,7 @@
             this.beWeek.ForeColor = System.Drawing.Color.White;
             this.beWeek.IsEdit = false;
             this.beWeek.Location = new System.Drawing.Point(540, 226);
-            this.beWeek.Mode = WizFCEdit.WizByteEditMode.Week;
+            this.beWeek.Mode = WizEdit.WizByteEditMode.Week;
             this.beWeek.Name = "beWeek";
             this.beWeek.Size = new System.Drawing.Size(106, 23);
             this.beWeek.TabIndex = 13;
@@ -357,7 +357,7 @@
             this.beAC.ForeColor = System.Drawing.Color.White;
             this.beAC.IsEdit = false;
             this.beAC.Location = new System.Drawing.Point(451, 255);
-            this.beAC.Mode = WizFCEdit.WizByteEditMode.AC;
+            this.beAC.Mode = WizEdit.WizByteEditMode.AC;
             this.beAC.Name = "beAC";
             this.beAC.Size = new System.Drawing.Size(119, 23);
             this.beAC.TabIndex = 20;
@@ -373,7 +373,7 @@
             this.leGold.ForeColor = System.Drawing.Color.White;
             this.leGold.IsEdit = false;
             this.leGold.Location = new System.Drawing.Point(393, 130);
-            this.leGold.Mode = WizFCEdit.WizLongEditMode.Gold;
+            this.leGold.Mode = WizEdit.WizLongEditMode.Gold;
             this.leGold.Name = "leGold";
             this.leGold.NumWidth = 10;
             this.leGold.Size = new System.Drawing.Size(253, 32);
@@ -390,7 +390,7 @@
             this.leExp.ForeColor = System.Drawing.Color.White;
             this.leExp.IsEdit = false;
             this.leExp.Location = new System.Drawing.Point(393, 162);
-            this.leExp.Mode = WizFCEdit.WizLongEditMode.Exp;
+            this.leExp.Mode = WizEdit.WizLongEditMode.Exp;
             this.leExp.Name = "leExp";
             this.leExp.NumWidth = 10;
             this.leExp.Size = new System.Drawing.Size(253, 32);
@@ -407,7 +407,7 @@
             this.leHP.ForeColor = System.Drawing.Color.White;
             this.leHP.IsEdit = false;
             this.leHP.Location = new System.Drawing.Point(393, 194);
-            this.leHP.Mode = WizFCEdit.WizLongEditMode.HP;
+            this.leHP.Mode = WizEdit.WizLongEditMode.HP;
             this.leHP.Name = "leHP";
             this.leHP.NumWidth = 10;
             this.leHP.Size = new System.Drawing.Size(141, 32);
@@ -424,7 +424,7 @@
             this.leHPMax.ForeColor = System.Drawing.Color.White;
             this.leHPMax.IsEdit = false;
             this.leHPMax.Location = new System.Drawing.Point(540, 194);
-            this.leHPMax.Mode = WizFCEdit.WizLongEditMode.HPMax;
+            this.leHPMax.Mode = WizEdit.WizLongEditMode.HPMax;
             this.leHPMax.Name = "leHPMax";
             this.leHPMax.NumWidth = 10;
             this.leHPMax.Size = new System.Drawing.Size(106, 32);
@@ -443,7 +443,7 @@
             this.beVitality.ForeColor = System.Drawing.Color.White;
             this.beVitality.IsEdit = true;
             this.beVitality.Location = new System.Drawing.Point(286, 320);
-            this.beVitality.Mode = WizFCEdit.WizByteEditMode.Vitality;
+            this.beVitality.Mode = WizEdit.WizByteEditMode.Vitality;
             this.beVitality.Name = "beVitality";
             this.beVitality.Size = new System.Drawing.Size(147, 20);
             this.beVitality.TabIndex = 17;
@@ -461,7 +461,7 @@
             this.beStrength.ForeColor = System.Drawing.Color.White;
             this.beStrength.IsEdit = true;
             this.beStrength.Location = new System.Drawing.Point(286, 260);
-            this.beStrength.Mode = WizFCEdit.WizByteEditMode.Strength;
+            this.beStrength.Mode = WizEdit.WizByteEditMode.Strength;
             this.beStrength.Name = "beStrength";
             this.beStrength.Size = new System.Drawing.Size(147, 20);
             this.beStrength.TabIndex = 14;
@@ -479,7 +479,7 @@
             this.bePiety.ForeColor = System.Drawing.Color.White;
             this.bePiety.IsEdit = true;
             this.bePiety.Location = new System.Drawing.Point(286, 300);
-            this.bePiety.Mode = WizFCEdit.WizByteEditMode.Piety;
+            this.bePiety.Mode = WizEdit.WizByteEditMode.Piety;
             this.bePiety.Name = "bePiety";
             this.bePiety.Size = new System.Drawing.Size(147, 20);
             this.bePiety.TabIndex = 16;
@@ -497,7 +497,7 @@
             this.beIQ.ForeColor = System.Drawing.Color.White;
             this.beIQ.IsEdit = true;
             this.beIQ.Location = new System.Drawing.Point(286, 280);
-            this.beIQ.Mode = WizFCEdit.WizByteEditMode.IQ;
+            this.beIQ.Mode = WizEdit.WizByteEditMode.IQ;
             this.beIQ.Name = "beIQ";
             this.beIQ.Size = new System.Drawing.Size(147, 20);
             this.beIQ.TabIndex = 15;
@@ -515,7 +515,7 @@
             this.beAgility.ForeColor = System.Drawing.Color.White;
             this.beAgility.IsEdit = true;
             this.beAgility.Location = new System.Drawing.Point(286, 340);
-            this.beAgility.Mode = WizFCEdit.WizByteEditMode.Agility;
+            this.beAgility.Mode = WizEdit.WizByteEditMode.Agility;
             this.beAgility.Name = "beAgility";
             this.beAgility.Size = new System.Drawing.Size(147, 20);
             this.beAgility.TabIndex = 18;
@@ -533,7 +533,7 @@
             this.beLuck.ForeColor = System.Drawing.Color.White;
             this.beLuck.IsEdit = true;
             this.beLuck.Location = new System.Drawing.Point(286, 360);
-            this.beLuck.Mode = WizFCEdit.WizByteEditMode.Luck;
+            this.beLuck.Mode = WizEdit.WizByteEditMode.Luck;
             this.beLuck.Name = "beLuck";
             this.beLuck.Size = new System.Drawing.Size(147, 20);
             this.beLuck.TabIndex = 19;
@@ -575,7 +575,7 @@
             this.leLevel.ForeColor = System.Drawing.Color.White;
             this.leLevel.IsEdit = false;
             this.leLevel.Location = new System.Drawing.Point(432, 95);
-            this.leLevel.Mode = WizFCEdit.WizLongEditMode.Level;
+            this.leLevel.Mode = WizEdit.WizLongEditMode.Level;
             this.leLevel.Name = "leLevel";
             this.leLevel.NumWidth = 10;
             this.leLevel.Size = new System.Drawing.Size(92, 30);
@@ -700,7 +700,7 @@
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private WizFCState wizNesState1;
+        private WizData wizNesState1;
         private WizCharList wizCharList1;
         private WizStatus wizStatus1;
         private WizBoxControl wizConrol1;

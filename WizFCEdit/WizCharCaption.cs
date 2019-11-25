@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
-namespace WizFCEdit
+namespace WizEdit
 {
     public class WizCharCaption : Control
     {
@@ -30,8 +30,8 @@ namespace WizFCEdit
             set { m_IsDrawFrame = value; this.Invalidate(); }
         }
         #region state
-        private WizFCState m_state = null;
-        public WizFCState WizNesState
+        private WizData m_state = null;
+        public WizData WizNesState
         {
             get { return m_state; }
             set

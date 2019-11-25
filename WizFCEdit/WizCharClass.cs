@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WizFCEdit
+namespace WizEdit
 {
     public class WizCharClass :Control
     {
@@ -62,8 +62,8 @@ namespace WizFCEdit
 
 
         #region state
-        private WizFCState m_state = null;
-        public WizFCState WizNesState
+        private WizData m_state = null;
+        public WizData WizNesState
         {
             get { return m_state; }
             set
@@ -128,11 +128,11 @@ namespace WizFCEdit
                 g.FillRectangle(sb, this.ClientRectangle);
                 sb.Color = this.ForeColor;
                 Rectangle rct = new Rectangle(0, 0, m_AlgWidth, this.Height);
-                g.DrawString(WizFCState.AlgString(m_Alg)[0]+"-", this.Font,sb, rct, sf);
+                g.DrawString(WizData.AlgString(m_Alg)[0]+"-", this.Font,sb, rct, sf);
                 rct = new Rectangle(m_AlgWidth,0,m_ClassWidth,this.Height);
-                g.DrawString(WizFCState.ClassString(m_Class), this.Font, sb, rct, sf);
+                g.DrawString(WizData.ClassString(m_Class), this.Font, sb, rct, sf);
                 rct = new Rectangle(m_AlgWidth+m_ClassWidth, 0, m_RaceWidth, this.Height);
-                g.DrawString(WizFCState.RaceString(m_Race), this.Font, sb, rct, sf);
+                g.DrawString(WizData.RaceString(m_Race), this.Font, sb, rct, sf);
             }
             finally
             {
@@ -156,9 +156,9 @@ namespace WizFCEdit
                     cmb.Name = "A";
                     cmb.Location = new Point(this.Left - ox, this.Top - oy);
                     cmb.Size = new Size(100, this.Height * 3);
-                    for (int i = 0; i < WizFCState.AlgStr.Length; i++)
+                    for (int i = 0; i < WizData.AlgStr.Length; i++)
                     {
-                        cmb.Add(WizFCState.AlgString((WIZALG)i));
+                        cmb.Add(WizData.AlgString((WIZALG)i));
                     }
                     cmb.SelectedIndex = (int)m_Alg;
                     cmb.IsListMode = true;
@@ -177,9 +177,9 @@ namespace WizFCEdit
                     cmb.Name = "A";
                     cmb.Location = new Point(this.Left - ox + m_AlgWidth, this.Top - oy);
                     cmb.Size = new Size(55, this.Height * 3);
-                    for (int i = 0; i < WizFCState.ClassStr.Length; i++)
+                    for (int i = 0; i < WizData.ClassStr.Length; i++)
                     {
-                        cmb.Add(WizFCState.ClassString((WIZCLASS)i));
+                        cmb.Add(WizData.ClassString((WIZCLASS)i));
                     }
                     cmb.SelectedIndex = (int)m_Class;
                     cmb.IsListMode = true;
@@ -198,9 +198,9 @@ namespace WizFCEdit
                     cmb.Name = "A";
                     cmb.Location = new Point(this.Left - ox + m_AlgWidth + m_ClassWidth, this.Top - oy);
                     cmb.Size = new Size(70, this.Height * 5);
-                    for (int i = 0; i < WizFCState.RaceStr.Length; i++)
+                    for (int i = 0; i < WizData.RaceStr.Length; i++)
                     {
-                        cmb.Add(WizFCState.RaceString((WIZRACE)i));
+                        cmb.Add(WizData.RaceString((WIZRACE)i));
                     }
                     cmb.SelectedIndex = (int)m_Race;
                     cmb.IsListMode = true;

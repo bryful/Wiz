@@ -1,4 +1,4 @@
-﻿namespace WizFCEdit
+﻿namespace WizEdit
 {
     partial class WizSpellEditDialogcs
     {
@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.wizSpellList1 = new WizFCEdit.WizSpellList();
-            this.btnOK = new WizFCEdit.WizButton();
-            this.btnCancel = new WizFCEdit.WizButton();
-            this.btnGetAll = new WizFCEdit.WizButton();
-            this.btnForgetAll = new WizFCEdit.WizButton();
+            this.wizSpellList1 = new WizEdit.WizSpellList();
+            this.btnOK = new WizEdit.WizButton();
+            this.btnCancel = new WizEdit.WizButton();
+            this.btnGetAll = new WizEdit.WizButton();
+            this.btnForgetAll = new WizEdit.WizButton();
             this.SuspendLayout();
             // 
             // wizSpellList1
@@ -47,7 +47,7 @@
             this.wizSpellList1.LineWidth = 3;
             this.wizSpellList1.Location = new System.Drawing.Point(12, 12);
             this.wizSpellList1.Name = "wizSpellList1";
-            this.wizSpellList1.SCN = WizFCEdit.WIZSCN.S1;
+            this.wizSpellList1.SCN = WizEdit.WIZSCN.FC1;
             this.wizSpellList1.SideMargin = 5;
             this.wizSpellList1.Size = new System.Drawing.Size(731, 295);
             this.wizSpellList1.Spell = new byte[] {

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 
-namespace WizFCEdit
+namespace WizEdit
 {
     public enum WizLongEditMode
     {
@@ -159,8 +159,8 @@ namespace WizFCEdit
             Down
         }
         private int m_TagetKeta = 0;
-        private WizFCState m_state = null;
-        public WizFCState WizFCState
+        private WizData m_state = null;
+        public WizData WizFCState
         {
             get { return m_state; }
             set

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-namespace WizFCEdit
+namespace WizEdit
 {
     public class WizComboBox :Control
     {

@@ -10,15 +10,22 @@ using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 using System.IO;
 
-namespace WizFCEdit
+namespace WizEdit
 {
     #region Const
     public enum WIZSCN
     {
         NO = 0,
-        S1 = 1,
-        S2,
-        S3
+        FC1 = 1,
+        FC2,
+        FC3,
+        SFC1 = 4,
+        SFC2 = 8,
+        SFC3 = 12,
+        GBC1 = 16,
+        GBC2 = 32,
+        GBC3 = 48
+
     }
 
     public enum FILEMODE
@@ -99,12 +106,12 @@ namespace WizFCEdit
     {
         public int CurrentChar;
     }
-    public class WizFCState :Component
+    public class WizData :Component
     {
-        private string m_statePath = "";
-        public string StatePath
+        private string m_DataPath = "";
+        public string DataPath
         {
-            get { return m_statePath; }
+            get { return m_DataPath; }
         }
 
  
@@ -297,7 +304,7 @@ namespace WizFCEdit
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public WizFCState()
+        public WizData()
         {
             if (ResLoad()==true)
             {
@@ -317,11 +324,11 @@ namespace WizFCEdit
                     case FILEMODE.STATE:
                     switch (m_scn)
                     {
-                        case WIZSCN.S1:
+                        case WIZSCN.FC1:
                             return 0x0009;
-                        case WIZSCN.S2:
+                        case WIZSCN.FC2:
                             return 0x0409;
-                        case WIZSCN.S3:
+                        case WIZSCN.FC3:
                             return 0x0409;
                         default:
                             return 0;
@@ -329,11 +336,11 @@ namespace WizFCEdit
                     case FILEMODE.SAVE:
                         switch (m_scn)
                         {
-                            case WIZSCN.S1:
+                            case WIZSCN.FC1:
                                 return 0x0000;
-                            case WIZSCN.S2:
+                            case WIZSCN.FC2:
                                 return 0x0400;
-                            case WIZSCN.S3:
+                            case WIZSCN.FC3:
                                 return 0x0400;
                             default:
                                 return 0;
@@ -342,11 +349,11 @@ namespace WizFCEdit
                     case FILEMODE.ROM:
                         switch (m_scn)
                         {
-                            case WIZSCN.S1:
+                            case WIZSCN.FC1:
                                 return Wiz1Start;
-                            case WIZSCN.S2:
+                            case WIZSCN.FC2:
                                 return Wiz2Start;
-                            case WIZSCN.S3:
+                            case WIZSCN.FC3:
                                 return Wiz3Start;
                             default:
                                 return 0;
@@ -365,7 +372,7 @@ namespace WizFCEdit
 
                 switch (m_scn)
                 {
-                    case WIZSCN.S1:
+                    case WIZSCN.FC1:
                         if (m_FileMode == FILEMODE.ROM)
                         {
                             return 0x080;
@@ -374,9 +381,9 @@ namespace WizFCEdit
                         {
                             return 0x0100;
                         }
-                    case WIZSCN.S2:
+                    case WIZSCN.FC2:
                         return 0x0060;
-                    case WIZSCN.S3:
+                    case WIZSCN.FC3:
                         return 0x0060;
                     default:
                         return 0;
@@ -397,13 +404,13 @@ namespace WizFCEdit
 
             if (m_buf[idx + 1] == 0)
             {
-                if (m_scn == WIZSCN.S1)
+                if (m_scn == WIZSCN.FC1)
                 {
-                    return WizFCString.Wiz1NoneName;
+                    return WizString.Wiz1FCNoneName;
                 }
                 else
                 {
-                    return WizFCString.Wiz2NoneName;
+                    return WizString.Wiz2FCNoneName;
                 }
             }
             int cnt = m_buf[idx + 1];
@@ -426,7 +433,7 @@ namespace WizFCEdit
             byte[] a = new byte[8];
             for (int i=0;i<8;i++)
             {
-                if(m_scn==WIZSCN.S1)
+                if(m_scn==WIZSCN.FC1)
                 {
                     a[i] = 0x24;
                 }
@@ -454,11 +461,11 @@ namespace WizFCEdit
         {
             int idx = CharAdr(index);
             if (idx < 0) return "";
-            if (m_buf[idx] == 0) return WizFCString.NoneName;
+            if (m_buf[idx] == 0) return WizString.NoneName;
             int cnt = m_buf[idx + 1];
             if (cnt <= 0) cnt = 8;
             byte[] nm = GetCode(idx+2, cnt);
-            return WizFCString.CodeToString(m_scn, nm);
+            return WizString.CodeToString(m_scn, nm);
 
         }
         // ************************************************************************
@@ -523,12 +530,12 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x0A;
                     ret = (WIZRACE)(m_buf[adr] & 0x07);
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x0A;
                     ret = (WIZRACE)(m_buf[adr] >> 5 & 0x07);
                     break;
@@ -558,13 +565,13 @@ namespace WizFCEdit
             if (CharRaceFromIndex(idx) == r) return;
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x0A;
                     m_buf[adr] = (byte)((byte)r & 0x07);
                     OnValueChanged(new EventArgs());
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x0A;
                     byte v = m_buf[adr];
                     v = (byte)((v & 0x1F) + (((byte)r & 0x07) << 5));
@@ -607,12 +614,12 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x0B;
                     ret = (WIZCLASS)(m_buf[adr] & 0x07);
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x0A;
                     ret = (WIZCLASS)(m_buf[adr] >> 2 & 0x07);
                     break;
@@ -646,13 +653,13 @@ namespace WizFCEdit
 
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x0B;
                     m_buf[adr] = (byte)((byte)cl & 0x07);
                     OnValueChanged(new EventArgs());
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x0A;
                     byte v = m_buf[adr];
                     v = (byte)((v & 0xE3) | (((byte)cl & 0x07) << 2));
@@ -693,12 +700,12 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x0C;
                     ret = (WIZALG)(m_buf[adr] & 0x03);
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x0A;
                     ret = (WIZALG)(m_buf[adr] & 0x03);
                     break;
@@ -730,13 +737,13 @@ namespace WizFCEdit
             if (CharAlgFromIndex(idx) == alg) return;
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x0C;
                     m_buf[adr] = (byte)((byte)alg & 0x03);
                     OnValueChanged(new EventArgs());
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     //adr += 0x0A;
                     byte v = m_buf[adr + 0x0A];
                     v = (byte)((v & 0xFC) | (byte)alg);
@@ -777,12 +784,12 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x23;
                     ret = (ushort)((ushort)m_buf[adr] * 0x100 + (ushort)m_buf[adr + 1]);
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x21;
                     ret = (ushort)((ushort)m_buf[adr] * 0x100 + (ushort)m_buf[adr + 1]);
                     break;
@@ -806,15 +813,15 @@ namespace WizFCEdit
             if (CharLevelFromIndex(idx) == v) return;
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x23;
                     m_buf[adr] = (byte)((v >> 8) & 0xFF);
                     m_buf[adr+1] = (byte)(v & 0xFF);
                     OnValueChanged(new EventArgs());
 
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x21;
                     m_buf[adr] = (byte)((v >> 8) & 0xFF);
                     m_buf[adr + 1] = (byte)(v & 0xFF);
@@ -839,12 +846,12 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x13;
                     ret = WizU.WizHexToLong(GetCode(adr, 6));
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x11;
                     ret = WizU.WizHexToLong(GetCode(adr, 6));
                     break;
@@ -874,13 +881,13 @@ namespace WizFCEdit
             byte[] va = WizU.LongToWizHex(v);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x13;
                     SetCode(adr, va);
                     OnValueChanged(new EventArgs());
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x11;
                     SetCode(adr, va);
                     OnValueChanged(new EventArgs());
@@ -904,12 +911,12 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x19;
                     ret = WizU.WizHexToLong(GetCode(adr, 6));
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x17;
                     ret = WizU.WizHexToLong(GetCode(adr, 6));
                     break;
@@ -933,13 +940,13 @@ namespace WizFCEdit
 
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x19;
                     SetCode(adr, va);
                     OnValueChanged(new EventArgs());
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x17;
                     SetCode(adr, va);
                     OnValueChanged(new EventArgs());
@@ -965,12 +972,12 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x26;
                     ret = (sbyte)m_buf[adr];
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x24;
                     ret = (sbyte)m_buf[adr];
                     break;
@@ -998,13 +1005,13 @@ namespace WizFCEdit
 
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x26;
                     m_buf[adr] = (byte)v2;
                     OnValueChanged(new EventArgs());
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x24;
                     m_buf[adr] = (byte)v2;
                     OnValueChanged(new EventArgs());
@@ -1028,12 +1035,12 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x27;
                     ret = (byte)m_buf[adr];
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x25;
                     ret = (byte)m_buf[adr];
                     break;
@@ -1057,13 +1064,13 @@ namespace WizFCEdit
 
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x27;
                     m_buf[adr] = (byte)v;
                     OnValueChanged(new EventArgs());
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x25;
                     m_buf[adr] = (byte)v;
                     OnValueChanged(new EventArgs());
@@ -1087,12 +1094,12 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x28;
                     ret = (sbyte)m_buf[adr];
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x26;
                     ret = (sbyte)m_buf[adr];
                     break;
@@ -1119,13 +1126,13 @@ namespace WizFCEdit
 
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x28;
                     m_buf[adr] = (byte)v2;
                     OnValueChanged(new EventArgs());
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x26;
                     m_buf[adr] = (byte)v2;
                     OnValueChanged(new EventArgs());
@@ -1149,12 +1156,12 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x0D;
                     ret = (byte)m_buf[adr];
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x0B;
                     ret = (byte)m_buf[adr];
                     break;
@@ -1176,13 +1183,13 @@ namespace WizFCEdit
             if (CharStrengthFromIndex(idx) == v) return;
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x0D;
                     m_buf[adr] = (byte)v;
                     OnValueChanged(new EventArgs());
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x0B;
                     m_buf[adr] = (byte)v;
                     OnValueChanged(new EventArgs());
@@ -1206,12 +1213,12 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x0E;
                     ret = (byte)m_buf[adr];
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x0C;
                     ret = (byte)m_buf[adr];
                     break;
@@ -1236,13 +1243,13 @@ namespace WizFCEdit
 
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x0E;
                     m_buf[adr] = (byte)v;
                     OnValueChanged(new EventArgs());
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x0C;
                     m_buf[adr] = (byte)v;
                     OnValueChanged(new EventArgs());
@@ -1266,12 +1273,12 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x0F;
                     ret = (byte)m_buf[adr];
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x0D;
                     ret = (byte)m_buf[adr];
                     break;
@@ -1296,13 +1303,13 @@ namespace WizFCEdit
 
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x0F;
                     m_buf[adr] = (byte)v;
                     OnValueChanged(new EventArgs());
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x0D;
                     m_buf[adr] = (byte)v;
                     OnValueChanged(new EventArgs());
@@ -1326,12 +1333,12 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x10;
                     ret = (byte)m_buf[adr];
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x0E;
                     ret = (byte)m_buf[adr];
                     break;
@@ -1356,13 +1363,13 @@ namespace WizFCEdit
             if (CharVitarityFromIndex(idx) == v) return;
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x10;
                     m_buf[adr] = (byte)v;
                     OnValueChanged(new EventArgs());
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x0E;
                     m_buf[adr] = (byte)v;
                     OnValueChanged(new EventArgs());
@@ -1386,12 +1393,12 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x11;
                     ret = (byte)m_buf[adr];
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x0F;
                     ret = (byte)m_buf[adr];
                     break;
@@ -1417,13 +1424,13 @@ namespace WizFCEdit
 
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x11;
                     m_buf[adr] = (byte)v;
                     OnValueChanged(new EventArgs());
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x0F;
                     m_buf[adr] = (byte)v;
                     OnValueChanged(new EventArgs());
@@ -1447,12 +1454,12 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x12;
                     ret = (byte)m_buf[adr];
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x10;
                     ret = (byte)m_buf[adr];
                     break;
@@ -1478,13 +1485,13 @@ namespace WizFCEdit
 
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x12;
                     m_buf[adr] = (byte)v;
                     OnValueChanged(new EventArgs());
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x10;
                     m_buf[adr] = (byte)v;
                     OnValueChanged(new EventArgs());
@@ -1510,12 +1517,12 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x1F;
                     ret = (ushort)((ushort)m_buf[adr] * 0x100 + (ushort)m_buf[adr+1] );
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x1D;
                     ret = (ushort)((ushort)m_buf[adr] + (ushort)m_buf[adr + 1] * 0x100);
                     break;
@@ -1542,14 +1549,14 @@ namespace WizFCEdit
 
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x1F;
                     m_buf[adr] = (byte)((v >> 8) & 0xFF);
                     m_buf[adr+1] = (byte)(v  & 0xFF);
                     OnValueChanged(new EventArgs());
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x1D;
                     m_buf[adr] = (byte)((v >> 0) & 0xFF);
                     m_buf[adr + 1] = (byte)((v>>8) & 0xFF);
@@ -1576,12 +1583,12 @@ namespace WizFCEdit
 
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x21;
                     ret = (ushort)((ushort)m_buf[adr] * 0x100 + (ushort)m_buf[adr + 1]);
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x1F;
                     ret = (ushort)((ushort)m_buf[adr] + (ushort)m_buf[adr + 1] * 0x100);
                     break;
@@ -1606,14 +1613,14 @@ namespace WizFCEdit
 
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x21;
                     m_buf[adr] = (byte)((v >> 8) & 0xFF);
                     m_buf[adr + 1] = (byte)(v & 0xFF);
                     OnValueChanged(new EventArgs());
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x1F;
                     m_buf[adr] = (byte)((v >> 0) & 0xFF);
                     m_buf[adr + 1] = (byte)((v >>8) & 0xFF);
@@ -1640,12 +1647,12 @@ namespace WizFCEdit
             int v = 0;
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x25;
                     v = (int)(m_buf[adr] & 0x7);
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x23;
                     v = (int)(m_buf[adr] & 0x7);
                     break;
@@ -1669,13 +1676,13 @@ namespace WizFCEdit
             byte v2 = (byte)((byte)v & 0x0F);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x25;
                     m_buf[adr] = v2;
                     OnValueChanged(new EventArgs());
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     adr += 0x23;
                     m_buf[adr] = v2;
                     OnValueChanged(new EventArgs());
@@ -1732,13 +1739,13 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     ret.NowP = GetCode(adr + 0x29, 7);
                     ret.MaxP = GetCode(adr + 0x37, 7);
                     ret.Learning = GetCode(adr + 0x45, 7);
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     byte [] a = GetCode(adr + 0x27, 7);
                     for ( int i=0; i<7; i++)
                     {
@@ -1765,12 +1772,12 @@ namespace WizFCEdit
 
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     SetCode(adr + 0x29, mp.NowP);
                     SetCode(adr + 0x37, mp.MaxP);
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     byte[] aa = new byte[7];
                     for (int i = 0; i < 7; i++)
                     {
@@ -1799,13 +1806,13 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     ret.NowP = GetCode(adr + 0x30, 7);
                     ret.MaxP = GetCode(adr + 0x3E, 7);
                     ret.Learning = GetCode(adr + 0x45, 7);
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     byte[] a = GetCode(adr + 0x2E, 7);
                     for (int i = 0; i < 7; i++)
                     {
@@ -1832,12 +1839,12 @@ namespace WizFCEdit
 
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     SetCode(adr + 0x30, mp.NowP);
                     SetCode(adr + 0x3E, mp.MaxP);
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     byte[] aa = new byte[7];
                     for (int i = 0; i < 7; i++)
                     {
@@ -1870,7 +1877,7 @@ namespace WizFCEdit
             int cnt = 0;
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     cnt = m_buf[adr + 0x5C];
                     if (i_idx < cnt)
                     {
@@ -1878,8 +1885,8 @@ namespace WizFCEdit
                         ret.Status = m_buf[adr + 0x4C + i_idx];
                     }
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     cnt = m_buf[adr + 0x53];
                     if (i_idx < cnt)
                     {
@@ -1911,7 +1918,7 @@ namespace WizFCEdit
             int ad = 0;
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     cnt = m_buf[adr + 0x5C];
                     if (i_idx < cnt)
                     {
@@ -1929,8 +1936,8 @@ namespace WizFCEdit
                         }
                     }
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     cnt = m_buf[adr + 0x53];
                     if (i_idx < cnt)
                     {
@@ -1966,12 +1973,12 @@ namespace WizFCEdit
             int adr = CharAdr(idx);
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x45;
                     ret = GetCode(adr, 7);
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     //Wiz2MSkill = $35;
                     //Wiz2PSkill = $3C;
                     adr += 0x35;
@@ -1993,15 +2000,15 @@ namespace WizFCEdit
             if (m_buf[adr] == 0) return;
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     adr += 0x45;
                     if (a.Length == 7)
                     {
                         SetCode(adr, a);
                     }
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     //Wiz2MSkill = $35;
                     //Wiz2PSkill = $3C;
                     adr += 0x35;
@@ -2030,7 +2037,7 @@ namespace WizFCEdit
             int cnt = 0;
             switch (m_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     cnt = m_buf[adr + 0x5C];
                     if (cnt>0)
                     {
@@ -2046,8 +2053,8 @@ namespace WizFCEdit
                     }
 
                     break;
-                case WIZSCN.S2:
-                case WIZSCN.S3:
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
                     cnt = m_buf[adr + 0x53];
                     if (cnt > 0)
                     {
@@ -2079,7 +2086,7 @@ namespace WizFCEdit
         // ************************************************************************
         public string CodeToString(byte v)
         {
-            return WizFCString.CodeToString(m_scn, v);
+            return WizString.CodeToString(m_scn, v);
         }
         // ************************************************************************
         /// <summary>
@@ -2218,14 +2225,14 @@ namespace WizFCEdit
 
             if (FindString("Wizardry-Proving Grounds",idx)>0)
             {
-                m_scn = WIZSCN.S1;
+                m_scn = WIZSCN.FC1;
             }else if (FindString("Wizardry-Legacy of Llylgamyn", idx) > 0)
             {
-                m_scn = WIZSCN.S2;
+                m_scn = WIZSCN.FC2;
             }
             else if (FindString("GAME STUDIO Inc.", idx) > 0)
             {
-                m_scn = WIZSCN.S3;
+                m_scn = WIZSCN.FC3;
             }
             ret = (m_scn != WIZSCN.NO);
 
@@ -2257,7 +2264,7 @@ namespace WizFCEdit
             idx = FindString("YAJIMAK.CROSS", 0x1FE0);
             if(idx>0x1FE0)
             {
-                m_scn = WIZSCN.S1;
+                m_scn = WIZSCN.FC1;
                 m_FileMode = FILEMODE.SAVE;
                 ret = true;
             }
@@ -2267,7 +2274,7 @@ namespace WizFCEdit
                 idx = FindString("By Kei Cross08-10-88", 0x1F70);
                 if (idx > 0x1F70)
                 {
-                    m_scn = WIZSCN.S2;
+                    m_scn = WIZSCN.FC2;
                     m_FileMode = FILEMODE.SAVE;
                     ret = true;
                 }
@@ -2277,7 +2284,7 @@ namespace WizFCEdit
                     idx = FindString("Kei Cross06/10/89", 0x1F70);
                     if (idx > 0x1F70)
                     {
-                        m_scn = WIZSCN.S3;
+                        m_scn = WIZSCN.FC3;
                         m_FileMode = FILEMODE.SAVE;
                         ret = true;
                     }
@@ -2316,15 +2323,15 @@ namespace WizFCEdit
             switch (idx)
             {
                 case 0x3FF8:
-                    m_scn = WIZSCN.S1;
+                    m_scn = WIZSCN.FC1;
                     m_FileMode = FILEMODE.ROM;
                     break;
                 case 0x9033:
-                    m_scn = WIZSCN.S2;
+                    m_scn = WIZSCN.FC2;
                     m_FileMode = FILEMODE.ROM;
                     break;
                 case 0x9102:
-                    m_scn = WIZSCN.S3;
+                    m_scn = WIZSCN.FC3;
                     m_FileMode = FILEMODE.ROM;
                     break;
             }
@@ -2358,7 +2365,7 @@ namespace WizFCEdit
         public bool LoadFile(string p)
         {
             bool ret = false;
-            m_statePath = "";
+            m_DataPath = "";
             if (File.Exists(p) == false) return ret;
             FileStream fs = new FileStream(p, System.IO.FileMode.Open, FileAccess.Read);
             try
@@ -2390,7 +2397,7 @@ namespace WizFCEdit
             }
             else
             {
-                m_statePath = p;
+                m_DataPath = p;
                 OnLoadFileFinished(EventArgs.Empty);
             }
             //イベント
@@ -2409,7 +2416,7 @@ namespace WizFCEdit
 
             if(m_FileMode==FILEMODE.ROM)
             {
-                if(m_statePath == p)
+                if(m_DataPath == p)
                 {
                     MessageBox.Show("ROMモードの時は上書き禁止です。必ず別名保存してくださいA");
                     return ret;
@@ -2426,11 +2433,11 @@ namespace WizFCEdit
 
             if(m_FileMode==FILEMODE.SAVE)
             {
-                if(m_scn == WIZSCN.S1)
+                if(m_scn == WIZSCN.FC1)
                 {
                     ChecksumWiz1();
                 }
-                else if((m_scn== WIZSCN.S2)|| (m_scn == WIZSCN.S3))
+                else if((m_scn== WIZSCN.FC2)|| (m_scn == WIZSCN.FC3))
                 {
                     ChecksumWiz2();
                 }
@@ -2460,7 +2467,7 @@ namespace WizFCEdit
             }
             if(ret == true)
             {
-                m_statePath = p;
+                m_DataPath = p;
             }
 
             return ret;
@@ -2468,9 +2475,9 @@ namespace WizFCEdit
         // ************************************************************************
         public bool Save()
         {
-            if(m_statePath!="")
+            if(m_DataPath!="")
             {
-                return SaveFile(m_statePath);
+                return SaveFile(m_DataPath);
             }
             else
             {
@@ -2489,10 +2496,10 @@ namespace WizFCEdit
                  "|すべてのファイル(*.*)|*.*";
             dlg.Title = "保存先のファイルを選択してください";
             dlg.RestoreDirectory = true;
-            if (m_statePath!="")
+            if (m_DataPath!="")
             {
-                dlg.FileName = Path.GetFileName(m_statePath);
-                dlg.InitialDirectory = Path.GetDirectoryName(m_statePath);
+                dlg.FileName = Path.GetFileName(m_DataPath);
+                dlg.InitialDirectory = Path.GetDirectoryName(m_DataPath);
             }
 
             //ダイアログを表示する
@@ -2500,7 +2507,7 @@ namespace WizFCEdit
             {
                 if(m_FileMode==FILEMODE.ROM)
                 {
-                    if (dlg.FileName == m_statePath)
+                    if (dlg.FileName == m_DataPath)
                     {
                         MessageBox.Show("ROMモードの時は上書き禁止です。必ず別名保存してください");
                         return ret;
@@ -2514,10 +2521,10 @@ namespace WizFCEdit
         {
             bool ret = false;
             OpenFileDialog dlg = new OpenFileDialog();
-            if (m_statePath != "")
+            if (m_DataPath != "")
             {
-                dlg.FileName = Path.GetFileName(m_statePath);
-                dlg.InitialDirectory = Path.GetDirectoryName(m_statePath);
+                dlg.FileName = Path.GetFileName(m_DataPath);
+                dlg.InitialDirectory = Path.GetDirectoryName(m_DataPath);
             }
             else
             {
@@ -2539,17 +2546,17 @@ namespace WizFCEdit
         }
         public void Reload()
         {
-            if(m_statePath!="")
+            if(m_DataPath!="")
             {
-                LoadFile(m_statePath);
+                LoadFile(m_DataPath);
             }
         }
         public bool IsReload
         {
-            get { return (m_statePath != ""); }
+            get { return (m_DataPath != ""); }
         }
         // ************************************************************************
-        private WIZSCN m_res_scn = WIZSCN.S1;
+        private WIZSCN m_res_scn = WIZSCN.FC1;
         public WIZSCN RES_SCN
         {
             get { return m_res_scn; }
@@ -2569,17 +2576,17 @@ namespace WizFCEdit
         public bool ResLoad()
         {
             bool ret = false;
-            if (File.Exists( m_statePath) == true) return ret;
+            if (File.Exists( m_DataPath) == true) return ret;
             byte[] bs = null;
             switch(m_res_scn)
             {
-                case WIZSCN.S1:
+                case WIZSCN.FC1:
                     bs= Properties.Resources.Wizardry1;
                     break;
-                case WIZSCN.S2:
+                case WIZSCN.FC2:
                     bs = Properties.Resources.Wizardry2;
                     break;
-                case WIZSCN.S3:
+                case WIZSCN.FC3:
                     bs = Properties.Resources.Wizardry3;
                     break;
                 default:
@@ -2602,7 +2609,7 @@ namespace WizFCEdit
                 }
                 else
                 {
-                    m_statePath = "";
+                    m_DataPath = "";
                     OnLoadFileFinished(new EventArgs());
                 }
             }

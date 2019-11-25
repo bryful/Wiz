@@ -1,4 +1,4 @@
-﻿namespace WizFCEdit
+﻿namespace WizEdit
 {
     partial class WizForm
     {

@@ -1,4 +1,4 @@
-﻿namespace WizFCEdit
+﻿namespace WizEdit
 {
     partial class WizCharNameEdit
     {
@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnOK = new WizFCEdit.WizButton();
-            this.btnCancel = new WizFCEdit.WizButton();
-            this.btnClear = new WizFCEdit.WizButton();
-            this.btnBS = new WizFCEdit.WizButton();
+            this.btnOK = new WizEdit.WizButton();
+            this.btnCancel = new WizEdit.WizButton();
+            this.btnClear = new WizEdit.WizButton();
+            this.btnBS = new WizEdit.WizButton();
             this.SuspendLayout();
             // 
             // btnOK

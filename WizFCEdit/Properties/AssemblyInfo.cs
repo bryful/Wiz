@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
-[assembly: AssemblyTitle("WizFCEdit")]
-[assembly: AssemblyDescription("Wizardry (FC) State File Editor")]
+[assembly: AssemblyTitle("WizEdit")]
+[assembly: AssemblyDescription("Wizardry Editor")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("bry-ful")]
-[assembly: AssemblyProduct("WizFCEdit")]
+[assembly: AssemblyProduct("WizEdit")]
 [assembly: AssemblyCopyright("Copyright © bry-ful 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

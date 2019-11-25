@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WizFCEdit
+namespace WizEdit
 {
     public partial class WizCharNameEdit : Form
     {
@@ -47,7 +47,7 @@ namespace WizFCEdit
             }
         }
 
-        private WIZSCN m_scn = WIZSCN.S1;
+        private WIZSCN m_scn = WIZSCN.FC1;
         public WIZSCN SCN
         {
             get { return m_scn; }
@@ -108,7 +108,7 @@ namespace WizFCEdit
             int h = 0;
             int t = 0;
             int linc = 0;
-            if (m_scn== WIZSCN.S1)
+            if (m_scn== WIZSCN.FC1)
             {
                 linc = 10;
             }
@@ -169,8 +169,8 @@ namespace WizFCEdit
         // *******************************************************************
         private void NameChk()
         {
-            string s0 = WizFCString.CodeToString(m_scn, m_nameOrg.ToArray());
-            string s1 = WizFCString.CodeToString(m_scn, m_name.ToArray());
+            string s0 = WizString.CodeToString(m_scn, m_nameOrg.ToArray());
+            string s1 = WizString.CodeToString(m_scn, m_name.ToArray());
             this.Text = s0 + "/" + s1;
             bool ret = ((m_name.Count > 0) && (s0 != s1));
             if(ret)
@@ -196,9 +196,9 @@ namespace WizFCEdit
                 int x = 20;
                 int y = 20;
                 sb.Color = Color.White;
-                g.DrawString(WizFCString.CodeToString(m_scn, m_nameOrg.ToArray()),this.Font,sb, x, y);
+                g.DrawString(WizString.CodeToString(m_scn, m_nameOrg.ToArray()),this.Font,sb, x, y);
                 y += 25;
-                g.DrawString(WizFCString.CodeToString(m_scn, m_name.ToArray()), this.Font, sb, x, y);
+                g.DrawString(WizString.CodeToString(m_scn, m_name.ToArray()), this.Font, sb, x, y);
 
                 sb.Color = Color.White;
                 Rectangle rct = new Rectangle(0, 0, 0, 0);
@@ -206,9 +206,9 @@ namespace WizFCEdit
 
                 int target = 0;
 
-                if (m_scn==WIZSCN.S1)
+                if (m_scn==WIZSCN.FC1)
                 {
-                    target = WizFCString.Wiz1StringStart;
+                    target = WizString.Wiz1FCStringStart;
                     y = m_TopM;
                     for ( int j=0; j<0x10;j++)
                     {
@@ -216,20 +216,20 @@ namespace WizFCEdit
                         for (int i = 0; i < 0x10; i++)
                         {
                             rct = new Rectangle(x, y, m_MWidth, m_MHeight);
-                            g.DrawString(WizFCString.Wiz1Strings[target], this.Font, sb, rct, sf);
+                            g.DrawString(WizString.Wiz1FCStrings[target], this.Font, sb, rct, sf);
                             target++;
-                            if (target >= WizFCString.Wiz1StringSize) break;
+                            if (target >= WizString.Wiz1FCStringSize) break;
                             x += m_MWidth;
 
                         }
-                        if (target >= WizFCString.Wiz1StringSize) break;
+                        if (target >= WizString.Wiz1FCStringSize) break;
 
                         y += m_MHeight;
                     }
                 }
                 else
                 {
-                    target = WizFCString.Wiz2StringStart;
+                    target = WizString.Wiz2FCStringStart;
                     y = m_TopM;
                     for (int j = 0; j < 0x10; j++)
                     {
@@ -237,12 +237,12 @@ namespace WizFCEdit
                         for (int i = 0; i < 0x10; i++)
                         {
                             rct = new Rectangle(x, y, m_MWidth, m_MHeight);
-                            g.DrawString(WizFCString.Wiz2Strings[target], this.Font, sb, rct, sf);
+                            g.DrawString(WizString.Wiz2FCStrings[target], this.Font, sb, rct, sf);
                             target++;
-                            if (target >= WizFCString.Wiz2StringSize) break;
+                            if (target >= WizString.Wiz2FCStringSize) break;
                             x += m_MWidth;
                         }
-                        if (target >= WizFCString.Wiz2StringSize) break;
+                        if (target >= WizString.Wiz2FCStringSize) break;
                         y += m_MHeight;
                     }
                 }
@@ -273,7 +273,7 @@ namespace WizFCEdit
             int x = (e.X - m_LeftM) / m_MWidth;
             int y = (e.Y - m_TopM) / m_MHeight;
             int lc = 0;
-            if(m_scn== WIZSCN.S1)
+            if(m_scn== WIZSCN.FC1)
             {
                 lc = 10;
             }
@@ -284,9 +284,9 @@ namespace WizFCEdit
             if ((x >= 0) && (x < 0x10) && (y >= 0) && (y < lc))
             {
                 int idx = x + y * 0x10;
-                if (m_scn != WIZSCN.S1)
+                if (m_scn != WIZSCN.FC1)
                 {
-                    idx += WizFCString.Wiz2StringStart;
+                    idx += WizString.Wiz2FCStringStart;
                 }
                 if(m_name.Count<8)
                 {

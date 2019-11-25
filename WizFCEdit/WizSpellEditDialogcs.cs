@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WizFCEdit
+namespace WizEdit
 {
     public partial class WizSpellEditDialogcs : Form
     {
@@ -29,7 +29,7 @@ namespace WizFCEdit
             this.StartPosition = FormStartPosition.CenterParent;
         }
 
-        public bool EditShowDialog(WizFCState state)
+        public bool EditShowDialog(WizData state)
         {
             bool ret = false;
             if (state == null) return ret;
