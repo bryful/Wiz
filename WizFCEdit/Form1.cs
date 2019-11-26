@@ -266,5 +266,14 @@ namespace WizEdit
                 wizPictureBox1.PicureFolderPath = fbd.SelectedPath;
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            StringUtilsForm dlg = new StringUtilsForm();
+            if (dlg.ShowDialog()==DialogResult.OK)
+            {
+
+            }
+        }
     }
 }

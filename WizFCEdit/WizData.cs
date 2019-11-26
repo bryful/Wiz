@@ -22,9 +22,10 @@ namespace WizEdit
         SFC1 = 4,
         SFC2 = 8,
         SFC3 = 12,
-        GBC1 = 16,
-        GBC2 = 32,
-        GBC3 = 48
+        SFC5 = 16,
+        GBC1 = 32,
+        GBC2 = 64,
+        GBC3 = 96
 
     }
 

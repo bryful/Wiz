@@ -68,6 +68,7 @@
             this.leLevel = new WizEdit.WizLongEdit();
             this.wizItemSelect1 = new WizEdit.WizItemSelect();
             this.wizMPList1 = new WizEdit.WizMPList();
+            this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -610,6 +611,16 @@
             this.wizMPList1.Text = "wizMPList1";
             this.wizMPList1.WizNesState = this.wizNesState1;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(610, 44);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 25;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -618,9 +629,9 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Black;
             this.BottomMgn = 15;
-            this.Caption = "Wizardry (FC) Editor";
             this.CaptionWidth = 320;
             this.ClientSize = new System.Drawing.Size(716, 572);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.wizMPList1);
             this.Controls.Add(this.wizItemSelect1);
             this.Controls.Add(this.leLevel);
@@ -728,6 +739,7 @@
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pctureFolderToolStripMenuItem;
+        private System.Windows.Forms.Button button1;
     }
 }
 

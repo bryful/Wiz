@@ -113,6 +113,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="StringUtilsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StringUtilsForm.Designer.cs">
+      <DependentUpon>StringUtilsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="WindowsShellAPI.cs" />
     <Compile Include="WizButton.cs">
       <SubType>Component</SubType>
@@ -205,6 +211,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StringUtilsForm.resx">
+      <DependentUpon>StringUtilsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WizForm.resx">
       <DependentUpon>WizForm.cs</DependentUpon>
