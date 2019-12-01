@@ -69,6 +69,7 @@
             this.wizItemSelect1 = new WizEdit.WizItemSelect();
             this.wizMPList1 = new WizEdit.WizMPList();
             this.button1 = new System.Windows.Forms.Button();
+            this.wizScnComb1 = new WizEdit.WizScnComb();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -288,9 +289,9 @@
             this.btnSetting.Font = new System.Drawing.Font("ＭＳ ゴシック", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.btnSetting.ForeColor = System.Drawing.Color.White;
             this.btnSetting.IsDrawWaku = true;
-            this.btnSetting.Location = new System.Drawing.Point(593, 505);
+            this.btnSetting.Location = new System.Drawing.Point(607, 61);
             this.btnSetting.Name = "btnSetting";
-            this.btnSetting.Size = new System.Drawing.Size(78, 32);
+            this.btnSetting.Size = new System.Drawing.Size(70, 24);
             this.btnSetting.TabIndex = 24;
             this.btnSetting.Text = "Setting";
             this.btnSetting.UseVisualStyleBackColor = false;
@@ -613,13 +614,25 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(610, 44);
+            this.button1.Location = new System.Drawing.Point(596, 512);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 25;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // wizScnComb1
+            // 
+            this.wizScnComb1.BackColor = System.Drawing.Color.Black;
+            this.wizScnComb1.Font = new System.Drawing.Font("MS UI Gothic", 8F);
+            this.wizScnComb1.ForeColor = System.Drawing.Color.White;
+            this.wizScnComb1.Location = new System.Drawing.Point(79, 68);
+            this.wizScnComb1.Name = "wizScnComb1";
+            this.wizScnComb1.Size = new System.Drawing.Size(106, 17);
+            this.wizScnComb1.TabIndex = 26;
+            this.wizScnComb1.Text = "wizScnComb1";
+            this.wizScnComb1.WIZSCN = WizEdit.WIZSCN.SFC3;
             // 
             // Form1
             // 
@@ -631,6 +644,7 @@
             this.BottomMgn = 15;
             this.CaptionWidth = 320;
             this.ClientSize = new System.Drawing.Size(716, 572);
+            this.Controls.Add(this.wizScnComb1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.wizMPList1);
             this.Controls.Add(this.wizItemSelect1);
@@ -673,8 +687,8 @@
             this.WizCharClass = this.wizCharClass1;
             this.WizCharList = this.wizCharList1;
             this.WizCharName = this.wizCharName1;
+            this.WizData = this.wizNesState1;
             this.WizEP = this.leExp;
-            this.WizFCState = this.wizNesState1;
             this.WizGold = this.leGold;
             this.WizHP = this.leHP;
             this.WizHPMax = this.leHPMax;
@@ -740,6 +754,7 @@
         private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pctureFolderToolStripMenuItem;
         private System.Windows.Forms.Button button1;
+        private WizScnComb wizScnComb1;
     }
 }
 

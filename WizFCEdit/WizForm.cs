@@ -80,10 +80,28 @@ namespace WizEdit
 
 
         private WizData m_state = null;
-        public WizData WizFCState
+        public WizData WizData
         {
             get { return m_state; }
-            set { m_state = value; }
+            set
+            {
+                m_state = value;
+                if (m_state!=null)
+                {
+                    m_state.LoadFileFinished += M_state_LoadFileFinished;
+
+                }
+            }
+        }
+
+        private void M_state_LoadFileFinished(object sender, EventArgs e)
+        {
+            if(m_state!=null)
+            {
+                m_Caption = m_state.ScenarioTitle;
+                this.Invalidate();
+            }
+
         }
 
         #region List

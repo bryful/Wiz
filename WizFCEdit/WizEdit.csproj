@@ -73,7 +73,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>WizFCStatED.ico</ApplicationIcon>
+    <ApplicationIcon>APP_util\WizFCStatED.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
@@ -147,12 +147,14 @@
     <Compile Include="WizComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="WizConst.cs" />
     <Compile Include="WizForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="WizForm.Designer.cs">
       <DependentUpon>WizForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="WizIO.cs" />
     <Compile Include="WizItem.cs" />
     <Compile Include="WizItemList.cs">
       <SubType>Component</SubType>
@@ -174,6 +176,9 @@
       <DependentUpon>WizCharNameEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="WizData.cs" />
+    <Compile Include="WizScnComb.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WizString.cs" />
     <Compile Include="WizMPEdit.cs">
       <SubType>Component</SubType>
@@ -245,7 +250,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="WizFCStatED.ico" />
+    <Content Include="APP_util\WizFCStatED.ico" />
     <None Include="Resources\_None.png" />
     <None Include="Resources\BIS.png" />
     <None Include="Resources\FIG.png" />

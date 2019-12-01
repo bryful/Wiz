@@ -887,6 +887,144 @@ namespace WizEdit
 "ナックルブレード",
 "大盗賊のナイフ"
 };
+        private readonly string[] m_WizSFCItemNames5 = new string[]{
+"ガラクタ",
+"松明",
+"ランプ",
+"ゴムのアヒル",
+"短刀",
+"杖",
+"ショートソード",
+"ロングソード",
+"メイス",
+"ハンドアックス",
+"長槍",
+"ウォーハンマー",
+"ホーリーバッシャー",
+"戦士の弓",
+"盗賊の弓",
+"ローブ",
+"革鎧",
+"鎖帷子",
+"足軽の鎧",
+"プレートメイル",
+"丸盾",
+"ヒーターシールド",
+"革の兜",
+"革の篭手",
+"ロバーズソード",
+"ナイトソード",
+"ブラックブレード",
+"刀",
+"バトルアックス",
+"モーニングスター",
+"病めるフレイル",
+"ハルバード",
+"クロスボウ",
+"硬い革鎧",
+"光る鎖帷子",
+"武士の鎧",
+"ナイトプレート",
+"白銀の鎧",
+"硬い丸盾",
+"ナイトシールド",
+"紋章の盾",
+"真鍮の兜",
+"鉄の篭手",
+"ヴァンブレイス",
+"マスターソード",
+"ロビンソード",
+"ファイアーソード",
+"達人の刀",
+"ソウルスティーラー",
+"シルバーアックス",
+"デスアックス",
+"聖なるフレイル",
+"ファウストハルバード",
+"シルバーハンマー",
+"魔法使いの弓",
+"ヘビィクロスボウ",
+"豪華な革鎧",
+"銀の鎖帷子",
+"達人の鎧",
+"マスタープレート",
+"スカーレットローブ",
+"エメラルドローブ",
+"タワーシールド",
+"鋼の兜",
+"炎の尖り帽子",
+"銀の篭手",
+"ナイトヴァンブレイス",
+"カシナートの剣",
+"守りの鎧",
+"魔封じの盾",
+"宝石のアーメット",
+"魔法の頭巾",
+"ミルダールの篭手",
+"山羊座のマント",
+"森の精の弓",
+"村正",
+"オーディンソード",
+"金色の鎧",
+"魔法使いの指輪",
+"髑髏の指輪",
+"全快の指輪",
+"翡翠の指輪",
+"孤独の指輪",
+"奇跡のアンク",
+"力のアンク",
+"命のアンク",
+"知恵のアンク",
+"祈りのアンク",
+"若さのアンク",
+"召喚の杖",
+"死神の杖",
+"眠りの巻物",
+"石の巻物",
+"炎の巻物",
+"召喚の巻物",
+"傷薬",
+"惚れ薬",
+"毒消し",
+"気付け薬",
+"劇薬",
+"特効薬",
+"ダイヤのキング",
+"ハートのクイーン",
+"スペードのジャック",
+"クラブのエース",
+"猿のワンド",
+"稲妻の杖",
+"絡繰ヒバリ",
+"水の杖",
+"炎の杖",
+"空気の杖",
+"大地の杖",
+"聖水",
+"金のメダリオン",
+"氷の鍵",
+"半券",
+"チケット",
+"骸骨の鍵",
+"懐中時計",
+"バッテリー",
+"石化した悪魔",
+"金の鍵",
+"青いロウソク",
+"宝石の笏",
+"除霊の秘薬",
+"金鋸",
+"ラム酒",
+"銀の鍵",
+"トークンの入った袋",
+"真鍮の鍵",
+"リルガミンの宝珠",
+"アブリエルの",
+"聖なるタリスマン",
+"虹の魔除け",
+"霧の魔除け",
+"炎の魔除け"
+};
 
 
         public StringUtilsForm()
@@ -950,6 +1088,53 @@ namespace WizEdit
             }
             s += "};";
 
+            textBox1.Text = s;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            string s = "string[] m_WizSFCItemNames5 = new string[]{\r\n";
+
+            for (int i = 0; i < m_WizSFCItemNames5.Length; i++)
+            {
+                string ss = String.Format("/*{0:X2}*/\"{0:X2}:{1}\",\r\n", i, m_WizSFCItemNames5[i]);
+
+                s += ss;
+            }
+            s += "};";
+
+            textBox1.Text = s;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+
+            byte[] Wiz5SFCNoneName = WizString.StringToCode(WIZSCN.SFC5, WizString.NoneName);
+            string s = "";
+
+            for ( int i=0; i< Wiz5SFCNoneName.Length; i++)
+            {
+                if (s != "") s += ",";
+                s += String.Format("0x{0:X2}", Wiz5SFCNoneName[i]);
+            }
+
+            s = "static public readonly byte[] Wiz5SFCNoneName = new byte[] {" + s + "};//-- NONE --";
+            textBox1.Text = s;
+
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            byte[] a = WizString.StringToCode(WIZSCN.GBC1, WizString.NoneName);
+            string s = "";
+
+            for (int i = 0; i < a.Length; i++)
+            {
+                if (s != "") s += ",";
+                s += String.Format("0x{0:X2}", a[i]);
+            }
+
+            s = "static public readonly byte[] WizGBCNoneName = new byte[] {" + s + "};//-- NONE --";
             textBox1.Text = s;
         }
     }

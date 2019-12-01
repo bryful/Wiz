@@ -192,42 +192,42 @@ namespace WizEdit
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(WizFCState!=null)
+            if(WizData!=null)
             {
-                if (WizFCState.LoadFile()==true)
+                if (WizData.LoadFile()==true)
                 {
-                    this.Text = WizFCState.DataPath;
+                    this.Text = WizData.DataPath;
                 }
             }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (WizFCState != null)
+            if (WizData != null)
             {
-                if (WizFCState.FileMode==FILEMODE.ROM)
+                if (WizData.FileMode==WIZFILE.ROM)
                 {
-                    if(File.Exists(WizFCState.DataPath)==true)
+                    if(File.Exists(WizData.DataPath)==true)
                     {
                         MessageBox.Show("ROMモードの時は上書き禁止です。必ず別名保存してくださいC");
                         return;
                     }
                 }
 
-                if (WizFCState.Save())
+                if (WizData.Save())
                 {
-                    this.Text = WizFCState.DataPath;
+                    this.Text = WizData.DataPath;
                 }
             }
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (WizFCState != null)
+            if (WizData != null)
             {
-                if (WizFCState.SaveAs())
+                if (WizData.SaveAs())
                 {
-                    this.Text = WizFCState.DataPath;
+                    this.Text = WizData.DataPath;
                 }
             }
         }
@@ -239,11 +239,11 @@ namespace WizEdit
 
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (WizFCState != null)
+            if (WizData != null)
             {
-                if(WizFCState.DataPath!="")
+                if(WizData.DataPath!="")
                 {
-                    WizFCState.Reload();
+                    WizData.Reload();
                 }
             }
         }

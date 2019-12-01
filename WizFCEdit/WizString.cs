@@ -19,7 +19,12 @@ namespace WizEdit
         public const int WizGBCStringStart = 0x00;
 
         static public readonly string NoneName = "-- NONE --";
-        static public readonly byte[] Wiz1FCNoneName = new byte[]{0x35, 0x35,0x24, 0x17,0x18,0x17,0x0E, 0x24, 0x35, 0x35 };//-- NONE --
+       // static public readonly string NoneName = "－－　ＮＯＮＥ　－－";
+
+        static public readonly byte[] Wiz1FCNoneName = new byte[] { 0x35, 0x35, 0x24, 0x17, 0x18,0x17, 0x0E,  0x24, 0x35, 0x35 };//-- NONE --
+        static public readonly byte[] Wiz2FCNoneName = new byte[] { 0x2D, 0x2D, 0x20, 0x4E, 0x4F, 0x4E, 0x45, 0x20, 0x2D, 0x2D };//-- NONE --
+        static public readonly byte[] WizGBCNoneName = new byte[] { 0x2D, 0x2D, 0x00, 0x4E, 0x4F, 0x4E, 0x45, 0x00, 0x2D, 0x2D };//-- NONE --
+        static public readonly byte[] WizSFCNoneName = new byte[] { 0x2D, 0x2D, 0x20, 0x4E, 0x4F, 0x4E, 0x45, 0x20, 0x2D, 0x2D };//-- NONE --
 
         static public readonly string[] Wiz1FCStrings = new string[]{
       /*00*/"０",/*01*/"１",/*02*/"２",/*03*/"３",/*04*/"４",/*05*/"５",/*06*/"６",/*07*/"７",/*08*/"８",/*09*/"９",/*0A*/"Ａ",/*0B*/"Ｂ",/*0C*/"Ｃ",/*0D*/"Ｄ",/*0E*/"Ｅ",/*0F*/"Ｆ",
@@ -39,7 +44,7 @@ namespace WizEdit
       /*E0*/"□",/*E1*/"□",/*E2*/"□",/*E3*/"□",/*E4*/"□",/*E5*/"□",/*E6*/"□",/*E7*/"□",/*E8*/"□",/*E9*/"□",/*EA*/"□",/*EB*/"□",/*EC*/"□",/*ED*/"□",/*EE*/"□",/*EF*/"□",
       /*F0*/"□",/*F1*/"□",/*F2*/"□",/*F3*/"□",/*F4*/"□",/*F5*/"□",/*F6*/"□",/*F7*/"□",/*F8*/"□",/*F9*/"□",/*FA*/"□",/*FB*/"□",/*FC*/"□",/*FD*/"□",/*FE*/"□",/*FF*/"□"
         };
-        static public readonly byte[] Wiz2FCNoneName = new byte[] { 0x2D, 0x2D, 0x20, 0x4E, 0x4F, 0x4E, 0x45, 0x20, 0x2D, 0x2D };//-- NONE --
+
         static public readonly string[] Wiz2FCStrings = new[]{
       /*00*/"□",/*01*/"□",/*02*/"□",/*03*/"□",/*04*/"□",/*05*/"□",/*06*/"□",/*07*/"□",/*08*/"□",/*09*/"□",/*0A*/"□",/*0B*/"□",/*0C*/"□",/*0D*/"□",/*0E*/"□",/*0F*/"□",
       /*10*/"□",/*11*/"□",/*12*/"□",/*13*/"□",/*14*/"□",/*15*/"□",/*16*/"□",/*17*/"□",/*18*/"□",/*19*/"□",/*1A*/"□",/*1B*/"□",/*1C*/"□",/*1D*/"□",/*1E*/"□",/*1F*/"□",
@@ -58,6 +63,7 @@ namespace WizEdit
       /*E0*/"た",/*E1*/"ち",/*E2*/"つ",/*E3*/"て",/*E4*/"と",/*E5*/"な",/*E6*/"に",/*E7*/"ぬ",/*E8*/"ね",/*E9*/"の",/*EA*/"は",/*EB*/"ひ",/*EC*/"ふ",/*ED*/"へ",/*EE*/"ほ",/*EF*/"ま",
       /*F0*/"み",/*F1*/"む",/*F2*/"め",/*F3*/"も",/*F4*/"や",/*F5*/"ゆ",/*F6*/"よ",/*F7*/"ら",/*F8*/"り",/*F9*/"る",/*FA*/"れ",/*FB*/"ろ",/*FC*/"わ",/*FD*/"ん",/*FE*/"゛",/*FF*/"゜"
       };
+
 
         static public readonly string[] WizGBCStrings = new string[]{
         /*00*/"　",/*01*/"ぇ",/*02*/"え",/*03*/"ぉ",/*04*/"お",/*05*/"か",/*06*/"が",/*07*/"き",/*08*/"ぎ",/*09*/"く",/*0A*/"ぐ",/*0B*/"け",/*0C*/"げ",/*0D*/"こ",/*0E*/"ご",/*0F*/"さ",
@@ -112,7 +118,7 @@ namespace WizEdit
                         break;
                     case WIZSCN.FC2:
                     case WIZSCN.FC3:
-                        ret = Wiz1FCStrings[(int)value];
+                        ret = Wiz2FCStrings[(int)value];
                         break;
                     case WIZSCN.SFC1:
                     case WIZSCN.SFC2:
@@ -123,7 +129,7 @@ namespace WizEdit
                     case WIZSCN.GBC1:
                     case WIZSCN.GBC2:
                     case WIZSCN.GBC3:
-                        ret = WizSFCStrings[(int)value];
+                        ret = WizGBCStrings[(int)value];
                         break;
                 }
             }
