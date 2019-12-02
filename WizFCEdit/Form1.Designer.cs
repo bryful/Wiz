@@ -627,12 +627,13 @@
             this.wizScnComb1.BackColor = System.Drawing.Color.Black;
             this.wizScnComb1.Font = new System.Drawing.Font("MS UI Gothic", 8F);
             this.wizScnComb1.ForeColor = System.Drawing.Color.White;
-            this.wizScnComb1.Location = new System.Drawing.Point(79, 68);
+            this.wizScnComb1.Location = new System.Drawing.Point(77, 62);
             this.wizScnComb1.Name = "wizScnComb1";
             this.wizScnComb1.Size = new System.Drawing.Size(106, 17);
             this.wizScnComb1.TabIndex = 26;
             this.wizScnComb1.Text = "wizScnComb1";
-            this.wizScnComb1.WIZSCN = WizEdit.WIZSCN.SFC3;
+            this.wizScnComb1.WizData = this.wizNesState1;
+            this.wizScnComb1.WIZSCN = WizEdit.WIZSCN.FC1;
             // 
             // Form1
             // 

@@ -92,6 +92,12 @@ namespace WizEdit
                         return m_WizFCItemNames3[m_ID];
                     case WIZSCN.SFC5:
                         return m_WizSFCItemNames5[m_ID];
+                    case WIZSCN.GBC1:
+                        return m_WizGBCItemNames1[m_ID];
+                    case WIZSCN.GBC2:
+                        return m_WizGBCItemNames2[m_ID];
+                    case WIZSCN.GBC3:
+                        return m_WizGBCItemNames3[m_ID];
                     default:
                         return "";
                 }
@@ -132,6 +138,12 @@ namespace WizEdit
                         return m_WizFCItemNames3;
                     case WIZSCN.SFC5:
                         return m_WizSFCItemNames5;
+                    case WIZSCN.GBC1:
+                        return m_WizGBCItemNames1;
+                    case WIZSCN.GBC2:
+                        return m_WizGBCItemNames2;
+                    case WIZSCN.GBC3:
+                        return m_WizGBCItemNames3;
                     default:
                         return new string[0];
                 }
@@ -155,6 +167,12 @@ namespace WizEdit
                         return m_WizFCItemNames3.Length;
                     case WIZSCN.SFC5:
                         return m_WizSFCItemNames5.Length;
+                    case WIZSCN.GBC1:
+                        return m_WizGBCItemNames1.Length;
+                    case WIZSCN.GBC2:
+                        return m_WizGBCItemNames2.Length;
+                    case WIZSCN.GBC3:
+                        return m_WizGBCItemNames2.Length;
                     default:
                         return 0;
                 }

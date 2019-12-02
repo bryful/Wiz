@@ -26,7 +26,22 @@ namespace WizEdit
                 this.Invalidate();
             }
         }
+        // ******************************************************************************
+        private bool GetDesignMode(Control control)
+        {
+            if (control == null) return false;
 
+            bool mode = control.Site == null ? false : control.Site.DesignMode;
+
+            return mode | GetDesignMode(control.Parent);
+        }
+        public new bool DesignMode
+        {
+            get
+            {
+                return GetDesignMode(this);
+            }
+        }
         // ******************************************************************************
         private WizData m_WizData = null;
         public WizData WizData
@@ -37,6 +52,8 @@ namespace WizEdit
                 m_WizData = value;
                 if(m_WizData != null)
                 {
+                    m_scn = m_WizData.SCN;
+                    ChkEnabled();
                     m_WizData.LoadFileFinished += M_WizData_LoadFileFinished;
                 }
             }
@@ -45,17 +62,27 @@ namespace WizEdit
         // ******************************************************************************
         private void M_WizData_LoadFileFinished(object sender, EventArgs e)
         {
+            ChkEnabled();
+        }
+        // ******************************************************************************
+        private void ChkEnabled()
+        {
             if (m_WizData == null) return;
-            if ( (m_WizData.SCN==WIZSCN.SFC1)|| (m_WizData.SCN == WIZSCN.SFC2)|| (m_WizData.SCN == WIZSCN.SFC3))
+            m_scn = m_WizData.SCN;
+            if ((m_WizData.SCN == WIZSCN.SFC1) || (m_WizData.SCN == WIZSCN.SFC2) || (m_WizData.SCN == WIZSCN.SFC3))
             {
                 this.Visible = true;
             }
             else
             {
-                this.Visible = false;
+                if (DesignMode == false)
+                {
+                    this.Visible = false;
+                }
             }
-        }
+            this.Invalidate();
 
+        }
         private int XArea1 = 0;
         private int XArea2 = 0;
         // ******************************************************************************
@@ -88,17 +115,19 @@ namespace WizEdit
         {
             //base.OnPaint(e);
 
-            if ( (m_scn==WIZSCN.SFC1)|| (m_scn == WIZSCN.SFC2)|| (m_scn == WIZSCN.SFC3))
+  
+            SolidBrush sb = new SolidBrush(this.BackColor);
+            Pen pn = new Pen(this.ForeColor);
+            StringFormat sf = new StringFormat();
+            sf.Alignment = StringAlignment.Center;
+            sf.LineAlignment = StringAlignment.Center;
+            try
             {
-                SolidBrush sb = new SolidBrush(this.BackColor);
-                Pen pn = new Pen(this.ForeColor);
-                StringFormat sf = new StringFormat();
-                sf.Alignment = StringAlignment.Center;
-                sf.LineAlignment = StringAlignment.Center;
-                try
+                Graphics g = e.Graphics;
+                g.FillRectangle(sb, this.ClientRectangle);
+
+                if ((m_scn == WIZSCN.SFC1) || (m_scn == WIZSCN.SFC2) || (m_scn == WIZSCN.SFC3))
                 {
-                    Graphics g = e.Graphics;
-                    g.FillRectangle(sb, this.ClientRectangle);
                     g.DrawRectangle(pn, new Rectangle(0, 0, this.ClientSize.Width - 1, this.ClientSize.Height - 1));
 
                     Rectangle rct = new Rectangle(0, 0, XArea1, this.Height);
@@ -144,20 +173,15 @@ namespace WizEdit
                         g.DrawString(s, this.Font, sb, rct, sf);
                     }
 
-
-
-
                 }
-                finally
-                {
-                    sb.Dispose();
-                }
+
 
             }
-            else
+            finally
             {
-
+                sb.Dispose();
             }
+
 
         }
         // ******************************************************************************

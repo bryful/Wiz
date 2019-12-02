@@ -315,7 +315,17 @@ namespace WizEdit
         // ************************************************************************
         public int CharAdr(int index)
         {
-            return m_OffsetAdr + CharSize * index;
+            if(m_scn==WIZSCN.SFC2)
+            {
+                return m_OffsetAdr2 + CharSize * index;
+            }else if (m_scn == WIZSCN.SFC3)
+            {
+                return m_OffsetAdr3 + CharSize * index;
+            }
+            else
+            {
+                return m_OffsetAdr + CharSize * index;
+            }
         }
         // ************************************************************************
         public byte[] CharNameCodeFromIndex(int index)
