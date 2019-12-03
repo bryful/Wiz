@@ -47,9 +47,9 @@
             this.wizSpellList1.LineWidth = 3;
             this.wizSpellList1.Location = new System.Drawing.Point(12, 12);
             this.wizSpellList1.Name = "wizSpellList1";
-            this.wizSpellList1.SCN = WizEdit.WIZSCN.FC1;
+            this.wizSpellList1.SCN = WizEdit.WIZSCN.FC2;
             this.wizSpellList1.SideMargin = 5;
-            this.wizSpellList1.Size = new System.Drawing.Size(731, 295);
+            this.wizSpellList1.Size = new System.Drawing.Size(759, 331);
             this.wizSpellList1.Spell = new byte[] {
         ((byte)(0)),
         ((byte)(0)),
@@ -72,7 +72,7 @@
             this.btnOK.Font = new System.Drawing.Font("MS UI Gothic", 9F);
             this.btnOK.ForeColor = System.Drawing.Color.White;
             this.btnOK.IsDrawWaku = true;
-            this.btnOK.Location = new System.Drawing.Point(597, 322);
+            this.btnOK.Location = new System.Drawing.Point(624, 360);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(130, 40);
             this.btnOK.TabIndex = 1;
@@ -87,7 +87,7 @@
             this.btnCancel.Font = new System.Drawing.Font("MS UI Gothic", 9F);
             this.btnCancel.ForeColor = System.Drawing.Color.White;
             this.btnCancel.IsDrawWaku = true;
-            this.btnCancel.Location = new System.Drawing.Point(461, 322);
+            this.btnCancel.Location = new System.Drawing.Point(488, 360);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(130, 40);
             this.btnCancel.TabIndex = 2;
@@ -101,7 +101,7 @@
             this.btnGetAll.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.btnGetAll.ForeColor = System.Drawing.Color.White;
             this.btnGetAll.IsDrawWaku = true;
-            this.btnGetAll.Location = new System.Drawing.Point(22, 322);
+            this.btnGetAll.Location = new System.Drawing.Point(22, 360);
             this.btnGetAll.Name = "btnGetAll";
             this.btnGetAll.Size = new System.Drawing.Size(83, 29);
             this.btnGetAll.TabIndex = 3;
@@ -116,7 +116,7 @@
             this.btnForgetAll.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.btnForgetAll.ForeColor = System.Drawing.Color.White;
             this.btnForgetAll.IsDrawWaku = true;
-            this.btnForgetAll.Location = new System.Drawing.Point(111, 322);
+            this.btnForgetAll.Location = new System.Drawing.Point(111, 360);
             this.btnForgetAll.Name = "btnForgetAll";
             this.btnForgetAll.Size = new System.Drawing.Size(83, 29);
             this.btnForgetAll.TabIndex = 4;
@@ -131,7 +131,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(758, 407);
+            this.ClientSize = new System.Drawing.Size(783, 419);
             this.Controls.Add(this.btnForgetAll);
             this.Controls.Add(this.btnGetAll);
             this.Controls.Add(this.btnCancel);
