@@ -324,7 +324,34 @@ namespace WizEdit
                     m_OffserAdr = idx + 4 + 0x0409;
                 }
 
-            } 
+            }
+            // John gbc 47 62 53 73 GbSs
+            else if ((m_Data[0] == 0x47) && (m_Data[1] == 0x62) && (m_Data[2] == 0x53) && (m_Data[3] == 0x73))
+            {
+                int idx = m_Data[0x0D02B];
+                if (idx <= 0) idx = m_Data[0x0D02C + 0x6B];
+                if (idx <= 0) idx = m_Data[0x0D02C + 0x6B *2];
+                switch (idx)
+                {
+                    case 1:
+                        m_scn = WIZSCN.GBC1;
+                        m_WizFile = WIZFILE.STATE;
+                        m_OffserAdr = 0x0D02B;
+                        break;
+                    case 3:
+                        m_scn = WIZSCN.GBC2;
+                        m_WizFile = WIZFILE.STATE;
+                        m_OffserAdr = 0x0D02B;
+                        break;
+                    case 2:
+                        m_scn = WIZSCN.GBC3;
+                        m_WizFile = WIZFILE.STATE;
+                        m_OffserAdr = 0x0D02B;
+                        break;
+
+                }
+
+            }
             // Wiz123 sfc rom 容量から識別
             else if (m_Data.Length >= 0x400000)
             {
@@ -427,18 +454,22 @@ namespace WizEdit
                     m_WizFile = WIZFILE.SAVE;
                     m_scn = WIZSCN.FC2;
                     m_OffserAdr = 0x0400;
+                    m_OffserAdr2 = 0x1800;
                 }
                 else if (FindString("Kei Cross06/10/89", 0) >= 0)
                 {
                     m_WizFile = WIZFILE.SAVE;
                     m_scn = WIZSCN.FC3;
                     m_OffserAdr = 0x0400;
+                    m_OffserAdr2 = 0x1800;
                 }
                 else if (FindString("04/22/92 Kei Cross Presents", 0) >= 0)
                 {
                     m_WizFile = WIZFILE.SAVE;
                     m_scn = WIZSCN.SFC5;
                     m_OffserAdr = 0x0000;
+                    m_OffserAdr = 0x0A00;
+
                 }
             }
             ret = (m_scn != WIZSCN.NO);

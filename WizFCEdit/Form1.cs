@@ -31,6 +31,12 @@ namespace WizEdit
 
             this.KeyPreview = true;
             this.Text = TTitle;
+
+#if DEBUG
+            btnStringU.Visible = true;
+#else
+            btnStringU.Visible = false;
+#endif
         }
 
 

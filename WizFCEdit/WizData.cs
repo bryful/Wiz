@@ -2801,21 +2801,25 @@ namespace WizEdit
 
             if(m_WizFile==WIZFILE.SAVE)
             {
-                if(m_scn == WIZSCN.FC1)
+                switch (m_scn)
                 {
-                    ChecksumWiz1();
+                    case WIZSCN.FC1:
+                        ChecksumWiz1FC();
+                        break;
+                    case WIZSCN.FC2:
+                    case WIZSCN.FC3:
+                    case WIZSCN.SFC5:
+                    case WIZSCN.GBC1:
+                    case WIZSCN.GBC2:
+                    case WIZSCN.GBC3:
+                        ChecksumWiz();
+                        break;
+                    case WIZSCN.SFC1:
+                    case WIZSCN.SFC2:
+                    case WIZSCN.SFC3:
+                        ChecksumWiz123SFC();
+                        break;
                 }
-                else if((m_scn== WIZSCN.FC2)|| (m_scn == WIZSCN.FC3))
-                {
-                    ChecksumWiz2();
-                }
-                else
-                {
-                    return false;
-                }
-            }else if (m_WizFile == WIZFILE.ROM)
-            {
-                ChecksumROM();
             }
 
 
@@ -3031,32 +3035,60 @@ namespace WizEdit
         }
         #endregion
         // ************************************************************************
-        private void ChecksumWiz2()
+        private byte[] ChecksumSub(int adr, int sz)
         {
-            int chrSz = 0x60;
+            byte[] ret = new byte[0];
+
+            ushort crc = CRC16.Calc(m_Data, adr, sz, 0xFFFF);
+            if (crc != 0)
+            {
+                crc = CRC16.Calc(m_Data, adr, sz - 2, 0xFFFF);
+                byte v0 = (byte)((crc >> 8) & 0xFF);
+                byte v1 = (byte)(crc & 0xFF);
+                m_Data[adr + sz - 2] = v0;
+                m_Data[adr + sz - 1] = v1;
+                ret = new byte[2];
+                ret[0] = v0;
+                ret[1] = v1;
+            }
+            return ret;
+        }
+        // ************************************************************************
+        private void ChecksumWiz()
+        {
+            if ((m_scn == WIZSCN.FC1) || (m_scn == WIZSCN.SFC1) || (m_scn == WIZSCN.SFC2) || (m_scn == WIZSCN.SFC3)) return;
+            int chrSz = CharSize;
             for ( int i=0;i<CharCount;i++)
             {
                 int adr = CharAdr(i);
-                byte[] a = GetCode(adr, chrSz);
-                if (a[0] != 0)
+                ChecksumSub(adr, chrSz);
+            }
+            byte [] bb = GetCode(m_OffsetAdr, chrSz* CharCount);
+            SetCode(m_OffsetAdr2, bb);
+        }      
+        // ************************************************************************
+        private void ChecksumWiz123SFC()
+        {
+            if((m_scn==WIZSCN.SFC1)|| (m_scn == WIZSCN.SFC2)|| (m_scn == WIZSCN.SFC3)){
+                int chrSz = CharSize;
+                for (int i = 0; i < CharCount; i++)
                 {
-                    ushort crc = CRC16.Calc(a, (ushort)a.Length, 0xFFFF);
-                    if (crc != 0)
-                    {
-                        crc = CRC16.Calc(a, (ushort)(a.Length - 2), 0xFFFF);
-                        a[chrSz - 2] = (byte)((crc >> 8) & 0xFF);
-                        a[chrSz - 1] = (byte)(crc & 0xFF);
-                        m_Data[adr + 0x60 - 2] = a[chrSz - 2];
-                        m_Data[adr + 0x60 - 1] = a[chrSz - 1];
+                    int adr = m_OffsetAdr + chrSz * i;
+                    if (m_Data[adr] != 0) ChecksumSub(adr, chrSz);
 
-                    }
+                    adr = m_OffsetAdr2 + chrSz * i;
+                    if (m_Data[adr] != 0) ChecksumSub(adr, chrSz);
+
+                    adr = m_OffsetAdr3 + chrSz * i;
+                    if (m_Data[adr] != 0) ChecksumSub(adr, chrSz);
+
                 }
             }
-            byte [] bb = GetCode(0x400, chrSz* CharCount);
-            SetCode(0x1800, bb);
         }
-        private void ChecksumWiz1()
+        // ************************************************************************
+        private void ChecksumWiz1FC()
         {
+            if (m_scn != WIZSCN.FC1) return;
             int chrSz = 0x80;
             for (int i = 0; i < CharCount; i++)
             {
@@ -3094,6 +3126,7 @@ namespace WizEdit
 
             }
         }
+        // ************************************************************************
         private void ChecksumROM()
         {
             for (int i = 0; i < CharCount; i++)

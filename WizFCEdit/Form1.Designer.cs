@@ -68,7 +68,7 @@
             this.leLevel = new WizEdit.WizLongEdit();
             this.wizItemSelect1 = new WizEdit.WizItemSelect();
             this.wizMPList1 = new WizEdit.WizMPList();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnStringU = new System.Windows.Forms.Button();
             this.wizScnComb1 = new WizEdit.WizScnComb();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -612,15 +612,15 @@
             this.wizMPList1.Text = "wizMPList1";
             this.wizMPList1.WizNesState = this.wizNesState1;
             // 
-            // button1
+            // btnStringU
             // 
-            this.button1.Location = new System.Drawing.Point(596, 512);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 25;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnStringU.Location = new System.Drawing.Point(596, 512);
+            this.btnStringU.Name = "btnStringU";
+            this.btnStringU.Size = new System.Drawing.Size(75, 23);
+            this.btnStringU.TabIndex = 25;
+            this.btnStringU.Text = "button1";
+            this.btnStringU.UseVisualStyleBackColor = true;
+            this.btnStringU.Click += new System.EventHandler(this.button1_Click);
             // 
             // wizScnComb1
             // 
@@ -646,7 +646,7 @@
             this.CaptionWidth = 320;
             this.ClientSize = new System.Drawing.Size(716, 572);
             this.Controls.Add(this.wizScnComb1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnStringU);
             this.Controls.Add(this.wizMPList1);
             this.Controls.Add(this.wizItemSelect1);
             this.Controls.Add(this.leLevel);
@@ -754,7 +754,7 @@
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pctureFolderToolStripMenuItem;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnStringU;
         private WizScnComb wizScnComb1;
     }
 }

@@ -487,7 +487,9 @@ namespace WizEdit
             wbCap.Size = new Size(220, 40);
 
             this.AutoScaleMode = AutoScaleMode.None;
-        }
+
+
+         }
 
         // *****************************************************************************
         public void CapSize()
@@ -607,6 +609,21 @@ namespace WizEdit
             if (m_Limit.IsSort == false) return;
             m_state.CurrentDataDown();
         }
+        // ******************************************************************************
+        private bool GetDesignMode(Control control)
+        {
+            if (control == null) return false;
 
+            bool mode = control.Site == null ? false : control.Site.DesignMode;
+
+            return mode | GetDesignMode(control.Parent);
+        }
+        public new bool DesignMode
+        {
+            get
+            {
+                return GetDesignMode(this);
+            }
+        }
     }
 }
