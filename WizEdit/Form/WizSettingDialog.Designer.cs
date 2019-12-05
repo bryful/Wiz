@@ -55,6 +55,7 @@
             this.cb18 = new System.Windows.Forms.CheckBox();
             this.cb19 = new System.Windows.Forms.CheckBox();
             this.wizBoxControl1 = new WizEdit.WizBoxControl();
+            this.wizBoxControl2 = new WizEdit.WizBoxControl();
             this.SuspendLayout();
             // 
             // cbLevelInit
@@ -280,9 +281,9 @@
             this.cmbSCN.ForeColor = System.Drawing.Color.White;
             this.cmbSCN.FormattingEnabled = true;
             this.cmbSCN.Items.AddRange(new object[] {
-            "Wiz1",
-            "Wiz2",
-            "Wiz3"});
+            "Wiz1FC",
+            "Wiz2FC",
+            "Wiz3FC"});
             this.cmbSCN.Location = new System.Drawing.Point(299, 206);
             this.cmbSCN.Name = "cmbSCN";
             this.cmbSCN.Size = new System.Drawing.Size(85, 20);
@@ -341,6 +342,21 @@
             this.wizBoxControl1.Text = "wizBoxControl1";
             this.wizBoxControl1.TopMargin = 5;
             // 
+            // wizBoxControl2
+            // 
+            this.wizBoxControl2.BackColor = System.Drawing.Color.Black;
+            this.wizBoxControl2.BottomMargin = 5;
+            this.wizBoxControl2.Corner = 5;
+            this.wizBoxControl2.ForeColor = System.Drawing.Color.White;
+            this.wizBoxControl2.LineWidth = 3;
+            this.wizBoxControl2.Location = new System.Drawing.Point(2, 1);
+            this.wizBoxControl2.Name = "wizBoxControl2";
+            this.wizBoxControl2.SideMargin = 5;
+            this.wizBoxControl2.Size = new System.Drawing.Size(424, 309);
+            this.wizBoxControl2.TabIndex = 28;
+            this.wizBoxControl2.Text = "wizBoxControl2";
+            this.wizBoxControl2.TopMargin = 5;
+            // 
             // WizSettingDialog
             // 
             this.AcceptButton = this.btnOK;
@@ -348,7 +364,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(423, 302);
+            this.ClientSize = new System.Drawing.Size(434, 313);
             this.ControlBox = false;
             this.Controls.Add(this.cb19);
             this.Controls.Add(this.cb18);
@@ -377,6 +393,7 @@
             this.Controls.Add(this.cb0);
             this.Controls.Add(this.cbLevelInit);
             this.Controls.Add(this.wizBoxControl1);
+            this.Controls.Add(this.wizBoxControl2);
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -420,5 +437,6 @@
         private System.Windows.Forms.CheckBox cb18;
         private System.Windows.Forms.CheckBox cb19;
         private WizBoxControl wizBoxControl1;
+        private WizBoxControl wizBoxControl2;
     }
 }

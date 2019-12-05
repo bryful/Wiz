@@ -98,7 +98,7 @@
       <DependentUpon>AppInfoDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="CRC16.cs" />
-    <Compile Include="DynamicJson.cs" />
+    <Compile Include="APP_util\DynamicJson.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,96 +113,90 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="StringUtilsForm.cs">
+    <Compile Include="Form\StringUtilsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StringUtilsForm.Designer.cs">
+    <Compile Include="Form\StringUtilsForm.Designer.cs">
       <DependentUpon>StringUtilsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="WindowsShellAPI.cs" />
-    <Compile Include="WizButton.cs">
+    <Compile Include="APP_util\WindowsShellAPI.cs" />
+    <Compile Include="Ctrl\WizButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WizByteEdit.cs">
+    <Compile Include="Ctrl\WizByteEdit.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WizCharCaption.cs">
+    <Compile Include="Ctrl\WizCharClass.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WizCharClass.cs">
+    <Compile Include="Ctrl\WizCharList.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WizCharList.cs">
+    <Compile Include="Ctrl\WizBoxControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WizBoxControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="WizBoxControl.Designer.cs">
+    <Compile Include="Ctrl\WizBoxControl.Designer.cs">
       <DependentUpon>WizBoxControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="WizCharName.cs">
+    <Compile Include="Ctrl\WizCharName.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WizComboBox.cs">
+    <Compile Include="Ctrl\WizComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WizConst.cs" />
-    <Compile Include="WizForm.cs">
+    <Compile Include="Form\WizForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WizForm.Designer.cs">
+    <Compile Include="Form\WizForm.Designer.cs">
       <DependentUpon>WizForm.cs</DependentUpon>
     </Compile>
     <Compile Include="WizIO.cs" />
     <Compile Include="WizItem.cs" />
-    <Compile Include="WizItemList.cs">
+    <Compile Include="Ctrl\WizItemList.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WizItemSelect.cs">
+    <Compile Include="Ctrl\WizItemSelect.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WizLimit.cs" />
-    <Compile Include="WizLongEdit.cs">
+    <Compile Include="Ctrl\WizLongEdit.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WizMPList.cs">
+    <Compile Include="Ctrl\WizMPList.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WizCharNameEdit.cs">
+    <Compile Include="Form\WizCharNameEdit.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WizCharNameEdit.Designer.cs">
+    <Compile Include="Form\WizCharNameEdit.Designer.cs">
       <DependentUpon>WizCharNameEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="WizData.cs" />
-    <Compile Include="WizScnComb.cs">
+    <Compile Include="Ctrl\WizScnComb.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WizString.cs" />
-    <Compile Include="WizMPEdit.cs">
+    <Compile Include="Ctrl\WizMPEdit.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WizPictureBox.cs" />
-    <Compile Include="WizSettingDialog.cs">
+    <Compile Include="Form\WizSettingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WizSettingDialog.Designer.cs">
+    <Compile Include="Form\WizSettingDialog.Designer.cs">
       <DependentUpon>WizSettingDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="WizSpellEditDialogcs.cs">
+    <Compile Include="Form\WizSpellEditDialogcs.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WizSpellEditDialogcs.Designer.cs">
+    <Compile Include="Form\WizSpellEditDialogcs.Designer.cs">
       <DependentUpon>WizSpellEditDialogcs.cs</DependentUpon>
     </Compile>
-    <Compile Include="WizSpellList.cs">
+    <Compile Include="Ctrl\WizSpellList.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WizStatus.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="WizTextBox.cs">
+    <Compile Include="Ctrl\WizStatus.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WizU.cs" />
@@ -217,19 +211,19 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="StringUtilsForm.resx">
+    <EmbeddedResource Include="Form\StringUtilsForm.resx">
       <DependentUpon>StringUtilsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WizForm.resx">
+    <EmbeddedResource Include="Form\WizForm.resx">
       <DependentUpon>WizForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WizCharNameEdit.resx">
+    <EmbeddedResource Include="Form\WizCharNameEdit.resx">
       <DependentUpon>WizCharNameEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WizSettingDialog.resx">
+    <EmbeddedResource Include="Form\WizSettingDialog.resx">
       <DependentUpon>WizSettingDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WizSpellEditDialogcs.resx">
+    <EmbeddedResource Include="Form\WizSpellEditDialogcs.resx">
       <DependentUpon>WizSpellEditDialogcs.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
@@ -273,6 +267,7 @@
     <None Include="Resources\SAM.png" />
     <None Include="Resources\THI.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
