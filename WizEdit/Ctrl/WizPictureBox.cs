@@ -12,13 +12,14 @@ using System.Drawing.Drawing2D;
 using System.IO;
 namespace WizEdit
 {
-    public class PicData
-    {
-        public Bitmap bmp = null;
-        public string name = "";
-    }
+    
     public class WizPictureBox :WizBoxControl
     {
+        public class PicData
+        {
+            public Bitmap bmp = null;
+            public string name = "";
+        }
         private List<PicData> m_PicDatas = new List<PicData>();
 
         private string  m_PictureFolder = "";

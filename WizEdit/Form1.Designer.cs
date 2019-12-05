@@ -70,6 +70,11 @@
             this.wizMPList1 = new WizEdit.WizMPList();
             this.btnStringU = new System.Windows.Forms.Button();
             this.wizScnComb1 = new WizEdit.WizScnComb();
+            this.leRip = new WizEdit.WizLongEdit();
+            this.wizBoxControl1 = new WizEdit.WizBoxControl();
+            this.wizButton1 = new WizEdit.WizButton();
+            this.wizButton2 = new WizEdit.WizButton();
+            this.wizButton3 = new WizEdit.WizButton();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -234,7 +239,7 @@
             this.wizCharList1.MinimumSize = new System.Drawing.Size(0, 370);
             this.wizCharList1.Name = "wizCharList1";
             this.wizCharList1.SideMargin = 5;
-            this.wizCharList1.Size = new System.Drawing.Size(205, 466);
+            this.wizCharList1.Size = new System.Drawing.Size(205, 486);
             this.wizCharList1.TabIndex = 0;
             this.wizCharList1.Text = "wizCharList1";
             this.wizCharList1.TopMargin = 5;
@@ -262,7 +267,7 @@
             this.wizConrol1.Location = new System.Drawing.Point(249, 86);
             this.wizConrol1.Name = "wizConrol1";
             this.wizConrol1.SideMargin = 5;
-            this.wizConrol1.Size = new System.Drawing.Size(436, 466);
+            this.wizConrol1.Size = new System.Drawing.Size(436, 486);
             this.wizConrol1.TabIndex = 3;
             this.wizConrol1.Text = "wizConrol1";
             this.wizConrol1.TopMargin = 5;
@@ -274,10 +279,10 @@
             this.wizItemList1.IsDrawFrame = false;
             this.wizItemList1.ItemID = 1;
             this.wizItemList1.LineHeight = 20;
-            this.wizItemList1.Location = new System.Drawing.Point(267, 386);
+            this.wizItemList1.Location = new System.Drawing.Point(263, 401);
             this.wizItemList1.MinimumSize = new System.Drawing.Size(0, 160);
             this.wizItemList1.Name = "wizItemList1";
-            this.wizItemList1.Size = new System.Drawing.Size(320, 160);
+            this.wizItemList1.Size = new System.Drawing.Size(271, 160);
             this.wizItemList1.StWidth = 18;
             this.wizItemList1.TabIndex = 23;
             this.wizItemList1.Text = "wizItemList1";
@@ -361,7 +366,7 @@
             this.beAC.Location = new System.Drawing.Point(451, 255);
             this.beAC.Mode = WizEdit.WizByteEditMode.AC;
             this.beAC.Name = "beAC";
-            this.beAC.Size = new System.Drawing.Size(119, 23);
+            this.beAC.Size = new System.Drawing.Size(73, 23);
             this.beAC.TabIndex = 20;
             this.beAC.Text = "A.C.";
             this.beAC.Value = 4;
@@ -605,7 +610,7 @@
             this.wizMPList1.ForeColor = System.Drawing.Color.White;
             this.wizMPList1.IsEdit = false;
             this.wizMPList1.IsEditSpell = false;
-            this.wizMPList1.Location = new System.Drawing.Point(455, 311);
+            this.wizMPList1.Location = new System.Drawing.Point(451, 328);
             this.wizMPList1.Name = "wizMPList1";
             this.wizMPList1.Size = new System.Drawing.Size(190, 67);
             this.wizMPList1.TabIndex = 22;
@@ -614,9 +619,9 @@
             // 
             // btnStringU
             // 
-            this.btnStringU.Location = new System.Drawing.Point(596, 512);
+            this.btnStringU.Location = new System.Drawing.Point(77, 62);
             this.btnStringU.Name = "btnStringU";
-            this.btnStringU.Size = new System.Drawing.Size(75, 23);
+            this.btnStringU.Size = new System.Drawing.Size(87, 23);
             this.btnStringU.TabIndex = 25;
             this.btnStringU.Text = "button1";
             this.btnStringU.UseVisualStyleBackColor = true;
@@ -635,6 +640,77 @@
             this.wizScnComb1.WizData = this.wizNesState1;
             this.wizScnComb1.WIZSCN = WizEdit.WIZSCN.FC1;
             // 
+            // leRip
+            // 
+            this.leRip.ArrowHeight = 5;
+            this.leRip.BackColor = System.Drawing.Color.Black;
+            this.leRip.ClearWidth = 10;
+            this.leRip.ForeColor = System.Drawing.Color.White;
+            this.leRip.IsEdit = true;
+            this.leRip.Location = new System.Drawing.Point(551, 252);
+            this.leRip.Mode = WizEdit.WizLongEditMode.Gold;
+            this.leRip.Name = "leRip";
+            this.leRip.NumWidth = 10;
+            this.leRip.Size = new System.Drawing.Size(120, 31);
+            this.leRip.TabIndex = 27;
+            this.leRip.Text = "Rip";
+            this.leRip.Value = ((ulong)(0ul));
+            this.leRip.WizFCState = null;
+            // 
+            // wizBoxControl1
+            // 
+            this.wizBoxControl1.BackColor = System.Drawing.Color.Black;
+            this.wizBoxControl1.BottomMargin = 5;
+            this.wizBoxControl1.Corner = 5;
+            this.wizBoxControl1.ForeColor = System.Drawing.Color.White;
+            this.wizBoxControl1.LineWidth = 3;
+            this.wizBoxControl1.Location = new System.Drawing.Point(540, 401);
+            this.wizBoxControl1.Name = "wizBoxControl1";
+            this.wizBoxControl1.SideMargin = 5;
+            this.wizBoxControl1.Size = new System.Drawing.Size(164, 185);
+            this.wizBoxControl1.TabIndex = 28;
+            this.wizBoxControl1.Text = "wizBoxControl1";
+            this.wizBoxControl1.TopMargin = 5;
+            // 
+            // wizButton1
+            // 
+            this.wizButton1.BackColor = System.Drawing.Color.Black;
+            this.wizButton1.Font = new System.Drawing.Font("MS UI Gothic", 9F);
+            this.wizButton1.ForeColor = System.Drawing.Color.White;
+            this.wizButton1.IsDrawWaku = true;
+            this.wizButton1.Location = new System.Drawing.Point(563, 424);
+            this.wizButton1.Name = "wizButton1";
+            this.wizButton1.Size = new System.Drawing.Size(114, 23);
+            this.wizButton1.TabIndex = 29;
+            this.wizButton1.Text = "SpellEdit";
+            this.wizButton1.UseVisualStyleBackColor = false;
+            // 
+            // wizButton2
+            // 
+            this.wizButton2.BackColor = System.Drawing.Color.Black;
+            this.wizButton2.Font = new System.Drawing.Font("MS UI Gothic", 9F);
+            this.wizButton2.ForeColor = System.Drawing.Color.White;
+            this.wizButton2.IsDrawWaku = true;
+            this.wizButton2.Location = new System.Drawing.Point(563, 453);
+            this.wizButton2.Name = "wizButton2";
+            this.wizButton2.Size = new System.Drawing.Size(114, 23);
+            this.wizButton2.TabIndex = 30;
+            this.wizButton2.Text = "MP Init";
+            this.wizButton2.UseVisualStyleBackColor = false;
+            // 
+            // wizButton3
+            // 
+            this.wizButton3.BackColor = System.Drawing.Color.Black;
+            this.wizButton3.Font = new System.Drawing.Font("MS UI Gothic", 9F);
+            this.wizButton3.ForeColor = System.Drawing.Color.White;
+            this.wizButton3.IsDrawWaku = true;
+            this.wizButton3.Location = new System.Drawing.Point(563, 482);
+            this.wizButton3.Name = "wizButton3";
+            this.wizButton3.Size = new System.Drawing.Size(114, 23);
+            this.wizButton3.TabIndex = 31;
+            this.wizButton3.Text = "MP All9";
+            this.wizButton3.UseVisualStyleBackColor = false;
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -644,7 +720,12 @@
             this.BackColor = System.Drawing.Color.Black;
             this.BottomMgn = 15;
             this.CaptionWidth = 320;
-            this.ClientSize = new System.Drawing.Size(716, 572);
+            this.ClientSize = new System.Drawing.Size(716, 598);
+            this.Controls.Add(this.wizButton3);
+            this.Controls.Add(this.wizButton2);
+            this.Controls.Add(this.wizButton1);
+            this.Controls.Add(this.wizBoxControl1);
+            this.Controls.Add(this.leRip);
             this.Controls.Add(this.wizScnComb1);
             this.Controls.Add(this.btnStringU);
             this.Controls.Add(this.wizMPList1);
@@ -756,6 +837,11 @@
         private System.Windows.Forms.ToolStripMenuItem pctureFolderToolStripMenuItem;
         private System.Windows.Forms.Button btnStringU;
         private WizScnComb wizScnComb1;
+        private WizLongEdit leRip;
+        private WizBoxControl wizBoxControl1;
+        private WizButton wizButton1;
+        private WizButton wizButton2;
+        private WizButton wizButton3;
     }
 }
 
