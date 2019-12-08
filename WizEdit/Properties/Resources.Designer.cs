@@ -153,9 +153,9 @@ namespace WizEdit.Properties {
         /// <summary>
         ///   型 System.Byte[] のローカライズされたリソースを検索します。
         /// </summary>
-        public static byte[] Wizardry1 {
+        public static byte[] Wizardry123SFC {
             get {
-                object obj = ResourceManager.GetObject("Wizardry1", resourceCulture);
+                object obj = ResourceManager.GetObject("Wizardry123SFC", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -163,9 +163,9 @@ namespace WizEdit.Properties {
         /// <summary>
         ///   型 System.Byte[] のローカライズされたリソースを検索します。
         /// </summary>
-        public static byte[] Wizardry2 {
+        public static byte[] Wizardry1FC {
             get {
-                object obj = ResourceManager.GetObject("Wizardry2", resourceCulture);
+                object obj = ResourceManager.GetObject("Wizardry1FC", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -173,9 +173,59 @@ namespace WizEdit.Properties {
         /// <summary>
         ///   型 System.Byte[] のローカライズされたリソースを検索します。
         /// </summary>
-        public static byte[] Wizardry3 {
+        public static byte[] Wizardry1GBC {
             get {
-                object obj = ResourceManager.GetObject("Wizardry3", resourceCulture);
+                object obj = ResourceManager.GetObject("Wizardry1GBC", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        public static byte[] Wizardry2FC {
+            get {
+                object obj = ResourceManager.GetObject("Wizardry2FC", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        public static byte[] Wizardry2GBC {
+            get {
+                object obj = ResourceManager.GetObject("Wizardry2GBC", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        public static byte[] Wizardry3FC {
+            get {
+                object obj = ResourceManager.GetObject("Wizardry3FC", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        public static byte[] Wizardry3GBC {
+            get {
+                object obj = ResourceManager.GetObject("Wizardry3GBC", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Byte[] のローカライズされたリソースを検索します。
+        /// </summary>
+        public static byte[] Wizardry5SFC {
+            get {
+                object obj = ResourceManager.GetObject("Wizardry5SFC", resourceCulture);
                 return ((byte[])(obj));
             }
         }

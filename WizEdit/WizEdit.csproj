@@ -228,6 +228,14 @@
     <EmbeddedResource Include="Form\WizSpellEditDialogcs.resx">
       <DependentUpon>WizSpellEditDialogcs.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="def\Wizardry123SFC.sav" />
+    <None Include="def\Wizardry1FC.sav" />
+    <None Include="def\Wizardry1GBC.sav" />
+    <None Include="def\Wizardry2FC.sav" />
+    <None Include="def\Wizardry2GBC.sav" />
+    <None Include="def\Wizardry3FC.sav" />
+    <None Include="def\Wizardry3GBC.sav" />
+    <None Include="def\Wizardry5SFC.srm" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

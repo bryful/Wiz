@@ -56,6 +56,8 @@
             this.cb19 = new System.Windows.Forms.CheckBox();
             this.wizBoxControl1 = new WizEdit.WizBoxControl();
             this.wizBoxControl2 = new WizEdit.WizBoxControl();
+            this.cb20 = new System.Windows.Forms.CheckBox();
+            this.cb21 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // cbLevelInit
@@ -165,7 +167,7 @@
             // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOK.Location = new System.Drawing.Point(291, 236);
+            this.btnOK.Location = new System.Drawing.Point(291, 274);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(93, 32);
             this.btnOK.TabIndex = 11;
@@ -176,7 +178,7 @@
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancel.Location = new System.Drawing.Point(168, 236);
+            this.btnCancel.Location = new System.Drawing.Point(168, 274);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(93, 32);
             this.btnCancel.TabIndex = 12;
@@ -284,15 +286,15 @@
             "Wiz1FC",
             "Wiz2FC",
             "Wiz3FC"});
-            this.cmbSCN.Location = new System.Drawing.Point(299, 206);
+            this.cmbSCN.Location = new System.Drawing.Point(204, 237);
             this.cmbSCN.Name = "cmbSCN";
-            this.cmbSCN.Size = new System.Drawing.Size(85, 20);
+            this.cmbSCN.Size = new System.Drawing.Size(193, 20);
             this.cmbSCN.TabIndex = 22;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(162, 214);
+            this.label1.Location = new System.Drawing.Point(62, 240);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(126, 12);
             this.label1.TabIndex = 23;
@@ -301,7 +303,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(119, 282);
+            this.label2.Location = new System.Drawing.Point(119, 309);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(265, 12);
             this.label2.TabIndex = 24;
@@ -320,7 +322,7 @@
             // cb19
             // 
             this.cb19.AutoSize = true;
-            this.cb19.Location = new System.Drawing.Point(36, 167);
+            this.cb19.Location = new System.Drawing.Point(36, 189);
             this.cb19.Name = "cb19";
             this.cb19.Size = new System.Drawing.Size(259, 16);
             this.cb19.TabIndex = 26;
@@ -337,7 +339,7 @@
             this.wizBoxControl1.Location = new System.Drawing.Point(13, 13);
             this.wizBoxControl1.Name = "wizBoxControl1";
             this.wizBoxControl1.SideMargin = 5;
-            this.wizBoxControl1.Size = new System.Drawing.Size(396, 187);
+            this.wizBoxControl1.Size = new System.Drawing.Size(396, 218);
             this.wizBoxControl1.TabIndex = 27;
             this.wizBoxControl1.Text = "wizBoxControl1";
             this.wizBoxControl1.TopMargin = 5;
@@ -349,13 +351,33 @@
             this.wizBoxControl2.Corner = 5;
             this.wizBoxControl2.ForeColor = System.Drawing.Color.White;
             this.wizBoxControl2.LineWidth = 3;
-            this.wizBoxControl2.Location = new System.Drawing.Point(2, 1);
+            this.wizBoxControl2.Location = new System.Drawing.Point(-1, 3);
             this.wizBoxControl2.Name = "wizBoxControl2";
             this.wizBoxControl2.SideMargin = 5;
-            this.wizBoxControl2.Size = new System.Drawing.Size(424, 309);
+            this.wizBoxControl2.Size = new System.Drawing.Size(424, 338);
             this.wizBoxControl2.TabIndex = 28;
             this.wizBoxControl2.Text = "wizBoxControl2";
             this.wizBoxControl2.TopMargin = 5;
+            // 
+            // cb20
+            // 
+            this.cb20.AutoSize = true;
+            this.cb20.Location = new System.Drawing.Point(36, 167);
+            this.cb20.Name = "cb20";
+            this.cb20.Size = new System.Drawing.Size(41, 16);
+            this.cb20.TabIndex = 29;
+            this.cb20.Text = "Rip";
+            this.cb20.UseVisualStyleBackColor = true;
+            // 
+            // cb21
+            // 
+            this.cb21.AutoSize = true;
+            this.cb21.Location = new System.Drawing.Point(147, 167);
+            this.cb21.Name = "cb21";
+            this.cb21.Size = new System.Drawing.Size(49, 16);
+            this.cb21.TabIndex = 30;
+            this.cb21.Text = "Mark";
+            this.cb21.UseVisualStyleBackColor = true;
             // 
             // WizSettingDialog
             // 
@@ -364,8 +386,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(434, 313);
+            this.ClientSize = new System.Drawing.Size(426, 340);
             this.ControlBox = false;
+            this.Controls.Add(this.cb21);
+            this.Controls.Add(this.cb20);
             this.Controls.Add(this.cb19);
             this.Controls.Add(this.cb18);
             this.Controls.Add(this.label2);
@@ -438,5 +462,7 @@
         private System.Windows.Forms.CheckBox cb19;
         private WizBoxControl wizBoxControl1;
         private WizBoxControl wizBoxControl2;
+        private System.Windows.Forms.CheckBox cb20;
+        private System.Windows.Forms.CheckBox cb21;
     }
 }

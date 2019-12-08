@@ -78,7 +78,8 @@ namespace WizEdit
                 if ((scn == WIZSCN.SFC1) || (scn == WIZSCN.SFC2) || (scn == WIZSCN.SFC3))
                 {
                     m_scn = scn;
-                    OnValueChanged(new EventArgs());
+                    m_res_scn = scn;
+                    OnLoadFileFinished(new EventArgs());
                 }
 
             }
@@ -121,8 +122,10 @@ namespace WizEdit
                     m_CharCurrent = -1;
                 }
                 //イベント発生
-                CurrentCharEventArgs e = new CurrentCharEventArgs();
-                e.CurrentChar = m_CharCurrent;
+                CurrentCharEventArgs e = new CurrentCharEventArgs
+                {
+                    CurrentChar = m_CharCurrent
+                };
                 OnCurrentCharChanged(e);
             }
         }
@@ -143,40 +146,55 @@ namespace WizEdit
 
         #endregion
 
+
+        static public string[] Titles()
+        {
+            string[] ret = new string[10];
+            for ( int i=1;i<11;i++)
+            {
+                ret[i - 1] = ScenarioTitleStr((WIZSCN)i, WIZFILE.SAVE);
+            }
+            return ret;
+        }
+        static public string ScenarioTitleStr(WIZSCN scn, WIZFILE wf = WIZFILE.NONE)
+        {
+            string ret = "";
+            switch (scn)
+            {
+                case WIZSCN.FC1: ret = "Wiz1(PG) FC "; break;
+                case WIZSCN.FC2: ret = "Wiz2(LOL) FC"; break;
+                case WIZSCN.FC3: ret = "Wiz3(KOD) FC"; break;
+                case WIZSCN.SFC1: ret = "Wiz1(PG) SFC "; break;
+                case WIZSCN.SFC2: ret = "Wiz2(LOL) SFC "; break;
+                case WIZSCN.SFC3: ret = "Wiz3(KOD) SFC "; break;
+                case WIZSCN.SFC5: ret = "Wiz5(HOM) SFC "; break;
+                case WIZSCN.GBC1: ret = "Wiz1(PG) GBC "; break;
+                case WIZSCN.GBC2: ret = "Wiz2(LOL) GBC"; break;
+                case WIZSCN.GBC3: ret = "Wiz3(KOD) GBC"; break;
+                default:
+                    ret = "";
+                    break;
+            }
+            switch (wf)
+            {
+                case WIZFILE.ROM:
+                    ret += " ROM";
+                    break;
+                case WIZFILE.STATE:
+                    ret += " State";
+                    break;
+                case WIZFILE.SAVE:
+                    ret += " Save";
+                    break;
+            }
+            return ret;
+        }
+
         public string ScenarioTitle
         {
             get
             {
-                string ret = "";
-                switch(m_scn)
-                {
-                    case WIZSCN.FC1: ret = "Wiz1(PG) FC "; break;
-                    case WIZSCN.FC2: ret = "Wiz2(LOL) FC"; break;
-                    case WIZSCN.FC3: ret = "Wiz3(KOD) FC"; break;
-                    case WIZSCN.SFC1: ret = "Wiz1(PG) SFC "; break;
-                    case WIZSCN.SFC2: ret = "Wiz2(LOL) SFC "; break;
-                    case WIZSCN.SFC3: ret = "Wiz3(KOD) SFC "; break;
-                    case WIZSCN.SFC5: ret = "Wiz5(HOM) SFC "; break;
-                    case WIZSCN.GBC1: ret = "Wiz1(PG) GBC "; break;
-                    case WIZSCN.GBC2: ret = "Wiz2(LOL) GBC"; break;
-                    case WIZSCN.GBC3: ret = "Wiz3(KOD) GBC"; break;
-                    default:
-                        ret = "";
-                        break;
-                }
-                switch(m_WizFile)
-                {
-                    case WIZFILE.ROM:
-                        ret += " ROM";
-                        break;
-                    case WIZFILE.STATE:
-                        ret += " State";
-                        break;
-                    case WIZFILE.SAVE:
-                        ret += " Save";
-                        break;
-                }
-                return ret;
+                return ScenarioTitleStr(m_scn, m_WizFile);
             }
         }
 
@@ -260,13 +278,45 @@ namespace WizEdit
         }
         #endregion
 
+
+        #region FC1 SPELL TABLE
+        private readonly int[][] Wiz1FCSpellTo = new int[7][]
+       {
+            new int[]{0x0001,0x0002,0x0004,0x0008,0x0101,0x0102,0x0201,0x0202},
+            new int[]{0x0301,0x0302,0x0304,0x0401,0x0402,0x0404,0x0501,0x0502},
+            new int[]{0x0504,0x0508,0x0601,0x0602,0x0604,0x0701,0x0702,0x0704},
+            new int[]{0x0708,0x0710,0x0801,0x0802,0x0804,0x0808,0x0901,0x0902},
+            new int[]{0x0904,0x0908,0x0A01,0x0A02,0x0A04,0x0A08,0x0B01,0x0B02},
+            new int[]{0x0B04,0x0B08,0x0B10,0x0B20,0x0C01,0x0C02,0x0C04,0x0C08},
+            new int[]{0x0D01, 0x0D02}
+       };
+        private readonly int[][] Wiz1FCSpellFrom = new int[14][]
+    {
+            new int[]{0x0001,0x0002,0x0004,0x0008},
+            new int[]{0x0010,0x0020},
+            new int[]{0x0040,0x0080},
+            new int[]{0x0101,0x0102,0x0104},
+            new int[]{0x0108,0x0110,0x0120},
+            new int[]{0x0140,0x0180,0x0201,0x0202},
+            new int[]{0x0204,0x0208,0x0210},
+
+            new int[]{0x0220,0x0240,0x0280,0x0301,0x0302},
+            new int[]{0x0304,0x0308,0x0310,0x0320},
+            new int[]{0x0340,0x0380,0x0401,0x0402},
+            new int[]{0x0404,0x0408,0x0410,0x0420},
+            new int[]{0x0440,0x0480,0x0501,0x0502,0x0504,0x0508},
+            new int[]{0x0510,0x0520,0x0540,0x0580},
+            new int[]{0x0601, 0x0602}
+    };
+        #endregion
+
         // ***********************************************************************
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public WizData()
         {
-            if (ResLoad()==true)
+            if (ResLoad() == true)
             {
 
             }
@@ -2316,7 +2366,27 @@ namespace WizEdit
             {
                 case WIZSCN.FC1:
                     adr += 0x45;
-                    ret = GetCode(adr, 7);
+                    ret = new byte[14];
+                    for (int i = 0; i < 14; i++) ret[i] = 0;
+
+                    byte[] a = GetCode(adr, 7);
+                    for (int i = 0; i < 7; i++) 
+                    {
+                        int cnt = Wiz1FCSpellTo[i].Length;
+                        byte v = a[i];
+                        for ( int j=0; j<cnt;j++)
+                        {
+                            if ((v & 0x01)==1)
+                            {
+                                int bit = Wiz1FCSpellTo[i][j] & 0xFF;
+                                int ti = (Wiz1FCSpellTo[i][j] >> 8) & 0xFF;
+                                ret[ti] = (byte)(ret[ti] | bit);
+
+                            }
+                            v = (byte)(v >> 1);
+                        }
+                    }
+
                     break;
                 case WIZSCN.FC2:
                 case WIZSCN.FC3:
@@ -2351,9 +2421,29 @@ namespace WizEdit
             {
                 case WIZSCN.FC1:
                     adr += 0x45;
-                    if (a.Length == 7)
+                    if (a.Length == 14)
                     {
-                        SetCode(adr, a);
+                        byte[] b = new byte[7];
+                        for (int i = 0; i < 7; i++) b[i] = 0;
+
+                        for (int i = 0; i < 14; i++)
+                        {
+                            int bb = a[i];
+                            int cnt = Wiz1FCSpellFrom[i].Length;
+                            for (int j = 0; j < cnt; j++)
+                            {
+                                if ((bb & 0x01) == 1)
+                                {
+                                    int bit = Wiz1FCSpellFrom[i][j] & 0xFF;
+                                    int ix = (Wiz1FCSpellFrom[i][j]>>8) & 0xFF;
+                                    b[ix] = (byte)(b[ix] | bit);
+                                }
+                                bb = (byte)(bb >> 1);
+                            }
+                        }
+
+
+                        SetCode(adr, b);
                     }
                     break;
                 case WIZSCN.FC2:
@@ -2464,7 +2554,181 @@ namespace WizEdit
             get { return CharItemsFromIndex(m_CharCurrent); }
         }
         // ************************************************************************
-       
+        // ************************************************************************
+        public int CharRipFromIndex(int idx)
+        {
+            int ret = 0;
+
+            if ((idx < 0) || (idx >= CharCount))
+            {
+                return ret;
+            }
+            if ((m_scn == WIZSCN.FC1) || (m_scn == WIZSCN.FC1) || (m_scn == WIZSCN.FC2))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZSCN.SFC1:
+                case WIZSCN.SFC2:
+                case WIZSCN.SFC3:
+                    ret = m_Data[adr + 0x60] + (m_Data[adr + 0x61] << 8);
+                    break;
+                case WIZSCN.SFC5:
+                    ret = m_Data[adr + 0x69] + (m_Data[adr + 0x6A] << 8);
+                    break;
+                case WIZSCN.GBC1:
+                case WIZSCN.GBC2:
+                case WIZSCN.GBC3:
+                    ret = m_Data[adr + 0x6B];
+                    break;
+                default:
+                    return ret;
+            }
+            return ret;
+        }
+        // ************************************************************************
+        public void SetCharRipFromIndex(int idx, int v)
+        {
+            if ((idx < 0) || (idx >= CharCount))
+            {
+                return;
+            }
+
+            if ((m_scn==WIZSCN.FC1)|| (m_scn == WIZSCN.FC1)|| (m_scn == WIZSCN.FC2))
+            {
+                return;
+            }
+            int adr = CharAdr(idx);
+            if (m_Data[adr] == 0) return;
+
+            if (v < 0) v = 0;
+            int bak = CharRipFromIndex(idx);
+
+            switch (m_scn)
+            {
+                case WIZSCN.SFC1:
+                case WIZSCN.SFC2:
+                case WIZSCN.SFC3:
+                    if (v > 0xFFFF ) v = 0xFFFF;
+                    if (v!=bak)
+                    {
+                        m_Data[adr + 0x60] = (byte)(v & 0xFF);
+                        m_Data[adr + 0x61] = (byte)((v>>8) & 0xFF);
+                        OnValueChanged(new EventArgs());
+                    }
+                    break;
+                case WIZSCN.SFC5:
+                    if (v > 0xFFFF) v = 0xFFFF;
+                    if (v != bak)
+                    {
+                        m_Data[adr + 0x69] = (byte)(v & 0xFF);
+                        m_Data[adr + 0x6A] = (byte)((v >> 8) & 0xFF);
+                        OnValueChanged(new EventArgs());
+                    }
+                    break;
+                case WIZSCN.GBC1:
+                case WIZSCN.GBC2:
+                case WIZSCN.GBC3:
+                    if (v > 0xFF) v = 0xFF;
+                    if (v != bak)
+                    {
+                        m_Data[adr + 0x6B] = (byte)v;
+                        OnValueChanged(new EventArgs());
+                    }
+                    break;
+            }
+        }
+        // ************************************************************************
+        public int CharRip
+        {
+            get { return CharRipFromIndex(m_CharCurrent); }
+            set { SetCharRipFromIndex(m_CharCurrent,value); }
+        }
+        // ************************************************************************
+        public long CharMarkFromIndex(int idx)
+        {
+            long ret = 0;
+            if ((idx < 0) || (idx >= CharCount))
+            {
+                return ret;
+            }
+            if ((m_scn == WIZSCN.FC1) || (m_scn == WIZSCN.FC1) || (m_scn == WIZSCN.FC2))
+            {
+                return ret;
+            }
+            int adr = CharAdr(idx);
+            switch (m_scn)
+            {
+                case WIZSCN.SFC1:
+                case WIZSCN.SFC2:
+                case WIZSCN.SFC3:
+                    ret = WizU.WizHexToLong(GetCode(adr + 0x62, 6));
+                    break;
+                case WIZSCN.SFC5:
+                    ret = WizU.WizHexToLong(GetCode(adr + 0x63, 6));
+                    break;
+                case WIZSCN.GBC1:
+                case WIZSCN.GBC2:
+                case WIZSCN.GBC3:
+                    ret = WizU.WizHexToLong(GetCode(adr + 0x65, 6));
+                    break;
+                default:
+                    return ret;
+            }
+
+            return ret;
+        }
+        // ************************************************************************
+        public void SetCharMarkFromIndex(int idx, long v)
+        {
+            if ((idx < 0) || (idx >= CharCount))
+            {
+                return;
+            }
+            if ((m_scn == WIZSCN.FC1) || (m_scn == WIZSCN.FC1) || (m_scn == WIZSCN.FC2))
+            {
+                return;
+            }
+            if (v < 0) v = 0;
+            else if (v > 999999999999) v = 999999999999;
+
+            int adr = CharAdr(idx);
+            if (m_Data[adr] == 0) return;
+
+
+            if (CharMarkFromIndex(idx) == v) return;
+
+
+            byte[] va = WizU.LongToWizHex(v);
+            switch (m_scn)
+            {
+                case WIZSCN.SFC1:
+                case WIZSCN.SFC2:
+                case WIZSCN.SFC3:
+                    SetCode(adr + 0x62, va);
+                    OnValueChanged(new EventArgs());
+                    break;
+                case WIZSCN.SFC5:
+                    SetCode(adr + 0x63, va);
+                    OnValueChanged(new EventArgs());
+                    break;
+
+                case WIZSCN.GBC1:
+                case WIZSCN.GBC2:
+                case WIZSCN.GBC3:
+                    SetCode(adr + 0x65, va);
+                    OnValueChanged(new EventArgs());
+                    break;
+            }
+        }
+        // ************************************************************************
+        public long CharMark
+        {
+            get { return CharMarkFromIndex(m_CharCurrent); }
+            set { SetCharMarkFromIndex(m_CharCurrent, value); }
+        }
         // ************************************************************************
         public string CodeToString(byte v)
         {
@@ -2788,16 +3052,35 @@ namespace WizEdit
             m_DataPath = "";
             //if (File.Exists( m_DataPath) == true) return ret;
             byte[] bs = null;
+            WIZSCN bak = WIZSCN.NO;
             switch(m_res_scn)
             {
                 case WIZSCN.FC1:
-                    bs= Properties.Resources.Wizardry1;
+                    bs= Properties.Resources.Wizardry1FC;
                     break;
                 case WIZSCN.FC2:
-                    bs = Properties.Resources.Wizardry2;
+                    bs = Properties.Resources.Wizardry2FC;
                     break;
                 case WIZSCN.FC3:
-                    bs = Properties.Resources.Wizardry3;
+                    bs = Properties.Resources.Wizardry3FC;
+                    break;
+                case WIZSCN.SFC1:
+                case WIZSCN.SFC2:
+                case WIZSCN.SFC3:
+                    bak = m_res_scn;
+                    bs = Properties.Resources.Wizardry123SFC;
+                    break;
+                case WIZSCN.SFC5:
+                    bs = Properties.Resources.Wizardry5SFC;
+                    break;
+                case WIZSCN.GBC1:
+                    bs = Properties.Resources.Wizardry1GBC;
+                    break;
+                case WIZSCN.GBC2:
+                    bs = Properties.Resources.Wizardry2GBC;
+                    break;
+                case WIZSCN.GBC3:
+                    bs = Properties.Resources.Wizardry3GBC;
                     break;
                 default:
                     return ret;
@@ -2808,6 +3091,12 @@ namespace WizEdit
             {
                 m_Data = wio.Data;
                 m_scn = wio.SCN;
+                m_res_scn = wio.SCN;
+                if (m_res_scn == WIZSCN.SFC1)
+                {
+                    m_scn = bak;
+                    m_res_scn = bak;
+                }
                 m_WizFile = wio.WizFile;
                 m_OffsetAdr = wio.OffserAdr;
                 m_OffsetAdr2 = wio.OffserAdr2;

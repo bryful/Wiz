@@ -142,14 +142,29 @@
   <data name="THI" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\THI.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Wizardry1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Wizardry1.ss0;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Wizardry123SFC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\def\Wizardry123SFC.sav;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Wizardry2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Wizardry2.ss0;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Wizardry1FC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\def\Wizardry1FC.sav;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Wizardry3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Wizardry3.ss0;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Wizardry1GBC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\def\Wizardry1GBC.sav;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Wizardry2FC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\def\Wizardry2FC.sav;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Wizardry2GBC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\def\Wizardry2GBC.sav;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Wizardry3FC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\def\Wizardry3FC.sav;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Wizardry3GBC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\def\Wizardry3GBC.sav;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Wizardry5SFC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\def\Wizardry5SFC.srm;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="_None" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\_None.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

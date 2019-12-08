@@ -35,6 +35,8 @@ namespace WizEdit
             ItemCur,
             Name,
             Sort,
+            Rip,
+            Mark,
             Count
         };
         private bool[] m_values = new bool[(int)P.Count];
@@ -161,6 +163,16 @@ namespace WizEdit
         {
             get { return m_values[(int)P.Sort]; }
             set { m_values[(int)P.Sort] = value; }
+        }
+        public bool IsRip
+        {
+            get { return m_values[(int)P.Rip]; }
+            set { m_values[(int)P.Rip] = value; }
+        }
+        public bool IsMark
+        {
+            get { return m_values[(int)P.Mark]; }
+            set { m_values[(int)P.Mark] = value; }
         }
         public bool[] Values
         {

@@ -10,22 +10,23 @@ namespace WizEdit
     public enum WIZSCN
     {
         NO = 0,
-        FC1 = 1,
+        FC1,
         FC2,
         FC3,
-        SFC1 = 4,
-        SFC2 = 8,
-        SFC3 = 12,
-        SFC5 = 16,
-        GBC1 = 32,
-        GBC2 = 64,
-        GBC3 = 96
+        SFC1,
+        SFC2,
+        SFC3,
+        SFC5,
+        GBC1,
+        GBC2,
+        GBC3
 
     }
 
     public enum WIZFILE
     {
-        STATE = 0,
+        NONE = 0,
+        STATE,
         SAVE,
         ROM
     }

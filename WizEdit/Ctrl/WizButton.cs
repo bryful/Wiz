@@ -12,7 +12,22 @@ namespace WizEdit
 {
     public class WizButton : Button
     {
+        public enum TextPos
+        {
+            Near,
+            Center,
+            Far
+        };
         WizBox wb = new WizBox();
+
+        private TextPos m_TextPos = TextPos.Center;
+        public TextPos TextPosition
+        {
+            get { return m_TextPos; }
+            set { m_TextPos = value; this.Invalidate(); }
+        }
+
+
         enum STAT
         {
             NONE=0,
@@ -46,6 +61,8 @@ namespace WizEdit
             wb.BottomMargin = 1;
             wb.Corner = 3;
             wb.LineWidth = 2;
+            m_TextPos = (TextPos)StringAlignment.Center;
+ 
 
         }
         protected override void OnMouseLeave(EventArgs e)
@@ -72,9 +89,11 @@ namespace WizEdit
             //base.OnPaint(e);
             Graphics g = e.Graphics;
             SolidBrush sb = new SolidBrush(this.ForeColor);
-            StringFormat sf = new StringFormat();
-            sf.Alignment = StringAlignment.Center;
-            sf.LineAlignment = StringAlignment.Center;
+            StringFormat sf = new StringFormat
+            {
+                LineAlignment = StringAlignment.Center,
+                Alignment = (StringAlignment)m_TextPos
+            };
             try
             {
                 wb.Graphics = g;

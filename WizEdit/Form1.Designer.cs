@@ -43,7 +43,7 @@
             this.pctureFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.wizNesState1 = new WizEdit.WizData();
+            this.wizData1 = new WizEdit.WizData();
             this.wizCharList1 = new WizEdit.WizCharList();
             this.wizStatus1 = new WizEdit.WizStatus();
             this.wizConrol1 = new WizEdit.WizBoxControl();
@@ -72,9 +72,11 @@
             this.wizScnComb1 = new WizEdit.WizScnComb();
             this.leRip = new WizEdit.WizLongEdit();
             this.wizBoxControl1 = new WizEdit.WizBoxControl();
-            this.wizButton1 = new WizEdit.WizButton();
-            this.wizButton2 = new WizEdit.WizButton();
-            this.wizButton3 = new WizEdit.WizButton();
+            this.btnSpelEdit = new WizEdit.WizButton();
+            this.btnInitMP = new WizEdit.WizButton();
+            this.btnALL9_MP = new WizEdit.WizButton();
+            this.leMark = new WizEdit.WizLongEdit();
+            this.btnALL_0_MP = new WizEdit.WizButton();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -109,7 +111,7 @@
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.openToolStripMenuItem.Text = "Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // reloadToolStripMenuItem
             // 
@@ -117,7 +119,7 @@
             this.reloadToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
             this.reloadToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.reloadToolStripMenuItem.Text = "Reload";
-            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
+            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.ReloadToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
@@ -125,14 +127,14 @@
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.saveAsToolStripMenuItem.Text = "SaveAs";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
             // 
             // quitToolStripMenuItem
             // 
@@ -140,7 +142,7 @@
             this.quitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
             this.quitToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.quitToolStripMenuItem.Text = "Quit";
-            this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
+            this.quitToolStripMenuItem.Click += new System.EventHandler(this.QuitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -157,14 +159,14 @@
             this.settingsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.K)));
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
             // pctureFolderToolStripMenuItem
             // 
             this.pctureFolderToolStripMenuItem.Name = "pctureFolderToolStripMenuItem";
             this.pctureFolderToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
             this.pctureFolderToolStripMenuItem.Text = "キャラクタアイコンのフォルダを指定";
-            this.pctureFolderToolStripMenuItem.Click += new System.EventHandler(this.pctureFolderToolStripMenuItem_Click);
+            this.pctureFolderToolStripMenuItem.Click += new System.EventHandler(this.PctureFolderToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -179,33 +181,42 @@
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.aboutToolStripMenuItem.Text = "バージョン情報の表示";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
-            // wizNesState1
+            // wizData1
             // 
-            this.wizNesState1.CharAC = ((sbyte)(4));
-            this.wizNesState1.CharAge = ((sbyte)(16));
-            this.wizNesState1.CharAgility = ((byte)(8));
-            this.wizNesState1.CharAlg = WizEdit.WIZALG.GOOD;
-            this.wizNesState1.CharClass = WizEdit.WIZCLASS.FIG;
-            this.wizNesState1.CharCurrent = 0;
-            this.wizNesState1.CharExp = ((long)(0));
-            this.wizNesState1.CharGold = ((long)(0));
-            this.wizNesState1.CharHP = ((ushort)(8));
-            this.wizNesState1.CharHPMax = ((ushort)(8));
-            this.wizNesState1.CharIQ = ((byte)(8));
-            this.wizNesState1.CharLevel = ((ushort)(1));
-            this.wizNesState1.CharLuck = ((byte)(9));
-            this.wizNesState1.CharMagic = magicPoint1;
-            this.wizNesState1.CharNameCode = new byte[] {
+            this.wizData1.CharAC = ((sbyte)(4));
+            this.wizData1.CharAge = ((sbyte)(16));
+            this.wizData1.CharAgility = ((byte)(8));
+            this.wizData1.CharAlg = WizEdit.WIZALG.GOOD;
+            this.wizData1.CharClass = WizEdit.WIZCLASS.FIG;
+            this.wizData1.CharCurrent = 0;
+            this.wizData1.CharExp = ((long)(0));
+            this.wizData1.CharGold = ((long)(0));
+            this.wizData1.CharHP = ((ushort)(8));
+            this.wizData1.CharHPMax = ((ushort)(8));
+            this.wizData1.CharIQ = ((byte)(8));
+            this.wizData1.CharLevel = ((ushort)(1));
+            this.wizData1.CharLuck = ((byte)(9));
+            this.wizData1.CharMagic = magicPoint1;
+            this.wizData1.CharMark = ((long)(0));
+            this.wizData1.CharNameCode = new byte[] {
         ((byte)(123)),
         ((byte)(155)),
         ((byte)(121)),
         ((byte)(1))};
-            this.wizNesState1.CharPiety = ((byte)(7));
-            this.wizNesState1.CharPriest = magicPoint2;
-            this.wizNesState1.CharRace = WizEdit.WIZRACE.HUMAN;
-            this.wizNesState1.CharSpell = new byte[] {
+            this.wizData1.CharPiety = ((byte)(7));
+            this.wizData1.CharPriest = magicPoint2;
+            this.wizData1.CharRace = WizEdit.WIZRACE.HUMAN;
+            this.wizData1.CharRip = 0;
+            this.wizData1.CharSpell = new byte[] {
+        ((byte)(0)),
+        ((byte)(0)),
+        ((byte)(0)),
+        ((byte)(0)),
+        ((byte)(0)),
+        ((byte)(0)),
+        ((byte)(0)),
         ((byte)(0)),
         ((byte)(0)),
         ((byte)(0)),
@@ -213,11 +224,11 @@
         ((byte)(0)),
         ((byte)(0)),
         ((byte)(0))};
-            this.wizNesState1.CharStatus = WizEdit.WIZSTATUS.OK;
-            this.wizNesState1.CharStrength = ((byte)(8));
-            this.wizNesState1.CharVitarity = ((byte)(8));
-            this.wizNesState1.CharWeek = ((byte)(24));
-            this.wizNesState1.RES_SCN = WizEdit.WIZSCN.FC1;
+            this.wizData1.CharStatus = WizEdit.WIZSTATUS.OK;
+            this.wizData1.CharStrength = ((byte)(8));
+            this.wizData1.CharVitarity = ((byte)(8));
+            this.wizData1.CharWeek = ((byte)(24));
+            this.wizData1.RES_SCN = WizEdit.WIZSCN.FC1;
             // 
             // wizCharList1
             // 
@@ -243,7 +254,7 @@
             this.wizCharList1.TabIndex = 0;
             this.wizCharList1.Text = "wizCharList1";
             this.wizCharList1.TopMargin = 5;
-            this.wizCharList1.WizNesState = this.wizNesState1;
+            this.wizCharList1.WizNesState = this.wizData1;
             // 
             // wizStatus1
             // 
@@ -255,7 +266,7 @@
             this.wizStatus1.Size = new System.Drawing.Size(220, 24);
             this.wizStatus1.TabIndex = 21;
             this.wizStatus1.Text = "wizStatus1";
-            this.wizStatus1.WizNesState = this.wizNesState1;
+            this.wizStatus1.WizNesState = this.wizData1;
             // 
             // wizConrol1
             // 
@@ -286,7 +297,7 @@
             this.wizItemList1.StWidth = 18;
             this.wizItemList1.TabIndex = 23;
             this.wizItemList1.Text = "wizItemList1";
-            this.wizItemList1.WizNesState = this.wizNesState1;
+            this.wizItemList1.WizNesState = this.wizData1;
             // 
             // btnSetting
             // 
@@ -299,8 +310,9 @@
             this.btnSetting.Size = new System.Drawing.Size(70, 24);
             this.btnSetting.TabIndex = 24;
             this.btnSetting.Text = "Setting";
+            this.btnSetting.TextPosition = WizEdit.WizButton.TextPos.Center;
             this.btnSetting.UseVisualStyleBackColor = false;
-            this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
+            this.btnSetting.Click += new System.EventHandler(this.BtnSetting_Click);
             // 
             // wizPictureBox1
             // 
@@ -319,7 +331,7 @@
             this.wizPictureBox1.TabIndex = 7;
             this.wizPictureBox1.Text = "wizPictureBox1";
             this.wizPictureBox1.TopMargin = 5;
-            this.wizPictureBox1.WizNesState = this.wizNesState1;
+            this.wizPictureBox1.WizNesState = this.wizData1;
             // 
             // beAge
             // 
@@ -336,7 +348,7 @@
             this.beAge.TabIndex = 12;
             this.beAge.Text = "AGE";
             this.beAge.Value = 16;
-            this.beAge.WizFCState = this.wizNesState1;
+            this.beAge.WizFCState = this.wizData1;
             // 
             // beWeek
             // 
@@ -353,7 +365,7 @@
             this.beWeek.TabIndex = 13;
             this.beWeek.Text = "Week";
             this.beWeek.Value = 24;
-            this.beWeek.WizFCState = this.wizNesState1;
+            this.beWeek.WizFCState = this.wizData1;
             // 
             // beAC
             // 
@@ -370,7 +382,7 @@
             this.beAC.TabIndex = 20;
             this.beAC.Text = "A.C.";
             this.beAC.Value = 4;
-            this.beAC.WizFCState = this.wizNesState1;
+            this.beAC.WizFCState = this.wizData1;
             // 
             // leGold
             // 
@@ -387,7 +399,7 @@
             this.leGold.TabIndex = 8;
             this.leGold.Text = "GOLD";
             this.leGold.Value = ((ulong)(0ul));
-            this.leGold.WizFCState = this.wizNesState1;
+            this.leGold.WizFCState = this.wizData1;
             // 
             // leExp
             // 
@@ -404,7 +416,7 @@
             this.leExp.TabIndex = 9;
             this.leExp.Text = "E.P.";
             this.leExp.Value = ((ulong)(0ul));
-            this.leExp.WizFCState = this.wizNesState1;
+            this.leExp.WizFCState = this.wizData1;
             // 
             // leHP
             // 
@@ -421,7 +433,7 @@
             this.leHP.TabIndex = 10;
             this.leHP.Text = "H.P.";
             this.leHP.Value = ((ulong)(8ul));
-            this.leHP.WizFCState = this.wizNesState1;
+            this.leHP.WizFCState = this.wizData1;
             // 
             // leHPMax
             // 
@@ -438,7 +450,7 @@
             this.leHPMax.TabIndex = 11;
             this.leHPMax.Text = "/";
             this.leHPMax.Value = ((ulong)(8ul));
-            this.leHPMax.WizFCState = this.wizNesState1;
+            this.leHPMax.WizFCState = this.wizData1;
             // 
             // beVitality
             // 
@@ -456,7 +468,7 @@
             this.beVitality.TabIndex = 17;
             this.beVitality.Text = "せいめいりょく";
             this.beVitality.Value = 8;
-            this.beVitality.WizFCState = this.wizNesState1;
+            this.beVitality.WizFCState = this.wizData1;
             // 
             // beStrength
             // 
@@ -474,7 +486,7 @@
             this.beStrength.TabIndex = 14;
             this.beStrength.Text = "ちから";
             this.beStrength.Value = 8;
-            this.beStrength.WizFCState = this.wizNesState1;
+            this.beStrength.WizFCState = this.wizData1;
             // 
             // bePiety
             // 
@@ -492,7 +504,7 @@
             this.bePiety.TabIndex = 16;
             this.bePiety.Text = "しんこうしん";
             this.bePiety.Value = 7;
-            this.bePiety.WizFCState = this.wizNesState1;
+            this.bePiety.WizFCState = this.wizData1;
             // 
             // beIQ
             // 
@@ -510,7 +522,7 @@
             this.beIQ.TabIndex = 15;
             this.beIQ.Text = "ちえ";
             this.beIQ.Value = 8;
-            this.beIQ.WizFCState = this.wizNesState1;
+            this.beIQ.WizFCState = this.wizData1;
             // 
             // beAgility
             // 
@@ -528,7 +540,7 @@
             this.beAgility.TabIndex = 18;
             this.beAgility.Text = "すばやさ";
             this.beAgility.Value = 8;
-            this.beAgility.WizFCState = this.wizNesState1;
+            this.beAgility.WizFCState = this.wizData1;
             // 
             // beLuck
             // 
@@ -546,7 +558,7 @@
             this.beLuck.TabIndex = 19;
             this.beLuck.Text = "うんのつよさ";
             this.beLuck.Value = 9;
-            this.beLuck.WizFCState = this.wizNesState1;
+            this.beLuck.WizFCState = this.wizData1;
             // 
             // wizCharName1
             // 
@@ -558,7 +570,7 @@
             this.wizCharName1.Size = new System.Drawing.Size(144, 20);
             this.wizCharName1.TabIndex = 4;
             this.wizCharName1.Text = "wizCharName1";
-            this.wizCharName1.WizNesState = this.wizNesState1;
+            this.wizCharName1.WizNesState = this.wizData1;
             // 
             // wizCharClass1
             // 
@@ -572,7 +584,7 @@
             this.wizCharClass1.Size = new System.Drawing.Size(118, 23);
             this.wizCharClass1.TabIndex = 6;
             this.wizCharClass1.Text = "wizCharClass1";
-            this.wizCharClass1.WizNesState = this.wizNesState1;
+            this.wizCharClass1.WizNesState = this.wizData1;
             // 
             // leLevel
             // 
@@ -589,7 +601,7 @@
             this.leLevel.TabIndex = 5;
             this.leLevel.Text = "L";
             this.leLevel.Value = ((ulong)(1ul));
-            this.leLevel.WizFCState = this.wizNesState1;
+            this.leLevel.WizFCState = this.wizData1;
             // 
             // wizItemSelect1
             // 
@@ -609,35 +621,34 @@
             this.wizMPList1.BackColor = System.Drawing.Color.Black;
             this.wizMPList1.ForeColor = System.Drawing.Color.White;
             this.wizMPList1.IsEdit = false;
-            this.wizMPList1.IsEditSpell = false;
-            this.wizMPList1.Location = new System.Drawing.Point(451, 328);
+            this.wizMPList1.Location = new System.Drawing.Point(456, 346);
             this.wizMPList1.Name = "wizMPList1";
-            this.wizMPList1.Size = new System.Drawing.Size(190, 67);
+            this.wizMPList1.Size = new System.Drawing.Size(190, 40);
             this.wizMPList1.TabIndex = 22;
             this.wizMPList1.Text = "wizMPList1";
-            this.wizMPList1.WizNesState = this.wizNesState1;
+            this.wizMPList1.WizNesState = this.wizData1;
             // 
             // btnStringU
             // 
-            this.btnStringU.Location = new System.Drawing.Point(77, 62);
+            this.btnStringU.Location = new System.Drawing.Point(93, 528);
             this.btnStringU.Name = "btnStringU";
             this.btnStringU.Size = new System.Drawing.Size(87, 23);
             this.btnStringU.TabIndex = 25;
             this.btnStringU.Text = "button1";
             this.btnStringU.UseVisualStyleBackColor = true;
-            this.btnStringU.Click += new System.EventHandler(this.button1_Click);
+            this.btnStringU.Click += new System.EventHandler(this.Button1_Click);
             // 
             // wizScnComb1
             // 
             this.wizScnComb1.BackColor = System.Drawing.Color.Black;
             this.wizScnComb1.Font = new System.Drawing.Font("MS UI Gothic", 8F);
             this.wizScnComb1.ForeColor = System.Drawing.Color.White;
-            this.wizScnComb1.Location = new System.Drawing.Point(77, 62);
+            this.wizScnComb1.Location = new System.Drawing.Point(74, 68);
             this.wizScnComb1.Name = "wizScnComb1";
             this.wizScnComb1.Size = new System.Drawing.Size(106, 17);
             this.wizScnComb1.TabIndex = 26;
             this.wizScnComb1.Text = "wizScnComb1";
-            this.wizScnComb1.WizData = this.wizNesState1;
+            this.wizScnComb1.WizData = this.wizData1;
             this.wizScnComb1.WIZSCN = WizEdit.WIZSCN.FC1;
             // 
             // leRip
@@ -646,16 +657,16 @@
             this.leRip.BackColor = System.Drawing.Color.Black;
             this.leRip.ClearWidth = 10;
             this.leRip.ForeColor = System.Drawing.Color.White;
-            this.leRip.IsEdit = true;
+            this.leRip.IsEdit = false;
             this.leRip.Location = new System.Drawing.Point(551, 252);
-            this.leRip.Mode = WizEdit.WizLongEditMode.Gold;
+            this.leRip.Mode = WizEdit.WizLongEditMode.Rip;
             this.leRip.Name = "leRip";
             this.leRip.NumWidth = 10;
             this.leRip.Size = new System.Drawing.Size(120, 31);
             this.leRip.TabIndex = 27;
             this.leRip.Text = "Rip";
             this.leRip.Value = ((ulong)(0ul));
-            this.leRip.WizFCState = null;
+            this.leRip.WizFCState = this.wizData1;
             // 
             // wizBoxControl1
             // 
@@ -664,52 +675,86 @@
             this.wizBoxControl1.Corner = 5;
             this.wizBoxControl1.ForeColor = System.Drawing.Color.White;
             this.wizBoxControl1.LineWidth = 3;
-            this.wizBoxControl1.Location = new System.Drawing.Point(540, 401);
+            this.wizBoxControl1.Location = new System.Drawing.Point(538, 401);
             this.wizBoxControl1.Name = "wizBoxControl1";
             this.wizBoxControl1.SideMargin = 5;
-            this.wizBoxControl1.Size = new System.Drawing.Size(164, 185);
+            this.wizBoxControl1.Size = new System.Drawing.Size(164, 160);
             this.wizBoxControl1.TabIndex = 28;
             this.wizBoxControl1.Text = "wizBoxControl1";
             this.wizBoxControl1.TopMargin = 5;
             // 
-            // wizButton1
+            // btnSpelEdit
             // 
-            this.wizButton1.BackColor = System.Drawing.Color.Black;
-            this.wizButton1.Font = new System.Drawing.Font("MS UI Gothic", 9F);
-            this.wizButton1.ForeColor = System.Drawing.Color.White;
-            this.wizButton1.IsDrawWaku = true;
-            this.wizButton1.Location = new System.Drawing.Point(563, 424);
-            this.wizButton1.Name = "wizButton1";
-            this.wizButton1.Size = new System.Drawing.Size(114, 23);
-            this.wizButton1.TabIndex = 29;
-            this.wizButton1.Text = "SpellEdit";
-            this.wizButton1.UseVisualStyleBackColor = false;
+            this.btnSpelEdit.BackColor = System.Drawing.Color.Black;
+            this.btnSpelEdit.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.btnSpelEdit.ForeColor = System.Drawing.Color.White;
+            this.btnSpelEdit.IsDrawWaku = false;
+            this.btnSpelEdit.Location = new System.Drawing.Point(557, 415);
+            this.btnSpelEdit.Name = "btnSpelEdit";
+            this.btnSpelEdit.Size = new System.Drawing.Size(114, 23);
+            this.btnSpelEdit.TabIndex = 29;
+            this.btnSpelEdit.Text = "> Spell Edit";
+            this.btnSpelEdit.TextPosition = WizEdit.WizButton.TextPos.Near;
+            this.btnSpelEdit.UseVisualStyleBackColor = false;
             // 
-            // wizButton2
+            // btnInitMP
             // 
-            this.wizButton2.BackColor = System.Drawing.Color.Black;
-            this.wizButton2.Font = new System.Drawing.Font("MS UI Gothic", 9F);
-            this.wizButton2.ForeColor = System.Drawing.Color.White;
-            this.wizButton2.IsDrawWaku = true;
-            this.wizButton2.Location = new System.Drawing.Point(563, 453);
-            this.wizButton2.Name = "wizButton2";
-            this.wizButton2.Size = new System.Drawing.Size(114, 23);
-            this.wizButton2.TabIndex = 30;
-            this.wizButton2.Text = "MP Init";
-            this.wizButton2.UseVisualStyleBackColor = false;
+            this.btnInitMP.BackColor = System.Drawing.Color.Black;
+            this.btnInitMP.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.btnInitMP.ForeColor = System.Drawing.Color.White;
+            this.btnInitMP.IsDrawWaku = false;
+            this.btnInitMP.Location = new System.Drawing.Point(557, 444);
+            this.btnInitMP.Name = "btnInitMP";
+            this.btnInitMP.Size = new System.Drawing.Size(114, 23);
+            this.btnInitMP.TabIndex = 30;
+            this.btnInitMP.Text = "> MP Init";
+            this.btnInitMP.TextPosition = WizEdit.WizButton.TextPos.Near;
+            this.btnInitMP.UseVisualStyleBackColor = false;
             // 
-            // wizButton3
+            // btnALL9_MP
             // 
-            this.wizButton3.BackColor = System.Drawing.Color.Black;
-            this.wizButton3.Font = new System.Drawing.Font("MS UI Gothic", 9F);
-            this.wizButton3.ForeColor = System.Drawing.Color.White;
-            this.wizButton3.IsDrawWaku = true;
-            this.wizButton3.Location = new System.Drawing.Point(563, 482);
-            this.wizButton3.Name = "wizButton3";
-            this.wizButton3.Size = new System.Drawing.Size(114, 23);
-            this.wizButton3.TabIndex = 31;
-            this.wizButton3.Text = "MP All9";
-            this.wizButton3.UseVisualStyleBackColor = false;
+            this.btnALL9_MP.BackColor = System.Drawing.Color.Black;
+            this.btnALL9_MP.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.btnALL9_MP.ForeColor = System.Drawing.Color.White;
+            this.btnALL9_MP.IsDrawWaku = false;
+            this.btnALL9_MP.Location = new System.Drawing.Point(557, 473);
+            this.btnALL9_MP.Name = "btnALL9_MP";
+            this.btnALL9_MP.Size = new System.Drawing.Size(114, 23);
+            this.btnALL9_MP.TabIndex = 31;
+            this.btnALL9_MP.Text = "> MP ALL 9";
+            this.btnALL9_MP.TextPosition = WizEdit.WizButton.TextPos.Near;
+            this.btnALL9_MP.UseVisualStyleBackColor = false;
+            // 
+            // leMark
+            // 
+            this.leMark.ArrowHeight = 5;
+            this.leMark.BackColor = System.Drawing.Color.Black;
+            this.leMark.ClearWidth = 10;
+            this.leMark.ForeColor = System.Drawing.Color.White;
+            this.leMark.IsEdit = false;
+            this.leMark.Location = new System.Drawing.Point(456, 309);
+            this.leMark.Mode = WizEdit.WizLongEditMode.Mark;
+            this.leMark.Name = "leMark";
+            this.leMark.NumWidth = 10;
+            this.leMark.Size = new System.Drawing.Size(215, 31);
+            this.leMark.TabIndex = 32;
+            this.leMark.Text = "Mark";
+            this.leMark.Value = ((ulong)(0ul));
+            this.leMark.WizFCState = this.wizData1;
+            // 
+            // btnALL_0_MP
+            // 
+            this.btnALL_0_MP.BackColor = System.Drawing.Color.Black;
+            this.btnALL_0_MP.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.btnALL_0_MP.ForeColor = System.Drawing.Color.White;
+            this.btnALL_0_MP.IsDrawWaku = false;
+            this.btnALL_0_MP.Location = new System.Drawing.Point(557, 502);
+            this.btnALL_0_MP.Name = "btnALL_0_MP";
+            this.btnALL_0_MP.Size = new System.Drawing.Size(114, 23);
+            this.btnALL_0_MP.TabIndex = 33;
+            this.btnALL_0_MP.Text = "> MP ALL 0";
+            this.btnALL_0_MP.TextPosition = WizEdit.WizButton.TextPos.Near;
+            this.btnALL_0_MP.UseVisualStyleBackColor = false;
             // 
             // Form1
             // 
@@ -721,13 +766,14 @@
             this.BottomMgn = 15;
             this.CaptionWidth = 320;
             this.ClientSize = new System.Drawing.Size(716, 598);
-            this.Controls.Add(this.wizButton3);
-            this.Controls.Add(this.wizButton2);
-            this.Controls.Add(this.wizButton1);
-            this.Controls.Add(this.wizBoxControl1);
-            this.Controls.Add(this.leRip);
-            this.Controls.Add(this.wizScnComb1);
+            this.Controls.Add(this.btnALL_0_MP);
             this.Controls.Add(this.btnStringU);
+            this.Controls.Add(this.wizScnComb1);
+            this.Controls.Add(this.leMark);
+            this.Controls.Add(this.btnALL9_MP);
+            this.Controls.Add(this.btnInitMP);
+            this.Controls.Add(this.btnSpelEdit);
+            this.Controls.Add(this.leRip);
             this.Controls.Add(this.wizMPList1);
             this.Controls.Add(this.wizItemSelect1);
             this.Controls.Add(this.leLevel);
@@ -752,6 +798,7 @@
             this.Controls.Add(this.btnSetting);
             this.Controls.Add(this.wizCharList1);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.wizBoxControl1);
             this.Controls.Add(this.wizConrol1);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -766,21 +813,27 @@
             this.WizAC = this.beAC;
             this.WizAge = this.beAge;
             this.WizAgility = this.beAgility;
+            this.WizAll0MPBtn = this.btnALL_0_MP;
+            this.WizAll9MPBtn = this.btnALL9_MP;
             this.WizCharClass = this.wizCharClass1;
             this.WizCharList = this.wizCharList1;
             this.WizCharName = this.wizCharName1;
-            this.WizData = this.wizNesState1;
+            this.WizData = this.wizData1;
             this.WizEP = this.leExp;
             this.WizGold = this.leGold;
             this.WizHP = this.leHP;
             this.WizHPMax = this.leHPMax;
+            this.WizInitMPBtn = this.btnInitMP;
             this.WizIQ = this.beIQ;
             this.WizItemList = this.wizItemList1;
             this.WizLevel = this.leLevel;
             this.WizLuck = this.beLuck;
+            this.WizMark = this.leMark;
             this.WizMPlList = this.wizMPList1;
             this.WizName = this.wizCharName1;
             this.WizPiety = this.bePiety;
+            this.WizRip = this.leRip;
+            this.WizSpellEditBtn = this.btnSpelEdit;
             this.WizStatus = this.wizStatus1;
             this.WizStrength = this.beStrength;
             this.WizVitarity = this.beVitality;
@@ -807,7 +860,7 @@
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private WizData wizNesState1;
+        private WizData wizData1;
         private WizCharList wizCharList1;
         private WizStatus wizStatus1;
         private WizBoxControl wizConrol1;
@@ -839,9 +892,11 @@
         private WizScnComb wizScnComb1;
         private WizLongEdit leRip;
         private WizBoxControl wizBoxControl1;
-        private WizButton wizButton1;
-        private WizButton wizButton2;
-        private WizButton wizButton3;
+        private WizButton btnSpelEdit;
+        private WizButton btnInitMP;
+        private WizButton btnALL9_MP;
+        private WizLongEdit leMark;
+        private WizButton btnALL_0_MP;
     }
 }
 

@@ -46,6 +46,8 @@ namespace WizEdit
             m_cb[17] = cb17;
             m_cb[18] = cb18;
             m_cb[19] = cb19;
+            m_cb[20] = cb20;
+            m_cb[21] = cb21;
             #endregion
 
             for (int i = 0; i < (int)WizLimit.P.Count; i++)
@@ -54,6 +56,9 @@ namespace WizEdit
             }
 
             cbLevelInit.Click += CbLevelInit_Click;
+
+            cmbSCN.Items.Clear();
+            cmbSCN.Items.AddRange(WizData.Titles());
         }
 
         private void CbLevelInit_Click(object sender, EventArgs e)

@@ -79,6 +79,7 @@ namespace WizEdit
         #endregion
 
 
+        #region Data
         private WizData m_state = null;
         public WizData WizData
         {
@@ -103,6 +104,7 @@ namespace WizEdit
             }
 
         }
+        #endregion
 
         #region List
         private WizCharList m_CharList = null;
@@ -365,13 +367,10 @@ namespace WizEdit
                 if(m_MPList != null)
                 {
                     m_MPList.IsEdit = m_Limit.IsMagicPoint;
-                    m_MPList.IsEditSpell = m_Limit.IsSpell;
                 }
             }
         }
         #endregion
-
-
 
         #region AGE
         private WizByteEdit m_WizAge = null;
@@ -461,10 +460,127 @@ namespace WizEdit
         }
         #endregion
 
-       
 
-  
-  
+        #region SPELL
+        private WizButton m_WizSpellEditBtn = null;
+        public WizButton WizSpellEditBtn
+        {
+            get { return m_WizSpellEditBtn; }
+            set
+            {
+                m_WizSpellEditBtn = value;
+                if (m_WizSpellEditBtn != null)
+                {
+                    m_WizSpellEditBtn.Enabled = m_Limit.IsSpell;
+                    m_WizSpellEditBtn.Click += M_WizSpellEditBtn_Click;
+                }
+            }
+        }
+
+        private void M_WizSpellEditBtn_Click(object sender, EventArgs e)
+        {
+            ShowSpellEdit();
+        }
+        #endregion
+
+        #region Init MP
+        private WizButton m_WizInitMPBtn = null;
+        public WizButton WizInitMPBtn
+        {
+            get { return m_WizInitMPBtn; }
+            set
+            {
+                m_WizInitMPBtn = value;
+                if (m_WizInitMPBtn != null)
+                {
+                    m_WizInitMPBtn.Enabled = m_Limit.IsMagicPoint;
+                    m_WizInitMPBtn.Click += M_WizInitMPBtn_Click;
+                }
+            }
+        }
+        private void M_WizInitMPBtn_Click(object sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+        #endregion
+       
+        #region ALL9 MP
+        private WizButton m_WizAll9MPBtn = null;
+        public WizButton WizAll9MPBtn
+        {
+            get { return m_WizAll9MPBtn; }
+            set
+            {
+                m_WizAll9MPBtn = value;
+                if (m_WizAll9MPBtn != null)
+                {
+                    m_WizAll9MPBtn.Enabled = m_Limit.IsMagicPoint;
+                    m_WizAll9MPBtn.Click += M_WizAll9MPBtn_Click;
+                }
+            }
+        }
+        private void M_WizAll9MPBtn_Click(object sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+        #endregion
+    
+    
+
+        #region ALL0 MP
+        private WizButton m_WizAll0MPBtn = null;
+        public WizButton WizAll0MPBtn
+        {
+            get { return m_WizAll0MPBtn; }
+            set
+            {
+                m_WizAll0MPBtn = value;
+                if (m_WizAll0MPBtn != null)
+                {
+                    m_WizAll0MPBtn.Enabled = m_Limit.IsMagicPoint;
+                    m_WizAll0MPBtn.Click += M_WizAll0MPBtn_Click;
+                }
+            }
+        }
+
+        private void M_WizAll0MPBtn_Click(object sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+        #endregion
+
+        #region Rip
+        private WizLongEdit m_WizRip = null;
+        public WizLongEdit WizRip
+        {
+            get { return m_WizRip; }
+            set
+            {
+                m_WizRip = value;
+                if (m_WizRip != null)
+                {
+                    m_WizRip.IsEdit = m_Limit.IsRip;
+                }
+            }
+        }
+        #endregion
+
+        #region Rip
+        private WizLongEdit m_WizMark = null;
+        public WizLongEdit WizMark
+        {
+            get { return m_WizMark; }
+            set
+            {
+                m_WizMark = value;
+                if (m_WizMark != null)
+                {
+                    m_WizMark.IsEdit = m_Limit.IsMark;
+                }
+            }
+        }
+        #endregion
+
         // **************************************************************************************
         /// <summary>
         /// 
@@ -513,9 +629,11 @@ namespace WizEdit
             wbCap.DrawFrame();
 
             SolidBrush sb = new SolidBrush(this.ForeColor);
-            StringFormat sf = new StringFormat();
-            sf.Alignment = StringAlignment.Center;
-            sf.LineAlignment = StringAlignment.Center;
+            StringFormat sf = new StringFormat
+            {
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Center
+            };
             try
             {
                 e.Graphics.DrawString(m_Caption,this.Font, sb, wbCap.Rectangle, sf);
@@ -548,10 +666,12 @@ namespace WizEdit
         // *****************************************************************************
         public void ShowSettings()
         {
-            WizSettingDialog dlg = new WizSettingDialog();
-            dlg.StartPosition = FormStartPosition.CenterParent;
-            dlg.WizLimit = m_Limit;
-            if(m_state!=null) dlg.SCN = m_state.RES_SCN;
+            WizSettingDialog dlg = new WizSettingDialog
+            {
+                StartPosition = FormStartPosition.CenterParent,
+                WizLimit = m_Limit
+            };
+            if (m_state!=null) dlg.SCN = m_state.RES_SCN;
             if(dlg.ShowDialog()==DialogResult.OK)
             {
                 m_Limit = dlg.WizLimit;
@@ -560,6 +680,7 @@ namespace WizEdit
             if (m_state != null) m_state.RES_SCN = dlg.SCN;
 
         }
+        // ******************************************************************************
         private void EditChk()
         {
             if (m_WizName != null) m_WizName.IsEdit = m_Limit.IsName;
@@ -591,14 +712,23 @@ namespace WizEdit
             if (m_MPList != null)
             {
                 m_MPList.IsEdit = m_Limit.IsMagicPoint;
-                m_MPList.IsEditSpell = m_Limit.IsSpell;
             }
             if (m_CharList != null)
             {
                 m_CharList.IsEditSort = m_Limit.IsSort;
             }
+            if (m_WizSpellEditBtn != null) m_WizSpellEditBtn.Enabled = m_Limit.IsSpell;
+            if (m_WizRip != null)
+            {
+                m_WizRip.IsEdit = m_Limit.IsRip;
+            }
+            if (m_WizMark != null)
+            {
+                m_WizMark.IsEdit = m_Limit.IsMark;
+            }
 
         }
+        // ******************************************************************************
         public void CharCurrentDataUp()
         {
             if (m_Limit.IsSort == false) return;
@@ -623,6 +753,17 @@ namespace WizEdit
             get
             {
                 return GetDesignMode(this);
+            }
+        }
+        // ******************************************************************************
+        private void ShowSpellEdit()
+        {
+            if (m_Limit.IsSpell == false) return;
+            if (m_state == null) return;
+            WizSpellEditDialogcs dlg = new WizSpellEditDialogcs();
+            if (dlg.EditShowDialog(m_state))
+            {
+                m_state.CharSpell = dlg.Spell;
             }
         }
     }

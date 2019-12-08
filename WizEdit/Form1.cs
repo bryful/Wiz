@@ -32,6 +32,11 @@ namespace WizEdit
             this.KeyPreview = true;
             this.Text = TTitle;
 
+            if (wizData1.ResLoad() == true)
+            {
+
+            }
+
 #if DEBUG
             btnStringU.Visible = true;
 #else
@@ -75,7 +80,7 @@ namespace WizEdit
                 Point p = pref.GetPoint("Point", out ok);
                 if (ok) this.Location = p;
                 bool[] wl = pref.GetBoolArray("WizLimit",out ok);
-                this.LimitValues = wl;
+                if (ok) this.LimitValues = wl;
                 string s = pref.GetString("PictureFolder", out ok);
                 if(ok)
                 {
@@ -153,12 +158,12 @@ namespace WizEdit
         /// <param name="sender"></param>
         /// <param name="e"></param>
         //-------------------------------------------------------------
-        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void QuitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AppInfoDialog.ShowAppInfoDialog();
         }
@@ -170,33 +175,33 @@ namespace WizEdit
         /// <returns></returns>
         public bool LoadFile(string p)
         {
-            return wizNesState1.LoadFile(p);
+            return wizData1.LoadFile(p);
         }
         public void OpenSelectDialog()
         {
         }
  
-        private void wizNameBox1_Click(object sender, EventArgs e)
+        private void WizNameBox1_Click(object sender, EventArgs e)
         {
             OpenSelectDialog();
         }
 
-        private void btnSetting_Click(object sender, EventArgs e)
+        private void BtnSetting_Click(object sender, EventArgs e)
         {
             this.ShowSettings();
         }
 
-        private void btnUp_Click(object sender, EventArgs e)
+        private void BtnUp_Click(object sender, EventArgs e)
         {
             CharCurrentDataUp();
         }
 
-        private void btnDown_Click(object sender, EventArgs e)
+        private void BtnDown_Click(object sender, EventArgs e)
         {
             CharCurrentDataDown();
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(WizData!=null)
             {
@@ -207,7 +212,7 @@ namespace WizEdit
             }
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (WizData != null)
             {
@@ -227,7 +232,7 @@ namespace WizEdit
             }
         }
 
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (WizData != null)
             {
@@ -238,12 +243,12 @@ namespace WizEdit
             }
         }
 
-        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.ShowSettings();
         }
 
-        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ReloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (WizData != null)
             {
@@ -254,13 +259,14 @@ namespace WizEdit
             }
         }
 
-        private void pctureFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PctureFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string p = wizPictureBox1.PicureFolderPath;
 
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-
-            fbd.Description = "キャラクタアイコンのあるフォルダを指定してください。";
+            FolderBrowserDialog fbd = new FolderBrowserDialog
+            {
+                Description = "キャラクタアイコンのあるフォルダを指定してください。"
+            };
             if (p != "")
             {
                 fbd.SelectedPath = p;
@@ -273,7 +279,7 @@ namespace WizEdit
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             StringUtilsForm dlg = new StringUtilsForm();
             if (dlg.ShowDialog()==DialogResult.OK)
@@ -281,5 +287,6 @@ namespace WizEdit
 
             }
         }
+        
     }
 }

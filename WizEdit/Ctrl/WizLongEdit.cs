@@ -17,7 +17,9 @@ namespace WizEdit
         Exp,
         HP,
         HPMax,
-        Level
+        Level,
+        Rip,
+        Mark
     }
     public class WizLongEdit :Control
     {
@@ -25,6 +27,8 @@ namespace WizEdit
 
         public event EventHandler ValueChanged;
         protected virtual void OnValueChanged(EventArgs e) { ValueChanged?.Invoke(this, e); }
+
+        private WIZSCN m_scn = WIZSCN.FC1;
 
         private WizLongEditMode m_Mode = WizLongEditMode.Gold;
         public WizLongEditMode Mode
@@ -39,6 +43,7 @@ namespace WizEdit
                     {
                         case WizLongEditMode.Gold:
                         case WizLongEditMode.Exp:
+                        case WizLongEditMode.Mark:
                             m_MaxValue = 999999999999;
                             m_NumKeta = 12;
                             break;
@@ -47,6 +52,19 @@ namespace WizEdit
                         case WizLongEditMode.Level:
                             m_MaxValue = 0xFFFF; //65535
                             m_NumKeta = 5;
+                            break;
+                        case WizLongEditMode.Rip:
+                            if ( (m_scn==WIZSCN.GBC1)|| (m_scn == WIZSCN.GBC2)|| (m_scn == WIZSCN.GBC3))
+                            {
+                                m_MaxValue = 0xFF; //255
+                                m_NumKeta = 3;
+
+                            }
+                            else
+                            {
+                                m_MaxValue = 0xFFFF; //65535
+                                m_NumKeta = 5;
+                            }
                             break;
                     }
 
@@ -158,6 +176,22 @@ namespace WizEdit
             UP,
             Down
         }
+        // ******************************************************************************
+        private bool GetDesignMode(Control control)
+        {
+            if (control == null) return false;
+
+            bool mode = control.Site == null ? false : control.Site.DesignMode;
+
+            return mode | GetDesignMode(control.Parent);
+        }
+        public new bool DesignMode
+        {
+            get
+            {
+                return GetDesignMode(this);
+            }
+        }
         private int m_TagetKeta = 0;
         private WizData m_state = null;
         public WizData WizFCState
@@ -168,22 +202,60 @@ namespace WizEdit
                 m_state = value;
                 if(m_state!=null)
                 {
+                    m_scn = m_state.SCN;
                     m_state.ValueChanged += M_state_ValueChanged;
-                    m_state.LoadFileFinished += M_state_ValueChanged;
+                    m_state.LoadFileFinished += M_state_LoadFileFinished;
                     m_state.CurrentCharChanged += M_state_CurrentCharChanged;
                 }
                 GetInfo();
             }
         }
 
+        private void M_state_LoadFileFinished(object sender, EventArgs e)
+        {
+            m_scn = m_state.SCN;
+            this.Visible = true;
+            if ((m_Mode==WizLongEditMode.Rip)|| (m_Mode == WizLongEditMode.Mark))
+            {
+                if ((m_scn == WIZSCN.FC1)|| (m_scn == WIZSCN.FC2)|| (m_scn == WIZSCN.FC3))
+                {
+                    if(DesignMode == false)
+                    {
+                        this.Visible = false;
+                    }
+                }
+                else if (m_Mode == WizLongEditMode.Rip) 
+                {
+                   if  ((m_scn == WIZSCN.GBC1) || (m_scn == WIZSCN.GBC2) || (m_scn == WIZSCN.GBC3))
+                    {
+                        m_MaxValue = 0xFF; //255
+                        m_NumKeta = 3;
+                    }
+                    else
+                    {
+                        m_MaxValue = 0xFFFF; //65535
+                        m_NumKeta = 5;
+                    }
+                }
+
+            }
+            if (this.Visible == true)
+            {
+                GetInfo();
+                this.Invalidate();
+            }
+        }
+
         private void M_state_CurrentCharChanged(object sender, CurrentCharEventArgs e)
         {
+            m_scn = m_state.SCN;
             GetInfo();
             this.Invalidate();
         }
 
         private void M_state_ValueChanged(object sender, EventArgs e)
         {
+            m_scn = m_state.SCN;
             GetInfo();
             this.Invalidate();
         }
@@ -206,6 +278,12 @@ namespace WizEdit
                     break;
                 case WizLongEditMode.Level:
                     SetValue((ulong)m_state.CharLevel);
+                    break;
+                case WizLongEditMode.Rip:
+                    SetValue((ulong)m_state.CharRip);
+                    break;
+                case WizLongEditMode.Mark:
+                    SetValue((ulong)m_state.CharMark);
                     break;
             }
 
@@ -230,6 +308,12 @@ namespace WizEdit
                     break;
                 case WizLongEditMode.Level:
                     m_state.CharLevel = (ushort)m_Value;
+                    break;
+                case WizLongEditMode.Rip:
+                    m_state.CharRip = (ushort)m_Value;
+                    break;
+                case WizLongEditMode.Mark:
+                    m_state.CharMark = (ushort)m_Value;
                     break;
             }
 
@@ -258,9 +342,11 @@ namespace WizEdit
         {
             //base.OnPaint(e);
             SolidBrush sb = new SolidBrush(this.BackColor);
-            StringFormat sf = new StringFormat();
-            sf.Alignment = StringAlignment.Near;
-            sf.LineAlignment = StringAlignment.Center;
+            StringFormat sf = new StringFormat
+            {
+                Alignment = StringAlignment.Near,
+                LineAlignment = StringAlignment.Center
+            };
             try
             {
                 Graphics g = e.Graphics;

@@ -103,7 +103,7 @@ namespace WizEdit
         // **********************************************************************
 
         #region Data
-        private readonly string[][] WizFC1Spell = new string[][]
+        private readonly string[][] Wiz1FCSpell = new string[][]
         {
             new string[]{"ハリト","モグレフ","カティノ","デュマピック","ディルト","ソピック","マハリト","モリト"},
             new string[]{"モーリス","ダルト","ラハリト","マモーリス","	マカニト","マダルト","ラカニト","ジルワン"},
@@ -114,6 +114,56 @@ namespace WizEdit
             new string[]{"マリクト","カドルト"}
         };
 
+        private readonly int[][] Wiz1FCSpellTo = new int[7][]
+        {
+            new int[]{0x0001,0x0002,0x0004,0x0008,0x0101,0x0102,0x0201,0x0202},
+            new int[]{0x0301,0x0302,0x0304,0x0401,0x0402,0x0404,0x0501,0x0502},
+            new int[]{0x0504,0x0508,0x0601,0x0602,0x0604,0x0701,0x0702,0x0704},
+            new int[]{0x0708,0x0710,0x0801,0x0802,0x0804,0x0808,0x0901,0x0902},
+            new int[]{0x0904,0x0908,0x0A01,0x0A02,0x0A04,0x0A08,0x0B01,0x0B02},
+            new int[]{0x0B04,0x0B08,0x0B10,0x0B20,0x0C01,0x0C02,0x0C04,0x0C08},
+            new int[]{0x0D01, 0x0D02}
+        };
+
+       private readonly string[][] Wiz1FCSpellM = new string[][]
+        {
+            new string[]{"ハリト","モグレフ","カティノ","デュマピック"},
+            new string[]{"ディルト","ソピック"},
+            new string[]{"マハリト","モリト"},
+            new string[]{"モーリス","ダルト","ラハリト"},
+            new string[]{"マモーリス","マカニト","マダルト"},
+            new string[]{"ラカニト","ジルワン","マゾピック","ハマン"},
+            new string[]{"マロール", "マハマン", "ティルトウェイト" }
+        };
+        private readonly string[][] Wiz1FCSpellP = new string[][]
+       {
+            new string[]{"カルキ","ディオス","バディオス","ミルワ","ポーフィック"},
+            new string[]{"マツ","カルフォ","マニフォ","モンティノ"},
+            new string[]{"ロミルワ","ディアルコ","ラテュマピック","バマツ"},
+            new string[]{"ディアル","バディアル","ラテュモフィス","マポーフィック"},
+            new string[]{"ディアルマ","バディアルマ","リトカン","カンディ","ディ","バディ"},
+            new string[]{"ロルト","マディ","マバディ","ロクトフェイト"},
+            new string[]{"マリクト", "カドルト"}
+       };
+        private readonly int[][] Wiz1FCSpellFrom = new int[14][]
+        {
+            new int[]{0x0001,0x0002,0x0004,0x0008},
+            new int[]{0x0010,0x0020},
+            new int[]{0x0040,0x0080},
+            new int[]{0x0101,0x0102,0x0104},
+            new int[]{0x0108,0x0110,0x0120},
+            new int[]{0x0140,0x0180,0x0201,0x0202},
+            new int[]{0x0204,0x0208,0x0210},
+
+            new int[]{0x0220,0x0240,0x0280,0x0301,0x0302},
+            new int[]{0x0304,0x0308,0x0310,0x0320},
+            new int[]{0x0340,0x0380,0x0401,0x0402},
+            new int[]{0x0404,0x0408,0x0410,0x0420},
+            new int[]{0x0440,0x0480,0x0501,0x0502,0x0504,0x0508},
+            new int[]{0x0510,0x0520,0x0540,0x0580},
+            new int[]{ 0x0601, 0x0602 }
+         };
+        
         private readonly string[][] Wiz2FCSpellM = new string[][]
         {
             new string[]{"ハリト","モグレフ","カティノ","デュマピック"},
@@ -270,15 +320,17 @@ namespace WizEdit
             Graphics g = e.Graphics;
 
             SolidBrush sb = new SolidBrush(this.BackColor);
-            StringFormat sf = new StringFormat();
-            sf.LineAlignment = StringAlignment.Center;
+            StringFormat sf = new StringFormat
+            {
+                LineAlignment = StringAlignment.Center
+            };
 
             try
             {
                 switch (m_scn)
                 {
                     case WIZSCN.FC1:
-                        DrawSpellFC1(g, sb, sf);
+                        DrawSpell(g, sb, sf,Wiz1FCSpellM,Wiz1FCSpellP);
                         break;
                     case WIZSCN.FC2:
                         DrawSpell(g, sb, sf, Wiz2FCSpellM, Wiz2FCSpellP);
@@ -321,12 +373,12 @@ namespace WizEdit
             sb.Color = this.ForeColor;
 
             Rectangle rct;
-            int cnt = WizFC1Spell[0].Length;
+            int cnt = Wiz1FCSpell[0].Length;
             int x = m_LeftMgn;
 
             for (int j = 0; j < 7; j++)
             {
-                cnt = WizFC1Spell[j].Length;
+                cnt = Wiz1FCSpell[j].Length;
                 byte b = m_spell[j];
 
                 for (int i = 0; i < cnt; i++)
@@ -341,7 +393,7 @@ namespace WizEdit
                     {
                         sb.Color = Color.DarkGray;
                     }
-                    g.DrawString(WizFC1Spell[j][i], this.Font, sb, rct, sf);
+                    g.DrawString(Wiz1FCSpell[j][i], this.Font, sb, rct, sf);
 
                     b = (byte)(b >> 1);
 
@@ -427,58 +479,50 @@ namespace WizEdit
             if ((y < 0) || (y >= 11)) return;
 
             int cnt = 0;
-            if(m_scn==WIZSCN.FC1)
+           
+            bool isM = true;
+            if (y>=5)
             {
-                cnt = WizFC1Spell[x].Length;
-                if (y >= cnt) return;
-                byte a = (byte)(0x01 << y);
-                m_spell[x] = (byte)(m_spell[x] ^ a);
-                this.Invalidate();
+                isM = false;
+                y = y - 5;
+                 
+            }
+            string[][] m = null;
+            string[][] p = null;
+            switch (m_scn)
+            {
+                case WIZSCN.FC1: m = Wiz1FCSpellM; p = Wiz1FCSpellP; break;
+                case WIZSCN.FC2: m = Wiz2FCSpellM; p = Wiz2FCSpellP; break;
+                case WIZSCN.FC3: m = Wiz3FCSpellM; p = Wiz3FCSpellP; break;
+                case WIZSCN.SFC1:
+                case WIZSCN.SFC2: m = Wiz1SFCSpellM; p = Wiz1SFCSpellP; break;
+                case WIZSCN.SFC3: m = Wiz3SFCSpellM; p = Wiz3SFCSpellP; break;
+                case WIZSCN.SFC5: m = Wiz5SFCSpellM; p = Wiz5SFCSpellP; break;
+                case WIZSCN.GBC1:
+                case WIZSCN.GBC2:
+                case WIZSCN.GBC3: m = WizGBCSpellM; p = WizGBCSpellP; break;
+            }
+            if (isM)
+            {
+                cnt = m[x].Length;
+                if (y < cnt)
+                {
+                    byte a2 = (byte)(0x01 << y);
+                    m_spell[x] = (byte)(m_spell[x] ^ a2);
+                    this.Invalidate();
+                }
             }
             else
             {
-                bool isM = true;
-                if (y>=5)
+                cnt = p[x].Length;
+                if (y < cnt)
                 {
-                    isM = false;
-                    y = y - 5;
-                 
-                }
-                string[][] m = null;
-                string[][] p = null;
-                switch (m_scn)
-                {
-                    case WIZSCN.FC2: m = Wiz2FCSpellM; p = Wiz2FCSpellP; break;
-                    case WIZSCN.FC3: m = Wiz3FCSpellM; p = Wiz3FCSpellP; break;
-                    case WIZSCN.SFC1:
-                    case WIZSCN.SFC2: m = Wiz1SFCSpellM; p = Wiz1SFCSpellP; break;
-                    case WIZSCN.SFC3: m = Wiz3SFCSpellM; p = Wiz3SFCSpellP; break;
-                    case WIZSCN.SFC5: m = Wiz5SFCSpellM; p = Wiz5SFCSpellP; break;
-                    case WIZSCN.GBC1:
-                    case WIZSCN.GBC2:
-                    case WIZSCN.GBC3: m = WizGBCSpellM; p = WizGBCSpellP; break;
-                }
-                if (isM)
-                {
-                    cnt = m[x].Length;
-                    if (y < cnt)
-                    {
-                        byte a2 = (byte)(0x01 << y);
-                        m_spell[x] = (byte)(m_spell[x] ^ a2);
-                        this.Invalidate();
-                    }
-                }
-                else
-                {
-                    cnt = p[x].Length;
-                    if (y < cnt)
-                    {
-                        byte a2 = (byte)(0x01 << y);
-                        m_spell[x + 7] = (byte)(m_spell[x + 7] ^ a2);
-                        this.Invalidate();
-                    }
+                    byte a2 = (byte)(0x01 << y);
+                    m_spell[x + 7] = (byte)(m_spell[x + 7] ^ a2);
+                    this.Invalidate();
                 }
             }
+            
 
 
 
