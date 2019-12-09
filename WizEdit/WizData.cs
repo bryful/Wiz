@@ -3269,7 +3269,94 @@ namespace WizEdit
                 m_Data[adr + sz - 1] = (byte)(crc & 0xFF);
             }
         }
-        // ****************************************************************       
-        
+        // ****************************************************************      
+        public void Init_MP()
+        {
+            byte[] mp = WizSpellList.SpellBaseCount(m_scn);
+            int adr = CharAdr(m_CharCurrent);
+            switch (m_scn)
+            {
+                case WIZSCN.FC1:
+                    SetCode(adr + 0x29, mp);
+                    SetCode(adr + 0x37, mp);
+                    break;
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
+                case WIZSCN.SFC1:
+                case WIZSCN.SFC2:
+                case WIZSCN.SFC3:
+                case WIZSCN.SFC5:
+                    for (int i = 0; i < 14; i++) { mp[i] = (byte)(mp[i] << 8 | mp[i]); }
+                    SetCode(adr + 0x27, mp);
+                    break;
+                case WIZSCN.GBC1:
+                case WIZSCN.GBC2:
+                case WIZSCN.GBC3:
+                    for (int i = 0; i < 14; i++) { mp[i] = (byte)(mp[i] << 8 | mp[i]); }
+                    SetCode(adr + 0x26, mp);
+                    break;
+            }
+            OnValueChanged(new EventArgs());
+        }
+        // ****************************************************************      
+        public void ALL9_MP()
+        {
+            byte[] mp = new byte[14];
+            for (int i = 0; i < 14; i++) { mp[i] = 0x9; }
+            int adr = CharAdr(m_CharCurrent);
+            switch (m_scn)
+            {
+                case WIZSCN.FC1:
+                    SetCode(adr + 0x29, mp);
+                    SetCode(adr + 0x37, mp);
+                    break;
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
+                case WIZSCN.SFC1:
+                case WIZSCN.SFC2:
+                case WIZSCN.SFC3:
+                case WIZSCN.SFC5:
+                    for (int i = 0; i < 14; i++) { mp[i] = 0x99; }
+                    SetCode(adr + 0x27, mp);
+                    break;
+                case WIZSCN.GBC1:
+                case WIZSCN.GBC2:
+                case WIZSCN.GBC3:
+                    for (int i = 0; i < 14; i++) { mp[i] = 0x99; }
+                    SetCode(adr + 0x26, mp);
+                    break;
+            }
+            OnValueChanged(new EventArgs());
+
+        }
+        // ****************************************************************      
+        public void ALL0_MP()
+        {
+            byte[] mp = new byte[14];
+            for (int i = 0; i < 14; i++) { mp[i] = 0x00; }
+            int adr = CharAdr(m_CharCurrent);
+            switch (m_scn)
+            {
+                case WIZSCN.FC1:
+                    SetCode(adr + 0x29, mp);
+                    SetCode(adr + 0x37, mp);
+                    break;
+                case WIZSCN.FC2:
+                case WIZSCN.FC3:
+                case WIZSCN.SFC1:
+                case WIZSCN.SFC2:
+                case WIZSCN.SFC3:
+                case WIZSCN.SFC5:
+                    SetCode(adr + 0x27, mp);
+                    break;
+                case WIZSCN.GBC1:
+                case WIZSCN.GBC2:
+                case WIZSCN.GBC3:
+                    SetCode(adr + 0x26, mp);
+                    break;
+            }
+            OnValueChanged(new EventArgs());
+
+        }
     }
 }

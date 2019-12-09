@@ -500,7 +500,7 @@ namespace WizEdit
         }
         private void M_WizInitMPBtn_Click(object sender, EventArgs e)
         {
-            //throw new NotImplementedException();
+            if (m_state != null) m_state.Init_MP();
         }
         #endregion
        
@@ -516,16 +516,17 @@ namespace WizEdit
                 {
                     m_WizAll9MPBtn.Enabled = m_Limit.IsMagicPoint;
                     m_WizAll9MPBtn.Click += M_WizAll9MPBtn_Click;
+
                 }
             }
         }
         private void M_WizAll9MPBtn_Click(object sender, EventArgs e)
         {
-            //throw new NotImplementedException();
+            if (m_state != null) m_state.ALL9_MP();
         }
         #endregion
-    
-    
+
+
 
         #region ALL0 MP
         private WizButton m_WizAll0MPBtn = null;
@@ -545,7 +546,7 @@ namespace WizEdit
 
         private void M_WizAll0MPBtn_Click(object sender, EventArgs e)
         {
-            //throw new NotImplementedException();
+            if (m_state != null) m_state.ALL0_MP();
         }
         #endregion
 
@@ -726,7 +727,9 @@ namespace WizEdit
             {
                 m_WizMark.IsEdit = m_Limit.IsMark;
             }
-
+            if (m_WizInitMPBtn != null) m_WizInitMPBtn.Enabled = m_Limit.IsMagicPoint;
+            if (m_WizAll9MPBtn != null) m_WizAll9MPBtn.Enabled = m_Limit.IsMagicPoint;
+            if (m_WizAll0MPBtn != null) m_WizAll0MPBtn.Enabled = m_Limit.IsMagicPoint;
         }
         // ******************************************************************************
         public void CharCurrentDataUp()

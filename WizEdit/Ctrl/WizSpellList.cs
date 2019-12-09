@@ -103,29 +103,47 @@ namespace WizEdit
         // **********************************************************************
 
         #region Data
-        private readonly string[][] Wiz1FCSpell = new string[][]
-        {
-            new string[]{"ハリト","モグレフ","カティノ","デュマピック","ディルト","ソピック","マハリト","モリト"},
-            new string[]{"モーリス","ダルト","ラハリト","マモーリス","	マカニト","マダルト","ラカニト","ジルワン"},
-            new string[]{"マゾピック","ハマン","マロール","マハマン","ティルトウェイト","カルキ","ディオス","バディオス"},
-            new string[]{"ミルワ","ポーフィック","マツ","カルフォ","マニフォ","モンティノ","ロミルワ","ディアルコ"},
-            new string[]{"ラツマピック","バマツ","ディアル","バディアル	","ラツモフィス","マポーフィック","ディアルマ","バディアルマ"},
-            new string[]{"リトカン","カンディ","ディ","バディ","ロルト","マディ","マバディ","ロクトフェイト"},
-            new string[]{"マリクト","カドルト"}
-        };
+        /*
+    static public readonly string[][] Wiz1FCSpell = new string[][]
+    {
+        new string[]{"ハリト","モグレフ","カティノ","デュマピック","ディルト","ソピック","マハリト","モリト"},
+        new string[]{"モーリス","ダルト","ラハリト","マモーリス","	マカニト","マダルト","ラカニト","ジルワン"},
+        new string[]{"マゾピック","ハマン","マロール","マハマン","ティルトウェイト","カルキ","ディオス","バディオス"},
+        new string[]{"ミルワ","ポーフィック","マツ","カルフォ","マニフォ","モンティノ","ロミルワ","ディアルコ"},
+        new string[]{"ラツマピック","バマツ","ディアル","バディアル	","ラツモフィス","マポーフィック","ディアルマ","バディアルマ"},
+        new string[]{"リトカン","カンディ","ディ","バディ","ロルト","マディ","マバディ","ロクトフェイト"},
+        new string[]{"マリクト","カドルト"}
+    };
 
-        private readonly int[][] Wiz1FCSpellTo = new int[7][]
-        {
-            new int[]{0x0001,0x0002,0x0004,0x0008,0x0101,0x0102,0x0201,0x0202},
-            new int[]{0x0301,0x0302,0x0304,0x0401,0x0402,0x0404,0x0501,0x0502},
-            new int[]{0x0504,0x0508,0x0601,0x0602,0x0604,0x0701,0x0702,0x0704},
-            new int[]{0x0708,0x0710,0x0801,0x0802,0x0804,0x0808,0x0901,0x0902},
-            new int[]{0x0904,0x0908,0x0A01,0x0A02,0x0A04,0x0A08,0x0B01,0x0B02},
-            new int[]{0x0B04,0x0B08,0x0B10,0x0B20,0x0C01,0x0C02,0x0C04,0x0C08},
-            new int[]{0x0D01, 0x0D02}
-        };
+    public readonly int[][] Wiz1FCSpellTo = new int[7][]
+    {
+        new int[]{0x0001,0x0002,0x0004,0x0008,0x0101,0x0102,0x0201,0x0202},
+        new int[]{0x0301,0x0302,0x0304,0x0401,0x0402,0x0404,0x0501,0x0502},
+        new int[]{0x0504,0x0508,0x0601,0x0602,0x0604,0x0701,0x0702,0x0704},
+        new int[]{0x0708,0x0710,0x0801,0x0802,0x0804,0x0808,0x0901,0x0902},
+        new int[]{0x0904,0x0908,0x0A01,0x0A02,0x0A04,0x0A08,0x0B01,0x0B02},
+        new int[]{0x0B04,0x0B08,0x0B10,0x0B20,0x0C01,0x0C02,0x0C04,0x0C08},
+        new int[]{0x0D01, 0x0D02}
+    };
+     public readonly int[][] Wiz1FCSpellFrom = new int[14][]
+    {
+        new int[]{0x0001,0x0002,0x0004,0x0008},
+        new int[]{0x0010,0x0020},
+        new int[]{0x0040,0x0080},
+        new int[]{0x0101,0x0102,0x0104},
+        new int[]{0x0108,0x0110,0x0120},
+        new int[]{0x0140,0x0180,0x0201,0x0202},
+        new int[]{0x0204,0x0208,0x0210},
 
-       private readonly string[][] Wiz1FCSpellM = new string[][]
+        new int[]{0x0220,0x0240,0x0280,0x0301,0x0302},
+        new int[]{0x0304,0x0308,0x0310,0x0320},
+        new int[]{0x0340,0x0380,0x0401,0x0402},
+        new int[]{0x0404,0x0408,0x0410,0x0420},
+        new int[]{0x0440,0x0480,0x0501,0x0502,0x0504,0x0508},
+        new int[]{0x0510,0x0520,0x0540,0x0580},
+        new int[]{ 0x0601, 0x0602 }
+     };      */
+        static public readonly string[][] Wiz1FCSpellM = new string[][]
         {
             new string[]{"ハリト","モグレフ","カティノ","デュマピック"},
             new string[]{"ディルト","ソピック"},
@@ -135,7 +153,7 @@ namespace WizEdit
             new string[]{"ラカニト","ジルワン","マゾピック","ハマン"},
             new string[]{"マロール", "マハマン", "ティルトウェイト" }
         };
-        private readonly string[][] Wiz1FCSpellP = new string[][]
+        static public readonly string[][] Wiz1FCSpellP = new string[][]
        {
             new string[]{"カルキ","ディオス","バディオス","ミルワ","ポーフィック"},
             new string[]{"マツ","カルフォ","マニフォ","モンティノ"},
@@ -145,26 +163,9 @@ namespace WizEdit
             new string[]{"ロルト","マディ","マバディ","ロクトフェイト"},
             new string[]{"マリクト", "カドルト"}
        };
-        private readonly int[][] Wiz1FCSpellFrom = new int[14][]
-        {
-            new int[]{0x0001,0x0002,0x0004,0x0008},
-            new int[]{0x0010,0x0020},
-            new int[]{0x0040,0x0080},
-            new int[]{0x0101,0x0102,0x0104},
-            new int[]{0x0108,0x0110,0x0120},
-            new int[]{0x0140,0x0180,0x0201,0x0202},
-            new int[]{0x0204,0x0208,0x0210},
+ 
 
-            new int[]{0x0220,0x0240,0x0280,0x0301,0x0302},
-            new int[]{0x0304,0x0308,0x0310,0x0320},
-            new int[]{0x0340,0x0380,0x0401,0x0402},
-            new int[]{0x0404,0x0408,0x0410,0x0420},
-            new int[]{0x0440,0x0480,0x0501,0x0502,0x0504,0x0508},
-            new int[]{0x0510,0x0520,0x0540,0x0580},
-            new int[]{ 0x0601, 0x0602 }
-         };
-        
-        private readonly string[][] Wiz2FCSpellM = new string[][]
+        static public readonly string[][] Wiz2FCSpellM = new string[][]
         {
             new string[]{"ハリト","モグレフ","カティノ","デュマピック"},
             new string[]{"ディルト","ソピック"},
@@ -175,7 +176,7 @@ namespace WizEdit
             new string[]{"マロール","マハマン","ティルトウェイト"}
 
         };
-        private readonly string[][] Wiz2FCSpellP = new string[][]
+        static public readonly string[][] Wiz2FCSpellP = new string[][]
         {
             new string[]{"カルキ","ディオス","バディオス","ミルワ","ポーフィック"},
             new string[]{"マツ","カルフォ","マニフォ","モンティノ"},
@@ -187,7 +188,7 @@ namespace WizEdit
 
         };
 
-        private readonly string[][] Wiz3FCSpellM = new string[][]
+        static public readonly string[][] Wiz3FCSpellM = new string[][]
         {
             new string[]{"ハリト","モグレフ","カティノ","デュマピック"},
             new string[]{"ディルト","ソピック","メリト"},
@@ -198,7 +199,7 @@ namespace WizEdit
             new string[]{"マロール","マハマン","ティルトウェイト"},
 
         };
-        private readonly string[][] Wiz3FCSpellP = new string[][]
+        static public readonly string[][] Wiz3FCSpellP = new string[][]
         {
             new string[]{"カルキ","ディオス","バディオス","ミルワ","ポーフィック"},
             new string[]{"マツ","カルフォ","マニフォ","モンティノ","カンディ"},
@@ -209,7 +210,7 @@ namespace WizEdit
             new string[]{"マリクト","カドルト"},
 
         };
-        private readonly string[][] Wiz1SFCSpellM = new string[][]
+        static public readonly string[][] Wiz1SFCSpellM = new string[][]
         {
             new string[]{"ハリト","モグレフ","カティノ","デュマピック"},
             new string[]{"ディルト","ソピック"},
@@ -219,7 +220,7 @@ namespace WizEdit
             new string[]{"ラカニト","ジルワン","マゾピック","ハマン"},
             new string[]{"マロール", "マハマン", "ティルトウェイト"}
         };
-        private readonly string[][] Wiz1SFCSpellP = new string[][]
+        static public readonly string[][] Wiz1SFCSpellP = new string[][]
         {
             new string[]{"カルキ","ディオス","バディオス","ミルワ","ポーフィック"},
             new string[]{"マツ","カルフォ","マニフォ","モンティノ"},
@@ -229,7 +230,7 @@ namespace WizEdit
             new string[]{"ロルト","マディ","マバディ","ロクトフェイト"},
             new string[]{"マリクト", "カドルト" }
         };
-        private readonly string[][] Wiz3SFCSpellM = new string[][]
+        static public readonly string[][] Wiz3SFCSpellM = new string[][]
         {
             new string[]{"ハリト","モグレフ","カティノ","デュマピック"},
             new string[]{"ディルト","ソピック","メリト"},
@@ -239,7 +240,7 @@ namespace WizEdit
             new string[]{"ラカニト","マゾピック","ハマン","ラダルト"},
             new string[]{"マハマン","ティルトウェイト"}
         };
-        private readonly string[][] Wiz3SFCSpellP = new string[][]
+        static public readonly string[][] Wiz3SFCSpellP = new string[][]
         {
             new string[]{"カルキ","ディオス","バディオス","ミルワ","ポーフィック"},
             new string[]{"マツ","カルフォ","マニフォ","モンティノ","カンディ"},
@@ -249,7 +250,7 @@ namespace WizEdit
             new string[]{"ロルト","マディ","マバディ","ロクトフェイト"},
             new string[]{ "マリクト", "カドルト" }
         };
-        private readonly string[][] Wiz5SFCSpellM = new string[][]
+        static public readonly string[][] Wiz5SFCSpellM = new string[][]
         {
             new string[]{"カティノ","ハリト","デュマピック","モグレフ"},
             new string[]{"ポンチ","メリト","デスト","モーリス","ボラツ"},
@@ -259,7 +260,7 @@ namespace WizEdit
             new string[]{"マモグレフ","ジルワン","ロカラ","ラダルト"},
             new string[]{"マロール", "マハマン", "ティルトウェイト", "アブリエル", "マウジウツ"}
         };
-        private readonly string[][] Wiz5SFCSpellP = new string[][]
+        static public readonly string[][] Wiz5SFCSpellP = new string[][]
         {
             new string[]{"ディオス","バディオス","ミルワ","カルキ","ポーフィック"},
             new string[]{"カツ","カルフォ","モンティノ","カンディ"},
@@ -269,7 +270,7 @@ namespace WizEdit
             new string[]{"ロクトフェイト","マディ","ラバディ","カカメン"},
             new string[]{"マバリコ", "カドルト", "イハロン", "バカディ"}
         };
-        private readonly string[][] WizGBCSpellM = new string[][]
+        static public readonly string[][] WizGBCSpellM = new string[][]
         {
             new string[]{"ハリト","モグレフ","カティノ","デュマピック"},
             new string[]{"メリト","ディルト","ソピック"},
@@ -279,7 +280,7 @@ namespace WizEdit
             new string[]{"ラダルト","ラカニト","マソピック","ハマン"},
             new string[]{"ティルトウェイト", "マロール", "マハマン"}
         };
-        private readonly string[][] WizGBCSpellP = new string[][]
+        static public readonly string[][] WizGBCSpellP = new string[][]
         {
             new string[]{"ディオス","バディオス","カルキ","ポーフィック","ミルワ"},
             new string[]{"モンティノ","マニフォ","マツ","カルフォ"},
@@ -363,44 +364,7 @@ namespace WizEdit
             }
 
         }
-        // **********************************************************************
-        private void DrawSpellFC1(Graphics g, SolidBrush sb, StringFormat sf)
-        {
-            if (m_spell.Length != 7) return;
-            sf.Alignment = StringAlignment.Near;
-            sf.LineAlignment = StringAlignment.Center;
-
-            sb.Color = this.ForeColor;
-
-            Rectangle rct;
-            int cnt = Wiz1FCSpell[0].Length;
-            int x = m_LeftMgn;
-
-            for (int j = 0; j < 7; j++)
-            {
-                cnt = Wiz1FCSpell[j].Length;
-                byte b = m_spell[j];
-
-                for (int i = 0; i < cnt; i++)
-                {
-                    rct = new Rectangle(x, m_TopMgn + m_LineHeight * i, m_SpellWidth, m_LineHeight);
-
-                    if ((b & 0x01) == 1)
-                    {
-                        sb.Color = Color.Yellow;
-                    }
-                    else
-                    {
-                        sb.Color = Color.DarkGray;
-                    }
-                    g.DrawString(Wiz1FCSpell[j][i], this.Font, sb, rct, sf);
-
-                    b = (byte)(b >> 1);
-
-                }
-                x += m_SpellWidth;
-            }
-        }
+       
         // **********************************************************************
         private void DrawSpell(Graphics g, SolidBrush sb, StringFormat sf,string [][] m,string [][] p)
         {
@@ -543,6 +507,59 @@ namespace WizEdit
                 m_spell[i] = 0;
             }
             this.Invalidate();
+        }
+        // **********************************************************************
+        static public byte [] SpellBaseCount(WIZSCN scn)
+        {
+            byte[] ret = new byte[14];
+            for (int i = 0; i < 14; i++) ret[i] = 0;
+
+            string[][] m = null;
+            string[][] p = null;
+
+            switch (scn)
+            {
+                case WIZSCN.FC1:
+                    m = Wiz1FCSpellM;
+                    p = Wiz1FCSpellP;
+                    break;
+                case WIZSCN.FC2:
+                    m = Wiz2FCSpellM;
+                    p = Wiz2FCSpellP;
+                    break;
+                case WIZSCN.FC3:
+                    m = Wiz3FCSpellM;
+                    p = Wiz3FCSpellP;
+                    break;
+                case WIZSCN.SFC1:
+                case WIZSCN.SFC2:
+                    m = Wiz1SFCSpellM;
+                    p = Wiz1SFCSpellP;
+                    break;
+                case WIZSCN.SFC3:
+                    m = Wiz3SFCSpellM;
+                    p = Wiz3SFCSpellP;
+                    break;
+                case WIZSCN.SFC5:
+                    m = Wiz5SFCSpellM;
+                    p = Wiz5SFCSpellP;
+                    break;
+                case WIZSCN.GBC1:
+                case WIZSCN.GBC2:
+                case WIZSCN.GBC3:
+                    m = WizGBCSpellM;
+                    p = WizGBCSpellP;
+                    break;
+            }
+
+            for (int i = 0; i < 7; i++)
+            {
+                int v = m[i].Length & 0xF;
+                ret[i] = (byte)(v);
+                v = p[i].Length & 0xF;
+                ret[i + 7] = (byte)(v);
+            }
+            return ret;
         }
     }
 }
