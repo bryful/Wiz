@@ -287,6 +287,14 @@ namespace WizEdit
 
             }
         }
-        
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            GBCChecksum dlg = new GBCChecksum();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+
+            }
+        }
     }
 }

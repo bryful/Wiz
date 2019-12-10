@@ -77,6 +77,7 @@
             this.btnALL9_MP = new WizEdit.WizButton();
             this.leMark = new WizEdit.WizLongEdit();
             this.btnALL_0_MP = new WizEdit.WizButton();
+            this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -630,7 +631,7 @@
             // 
             // btnStringU
             // 
-            this.btnStringU.Location = new System.Drawing.Point(93, 528);
+            this.btnStringU.Location = new System.Drawing.Point(93, 502);
             this.btnStringU.Name = "btnStringU";
             this.btnStringU.Size = new System.Drawing.Size(87, 23);
             this.btnStringU.TabIndex = 25;
@@ -756,6 +757,16 @@
             this.btnALL_0_MP.TextPosition = WizEdit.WizButton.TextPos.Near;
             this.btnALL_0_MP.UseVisualStyleBackColor = false;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(93, 531);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(87, 23);
+            this.button1.TabIndex = 34;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -766,6 +777,7 @@
             this.BottomMgn = 15;
             this.CaptionWidth = 320;
             this.ClientSize = new System.Drawing.Size(716, 598);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnALL_0_MP);
             this.Controls.Add(this.btnStringU);
             this.Controls.Add(this.wizScnComb1);
@@ -897,6 +909,7 @@
         private WizButton btnALL9_MP;
         private WizLongEdit leMark;
         private WizButton btnALL_0_MP;
+        private System.Windows.Forms.Button button1;
     }
 }
 

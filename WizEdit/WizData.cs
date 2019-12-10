@@ -3170,6 +3170,7 @@ namespace WizEdit
         {
             byte[] ret = new byte[0];
 
+            if (m_Data[adr] == 0) return ret;
             ushort crc = CRC16.Calc(m_Data, adr, sz, 0xFFFF);
             if (crc != 0)
             {
