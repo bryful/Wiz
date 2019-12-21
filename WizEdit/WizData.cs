@@ -2915,15 +2915,17 @@ namespace WizEdit
                     case WIZSCN.FC2:
                     case WIZSCN.FC3:
                     case WIZSCN.SFC5:
-                    case WIZSCN.GBC1:
-                    case WIZSCN.GBC2:
-                    case WIZSCN.GBC3:
                         ChecksumWiz();
                         break;
                     case WIZSCN.SFC1:
                     case WIZSCN.SFC2:
                     case WIZSCN.SFC3:
                         ChecksumWiz123SFC();
+                        break;
+                    case WIZSCN.GBC1:
+                    case WIZSCN.GBC2:
+                    case WIZSCN.GBC3:
+                        ChecksumWizGBC();
                         break;
                 }
             }
@@ -3197,7 +3199,15 @@ namespace WizEdit
             }
             byte [] bb = GetCode(m_OffsetAdr, chrSz* CharCount);
             SetCode(m_OffsetAdr2, bb);
-        }      
+        }
+        // ************************************************************************
+        private void ChecksumWizGBC()
+        {
+            if ((m_scn == WIZSCN.FC1) || (m_scn == WIZSCN.SFC1) || (m_scn == WIZSCN.SFC2) || (m_scn == WIZSCN.SFC3)) return;
+            int chrSz = CharSize;
+            byte[] bb = GetCode(m_OffsetAdr, chrSz * CharCount);
+            SetCode(m_OffsetAdr2, bb);
+        }
         // ************************************************************************
         private void ChecksumWiz123SFC()
         {

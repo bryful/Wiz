@@ -66,16 +66,17 @@
             // 
             // listBox1
             // 
+            this.listBox1.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 12;
+            this.listBox1.ItemHeight = 16;
             this.listBox1.Location = new System.Drawing.Point(12, 12);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(134, 640);
+            this.listBox1.Size = new System.Drawing.Size(184, 628);
             this.listBox1.TabIndex = 3;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(180, 442);
+            this.button3.Location = new System.Drawing.Point(273, 429);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 4;
@@ -85,7 +86,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(180, 489);
+            this.button4.Location = new System.Drawing.Point(273, 458);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 5;

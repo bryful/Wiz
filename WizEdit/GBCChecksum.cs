@@ -19,9 +19,9 @@ namespace WizEdit
         {
             InitializeComponent();
             m_Data = Properties.Resources.Wizardry1GBC;
-            for ( int i=0; i<0x6E;i++)
+            for ( int i=0; i<0xC00;i++)
             {
-                listBox1.Items.Add(String.Format("0x{0:X4}\r\n", m_Data[i+adr]));
+                listBox1.Items.Add(String.Format("0x{0:X4} - 0x{1:X4}\r\n",i, m_Data[i]));
             }
         }
 
@@ -31,29 +31,42 @@ namespace WizEdit
 
         private void button1_Click(object sender, EventArgs e)
         {
- 
-
-            textBox1.Text += "start\r\n";
-            textBox1.Update();
-            int a = adr;
-            ushort vv = (ushort)((ushort)(m_Data[a + sz - 2] << 8) | (ushort)m_Data[a + sz - 1]);
-            for (int i = 0xFFFF; i >= 0; i--)
+         
+        }
+        public ushort CrcBB(byte[] ptr, int start, int len, ushort crc)
+        {
+            ushort CRC16POLY = 0xa001;
+            int i, j;
+            crc = (ushort)(~crc);
+            for (i = 0; i < len; i++)
             {
-                ushort v = CRC16.crc_ibm(m_Data, (ushort)a, (ushort)(sz - 2), (ushort)i);
-                if (vv==v)
+                crc ^= ptr[i + start];
+                for (j = 0; j < 8; j++)
                 {
-                    textBox1.Text += String.Format("0x{0:X4}\r\n", i);
-                    textBox1.Update();
+                    if ((crc & 1) == 1)
+                    {
+                        crc = (ushort)((crc >> 1) ^ CRC16POLY);
+                    }
+                    else
+                    {
+                        crc >>= 1;
+                    }
                 }
             }
-            textBox1.Text += "fin\r\n";
+            return (ushort)(~crc);
         }
-
         private void button3_Click(object sender, EventArgs e)
         {
             int a = adr + sz;
-            //ushort v = CRC16.Calc(m_Data, (ushort)a, (ushort)(sz - 2), 0x3691);
-            ushort v = CRC16.crc_ibm(m_Data, (ushort)a, (ushort)(sz - 2), 0xFFFF);
+
+            //ushort v = CRC16.CalcIBM(m_Data, a, sz-2, 0xFFFF);
+            //ushort v = CRC16.Fletcher16(m_Data, a, sz - 2);
+           
+            int v = 0;
+            for ( int i=0; i<sz-2;i++)
+            {
+                v = v ^ m_Data[i + adr];
+            }
 
             textBox1.Text += String.Format("0x{0:X4}\r\n", v);
         }
