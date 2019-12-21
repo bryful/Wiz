@@ -73,7 +73,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>APP_util\WizFCStatED.ico</ApplicationIcon>
+    <ApplicationIcon>TitleWiz.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
@@ -263,7 +263,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="APP_util\WizFCStatED.ico" />
+    <Content Include="TitleWiz.ico" />
     <None Include="Resources\_None.png" />
     <None Include="Resources\BIS.png" />
     <None Include="Resources\FIG.png" />

@@ -38,8 +38,10 @@ namespace WizEdit
             }
 
 #if DEBUG
+            btnCRC.Visible = 
             btnStringU.Visible = true;
 #else
+            btnCRC.Visible = 
             btnStringU.Visible = false;
 #endif
         }
@@ -295,6 +297,11 @@ namespace WizEdit
             {
 
             }
+        }
+
+        private void wizCharList1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
